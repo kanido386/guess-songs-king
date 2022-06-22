@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-shadow */
 
 import {
@@ -16,10 +17,35 @@ import {
   Link
 } from '@chakra-ui/react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import axios from 'axios';
+
+const { REACT_APP_BACKEND_URL } = process.env;
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [nickname, setNickname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  async function signup() {
+    try {
+      // https://stackoverflow.com/questions/48378337/create-react-app-not-picking-up-env-files
+      const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/host/signup`, {
+        nickname,
+        email,
+        password
+      });
+      console.log(response);
+      alert(response.data.host.accessToken);
+      localStorage.setItem('accessToken', response.data.host.accessToken);
+      navigate('/host/home');
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <Flex
@@ -37,16 +63,19 @@ export default function SignUp() {
           <Stack spacing={4}>
             <FormControl id="name" isRequired>
               <FormLabel>暱稱</FormLabel>
-              <Input type="text" />
+              <Input type="text" onChange={event => setNickname(event.currentTarget.value)} />
             </FormControl>
             <FormControl id="email" isRequired>
               <FormLabel>電子郵件地址</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={event => setEmail(event.currentTarget.value)} />
             </FormControl>
             <FormControl id="password" isRequired>
               <FormLabel>密碼</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  onChange={event => setPassword(event.currentTarget.value)}
+                />
                 <InputRightElement h="full">
                   <Button
                     variant="ghost"
@@ -58,11 +87,9 @@ export default function SignUp() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
-                as={Link}
-                href="/host/home"
+                onClick={signup}
                 loadingText="Submitting"
                 size="lg"
-                style={{ textDecoration: 'none' }}
                 bg="blue.400"
                 color="white"
                 _hover={{

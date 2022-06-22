@@ -26,6 +26,7 @@
         "no-param-reassign": [2, { "props": false }],
         "import/prefer-default-export": "off",
         "react/jsx-props-no-spreading": "off",
-        "react/prop-types": "off"
+        "react/prop-types": "off",
+        "react/jsx-no-bind": "off"
     }
 }
