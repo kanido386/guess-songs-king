@@ -34,6 +34,7 @@ function PartyManage() {
             {parties.map(party => (
               <PartyItem
                 key={party.id}
+                id={party.id}
                 name={party.name}
                 numTracks={party.numTracks}
                 numQuestions={party.numQuestions}
@@ -44,7 +45,7 @@ function PartyManage() {
             <HStack spacing={7}>
               <Button
                 as={Link}
-                href="/party/manage"
+                href="/party/create/step/1"
                 colorScheme="teal"
                 variant="outline"
                 size="lg"

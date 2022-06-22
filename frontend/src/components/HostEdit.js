@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, VStack, Grid, Heading, Button, Stack, Link } from '@chakra-ui/react';
+import { Box, VStack, Grid, Heading, Button, Stack, Link, Input } from '@chakra-ui/react';
 
 function HostHome() {
   const [nickname, setNickname] = useState('');
@@ -12,12 +12,10 @@ function HostHome() {
 
   useEffect(() => {
     const greetings = [
-      '吃飽了沒？',
-      '好久不見！',
-      '今天還行嗎？',
-      '你好啊！',
-      '你來得正是時候！',
-      '準備好來場酷趴踢了嗎？'
+      '你想要我怎麼稱呼你呢？',
+      '告訴我你的新名字吧！',
+      '想換什麼酷名字嗎？',
+      '我就知道你會想換掉那很鳥的暱稱！'
     ];
     const i = Math.floor(Math.random() * greetings.length);
     setGreeting(greetings[i]);
@@ -27,37 +25,27 @@ function HostHome() {
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={100}>
         <VStack spacing={8}>
-          <Heading size="lg" fontSize="50px" m={7}>
+          <Heading size="lg" fontSize="42px" m={7}>
             {nickname}，{greeting}
           </Heading>
-          <Stack direction="row" spacing={8} align="center">
+          <Input type="text" placeholder="新暱稱" w={300} textAlign="center" fontWeight={700} />
+          <Stack direction="row" spacing={8} align="center" p={7}>
             <Button
               as={Link}
-              href="/host/edit"
-              colorScheme="teal"
-              variant="outline"
+              href="/host/home"
+              variant="ghost"
               size="lg"
               style={{ textDecoration: 'none' }}>
-              設定
+              先不用好了
             </Button>
             <Button
               as={Link}
-              href="/party/manage"
-              colorScheme="teal"
+              href="/host/home"
+              colorScheme="green"
               variant="solid"
               size="lg"
               style={{ textDecoration: 'none' }}>
-              我的歌曲集
-            </Button>
-            {/* TODO: Do logout thing */}
-            <Button
-              as={Link}
-              href="/"
-              colorScheme="teal"
-              variant="outline"
-              size="lg"
-              style={{ textDecoration: 'none' }}>
-              登出
+              修改
             </Button>
           </Stack>
         </VStack>

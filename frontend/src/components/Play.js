@@ -29,7 +29,7 @@ export default function Play() {
             <Stack spacing={10}>
               <Button
                 as={Link}
-                href="/host/home"
+                href="/play/game"
                 style={{ textDecoration: 'none' }}
                 bg="gray.700"
                 color="white"

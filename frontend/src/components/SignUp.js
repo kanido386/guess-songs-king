@@ -58,6 +58,8 @@ export default function SignUp() {
             </FormControl>
             <Stack spacing={10} pt={2}>
               <Button
+                as={Link}
+                href="/host/home"
                 loadingText="Submitting"
                 size="lg"
                 style={{ textDecoration: 'none' }}
