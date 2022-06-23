@@ -12,6 +12,39 @@ youtube = YoutubeAgent()
 pytube = PytubeAgent()
 audio_process = AudioProcessAgent()
 
+@app.route('/api/v1/download_and_process', methods=['POST'])
+def download_and_process():
+    track_id = request.get_json().get('track_id')
+    artist_name = request.get_json().get('artist_name')
+    track_name = request.get_json().get('track_name')
+    video_url = youtube.get_url_of_track(artist_name, track_name)
+
+    # https://stackoverflow.com/questions/48994440/execute-a-function-after-flask-returns-response
+    def download_job(video_url, track_id):
+        ''' 給 YouTube 影片網址，取得音檔 '''
+        print('\n下載中請稍等⋯⋯')
+        audio_filename = pytube.download_as_wav_new(video_url, track_id)
+        print('成功取得音檔！')
+
+        ''' 音檔做音量上的 normalization '''
+        print('\n處理中請稍等⋯⋯')
+        audio_process.normalize_new(audio_filename)
+        print('處理完畢！')
+
+        audio_process.segment_it_new(audio_filename)
+        print('擷取完畢！')
+
+    thread = Thread(target=download_job, kwargs={
+        'video_url': video_url,
+        'track_id': track_id
+    })
+    thread.start()
+    return jsonify(
+        data='Request sent!'
+    )
+
+# ==============================
+
 @app.route('/api/v1/playlists', methods=['GET'])
 def get_playlists():
     num_playlists = int(request.get_json().get('num_playlists'))

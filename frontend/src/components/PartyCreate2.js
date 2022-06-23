@@ -12,6 +12,7 @@ import {
   Stack,
   Input,
   Tooltip,
+  Text,
   useDisclosure,
   Drawer,
   DrawerBody,
@@ -203,17 +204,18 @@ function PartyCreate2() {
               <DrawerOverlay />
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>Create your account</DrawerHeader>
+                <DrawerHeader>KKBOX 排行榜</DrawerHeader>
 
                 <DrawerBody>
-                  <Input placeholder="Type here..." />
+                  {/* <Input placeholder="Type here..." /> */}
+                  <Text>功能開發中，請耐心等候😅</Text>
                 </DrawerBody>
 
                 <DrawerFooter>
                   <Button variant="outline" mr={3} onClick={onClose}>
-                    Cancel
+                    取消
                   </Button>
-                  <Button colorScheme="blue">Save</Button>
+                  <Button colorScheme="blue">好的</Button>
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>

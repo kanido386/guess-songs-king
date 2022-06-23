@@ -1,8 +1,16 @@
+/* eslint-disable no-promise-executor-return */
 /* eslint-disable no-await-in-loop */
 
 require('dotenv').config();
+
+const { SONG_PROCESSOR_URL } = process.env;
 const validator = require('validator');
+const axios = require('axios');
 const Party = require('../models/party_model');
+
+// https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
+// Returns a Promise that resolves after "ms" Milliseconds
+const timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
 const createParty = async (req, res) => {
   let { partyName } = req.body;
@@ -56,6 +64,23 @@ const createParty = async (req, res) => {
   // console.log('==============================');
   // console.log('hi');
   // console.log('==============================');
+
+  res.on('finish', async () => {
+    for (let i = 0; i < createdTracks.length; i += 1) {
+      // TODO:
+      axios
+        .post(`${SONG_PROCESSOR_URL}/api/v1/download_and_process`, {
+          track_id: createdTracks[i].id,
+          artist_name: createdTracks[i].artist,
+          track_name: createdTracks[i].name,
+        });
+
+      // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
+      await timer(1000); // then the created Promise can be awaited
+    }
+    // await timer(11000);
+    // window.open('mailto:kanido386@gmail.com?subject=【通知】猜歌我最強&body=歌曲集處理完畢囉！');
+  });
 
   res.status(200).send({
     party,

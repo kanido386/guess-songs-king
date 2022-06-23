@@ -16,6 +16,37 @@ class PytubeAgent(object):
         if not os.path.exists(self.audio_folder):
             os.mkdir(self.audio_folder)
 
+    def download_as_wav_new(self, video_url, track_id):
+        YouTube(video_url) \
+            .streams \
+            .filter(adaptive=True, only_audio=True) \
+            .order_by('abr') \
+            .last() \
+            .download(output_path=self.audio_folder, filename=f'temp{track_id}')
+        
+        audio_filename = self.convert_to_wav_new(track_id)
+        self.remove_temp_file_new(track_id)
+
+        return audio_filename
+
+    def convert_to_wav_new(self, track_id):
+        y, sr = librosa.load(f'{self.audio_folder}/temp{track_id}', mono=False, sr=None)
+        new_audio_filename = f'{track_id}.wav'
+        if y.shape[0] == 2:   # stereo
+            write(f'{self.audio_folder}/{new_audio_filename}', sr, y.T)
+        else:   # mono
+            write(f'{self.audio_folder}/{new_audio_filename}', sr, y)
+            
+        return new_audio_filename
+
+    def remove_temp_file_new(self, track_id):
+        if os.path.exists(f'{self.audio_folder}/temp{track_id}'):
+            os.remove(f'{self.audio_folder}/temp{track_id}')
+        else:
+            print('The file does not exist')
+    
+    # ==============================
+
     def download_as_wav(self, video_url, artist_name, track_name):
         YouTube(video_url) \
             .streams \

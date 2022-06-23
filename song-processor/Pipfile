@@ -11,6 +11,7 @@ librosa = "*"
 scipy = "*"
 pytube = "*"
 numpy = "*"
+urllib3 = "==1.23"
 
 [dev-packages]
 
