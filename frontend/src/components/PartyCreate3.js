@@ -71,13 +71,16 @@ function PartyCreate3() {
   const tracks = state.tracksSent;
   const trackId = state.trackIdSent;
   // const [tracks, setTracks] = useState([]);
-  const [numQ1, setNumQ1] = useState(0);
-  const [numQ2, setNumQ2] = useState(0);
-  const [numQ3, setNumQ3] = useState(0);
+  const [numQ1, setNumQ1] = useState('');
+  const [numQ2, setNumQ2] = useState('');
+  const [numQ3, setNumQ3] = useState('');
   const [hostId, setHostId] = useState(0);
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return;
+    }
     const { id } = jwt(accessToken);
     setHostId(id);
   }, []);
@@ -122,7 +125,7 @@ function PartyCreate3() {
     // console.log(numQ2);
     // console.log(numQ3);
     console.log(response);
-    // navigate('/party/manage');
+    navigate('/party/manage');
   }
 
   return (

@@ -10,6 +10,9 @@ function HostHome() {
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return;
+    }
     const nick = jwt(accessToken).nickname;
     setNickname(nick);
   }, []);

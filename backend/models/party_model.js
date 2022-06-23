@@ -55,42 +55,65 @@ const createTrack = async (partyId, trackSent) => {
   }
 };
 
-// const signIn = async (email, password) => {
-//   const conn = await pool.getConnection();
-//   try {
-//     await conn.query('START TRANSACTION');
+const getPartiesByHostId = async (hostId) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
 
-//     const [hosts] = await conn.query('SELECT * FROM host WHERE email = ?', [email]);
-//     const host = hosts[0];
-//     if (!bcrypt.compareSync(password, host.password)) {
-//       await conn.query('COMMIT');
-//       return {
-//         error: 'Password is wrong',
-//       };
-//     }
+    const [parties] = await conn.query('SELECT * FROM party WHERE host_id = ?', [hostId]);
 
-//     const accessToken = jwt.sign({
-//       id: host.id,
-//       nickname: host.nickname,
-//       email: host.email,
-//     }, TOKEN_SECRET);
-//     // TODO:
-//     // }, TOKEN_SECRET, { expiresIn: '1800s' });
-//     host.accessToken = accessToken;
+    await conn.query('COMMIT');
+    return { parties };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
 
-//     await conn.query('COMMIT');
-//     return { host };
-//   } catch (error) {
-//     console.log(error);
-//     await conn.query('ROLLBACK');
-//     return { error };
-//   } finally {
-//     await conn.release();
-//   }
-// };
+const getPartyByPartyId = async (partyId) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
+
+    const [parties] = await conn.query('SELECT * FROM party WHERE id = ?', [partyId]);
+    const party = parties[0];
+
+    await conn.query('COMMIT');
+    return { party };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
+
+const getTracksByPartyId = async (partyId) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
+
+    const [tracks] = await conn.query('SELECT * FROM track WHERE party_id = ?', [partyId]);
+
+    await conn.query('COMMIT');
+    return { tracks };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
 
 module.exports = {
   createParty,
   createTrack,
-  // signIn,
+  getPartyByPartyId,
+  getPartiesByHostId,
+  getTracksByPartyId,
 };

@@ -8,6 +8,9 @@ function HostHome() {
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return;
+    }
     const nick = jwt(accessToken).nickname;
     setNickname(nick);
   }, []);
@@ -44,8 +47,9 @@ function HostHome() {
               先不用好了
             </Button>
             <Button
-              as={Link}
-              href="/host/home"
+              // as={Link}
+              // href="/host/home"
+              isDisabled
               colorScheme="green"
               variant="solid"
               size="lg"

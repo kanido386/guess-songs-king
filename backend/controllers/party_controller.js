@@ -69,43 +69,81 @@ const createParty = async (req, res) => {
   });
 };
 
-// const signIn = async (req, res) => {
-//   const { email, password } = req.body;
+const getPartiesByHostId = async (req, res) => {
+  const { hostId } = req.body;
 
-//   if (!email || !password) {
-//     res.status(400).send({
-//       error: 'Request Error: email and password are required.',
-//     });
-//     return;
-//   }
+  const result = await Party.getPartiesByHostId(hostId);
+  if (result.error) {
+    res.status(403).send({
+      error: result.error,
+    });
+    return;
+  }
 
-//   const result = await Host.signIn(email, password);
-//   if (result.error) {
-//     res.status(403).send({
-//       error: result.error,
-//     });
-//     return;
-//   }
+  const { parties } = result;
+  if (!parties) {
+    res.status(500).send({
+      error: 'Database Query Error',
+    });
+    return;
+  }
 
-//   const { host } = result;
-//   if (!host) {
-//     res.status(500).send({
-//       error: 'Database Query Error',
-//     });
-//     return;
-//   }
+  res.status(200).send({
+    parties,
+  });
+};
 
-//   res.status(200).send({
-//     host: {
-//       id: host.id,
-//       nickname: host.nickname,
-//       email: host.email,
-//       accessToken: host.accessToken,
-//     },
-//   });
-// };
+const getPartyByPartyId = async (req, res) => {
+  const { partyId } = req.body;
+
+  const result = await Party.getPartyByPartyId(partyId);
+  if (result.error) {
+    res.status(403).send({
+      error: result.error,
+    });
+    return;
+  }
+
+  const { party } = result;
+  if (!party) {
+    res.status(500).send({
+      error: 'Database Query Error',
+    });
+    return;
+  }
+
+  res.status(200).send({
+    party,
+  });
+};
+
+const getTracksByPartyId = async (req, res) => {
+  const { partyId } = req.body;
+
+  const result = await Party.getTracksByPartyId(partyId);
+  if (result.error) {
+    res.status(403).send({
+      error: result.error,
+    });
+    return;
+  }
+
+  const { tracks } = result;
+  if (!tracks) {
+    res.status(500).send({
+      error: 'Database Query Error',
+    });
+    return;
+  }
+
+  res.status(200).send({
+    tracks,
+  });
+};
 
 module.exports = {
   createParty,
-  // signIn,
+  getPartyByPartyId,
+  getPartiesByHostId,
+  getTracksByPartyId,
 };

@@ -58,8 +58,8 @@ function PartyItem(props) {
           ) : (
             <Button
               isDisabled
-              as={Link}
-              href="/"
+              // as={Link}
+              // href="/"
               style={{ textDecoration: 'none' }}
               colorScheme="gray">
               處理中⋯
