@@ -17,6 +17,10 @@ import {
   Input
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
+import jwt from 'jwt-decode';
+import axios from 'axios';
+
+const { REACT_APP_BACKEND_URL } = process.env;
 
 let canCreate = false;
 
@@ -70,22 +74,12 @@ function PartyCreate3() {
   const [numQ1, setNumQ1] = useState(0);
   const [numQ2, setNumQ2] = useState(0);
   const [numQ3, setNumQ3] = useState(0);
+  const [hostId, setHostId] = useState(0);
 
   useEffect(() => {
-    console.log(tracks);
-    // TODO: Get tracks from API
-    // setTracks([
-    //   {
-    //     id: 1,
-    //     artistName: '韋禮安',
-    //     trackName: '如果可以'
-    //   },
-    //   {
-    //     id: 2,
-    //     artistName: '吳宗憲',
-    //     trackName: '是不是這樣的夜晚你才會這樣的想起我'
-    //   }
-    // ]);
+    const accessToken = localStorage.getItem('accessToken');
+    const { id } = jwt(accessToken);
+    setHostId(id);
   }, []);
 
   function previousStep() {
@@ -98,7 +92,7 @@ function PartyCreate3() {
     });
   }
 
-  function createParty() {
+  async function createParty() {
     // if (tracks.length === 0) {
     //   alert('至少加入一首歌再下一步啦😂');
     //   return;
@@ -113,10 +107,21 @@ function PartyCreate3() {
       return;
     }
 
-    console.log(tracks);
-    console.log(numQ1);
-    console.log(numQ2);
-    console.log(numQ3);
+    const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/party/create`, {
+      hostId,
+      partyName,
+      tracks,
+      numQ1,
+      numQ2,
+      numQ3
+    });
+    // console.log(hostId);
+    // console.log(partyName);
+    // console.log(tracks);
+    // console.log(numQ1);
+    // console.log(numQ2);
+    // console.log(numQ3);
+    console.log(response);
     // navigate('/party/manage');
   }
 

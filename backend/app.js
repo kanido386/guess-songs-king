@@ -36,6 +36,7 @@ app.use(cors());
 // API routes
 app.use(`/api/${API_VERSION}`, [
   require('./routes/host_route'),
+  require('./routes/party_route'),
 ]);
 
 // catch 404 and forward to error handler
