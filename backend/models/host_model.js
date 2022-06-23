@@ -2,8 +2,8 @@ require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { pool } = require('./mysqlcon');
-const { TOKEN_SECRET } = process.env;
 
+const { TOKEN_SECRET } = process.env;
 
 const signUp = async (nickname, email, password) => {
   const conn = await pool.getConnection();
@@ -14,16 +14,16 @@ const signUp = async (nickname, email, password) => {
     if (emails[0].length > 0) {
       await conn.query('COMMIT');
       return {
-        error: 'Email Already Exists'
+        error: 'Email Already Exists',
       };
     }
 
     const saltRounds = 10;
     const host = {
-      nickname: nickname,
-      email: email,
+      nickname,
+      email,
       password: bcrypt.hashSync(password, saltRounds),
-    }
+    };
 
     const queryStr = 'INSERT INTO host SET ?';
     const [result] = await conn.query(queryStr, host);
@@ -32,7 +32,7 @@ const signUp = async (nickname, email, password) => {
     const accessToken = jwt.sign({
       id: host.id,
       nickname: host.nickname,
-      email: host.email
+      email: host.email,
     }, TOKEN_SECRET, { expiresIn: '1800s' });
     host.accessToken = accessToken;
 
@@ -45,8 +45,7 @@ const signUp = async (nickname, email, password) => {
   } finally {
     await conn.release();
   }
-}
-
+};
 
 module.exports = {
   signUp,
