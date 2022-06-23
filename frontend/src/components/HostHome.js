@@ -67,7 +67,6 @@ function HostHome() {
               style={{ textDecoration: 'none' }}>
               我的歌曲集
             </Button>
-            {/* TODO: Do logout thing */}
             <Button onClick={logout} colorScheme="teal" variant="outline" size="lg">
               登出
             </Button>
