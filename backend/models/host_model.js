@@ -33,7 +33,43 @@ const signUp = async (nickname, email, password) => {
       id: host.id,
       nickname: host.nickname,
       email: host.email,
-    }, TOKEN_SECRET, { expiresIn: '1800s' });
+    }, TOKEN_SECRET);
+    // TODO:
+    // }, TOKEN_SECRET, { expiresIn: '1800s' });
+    host.accessToken = accessToken;
+
+    await conn.query('COMMIT');
+    return { host };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
+
+const signIn = async (email, password) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
+
+    const [hosts] = await conn.query('SELECT * FROM host WHERE email = ?', [email]);
+    const host = hosts[0];
+    if (!bcrypt.compareSync(password, host.password)) {
+      await conn.query('COMMIT');
+      return {
+        error: 'Password is wrong',
+      };
+    }
+
+    const accessToken = jwt.sign({
+      id: host.id,
+      nickname: host.nickname,
+      email: host.email,
+    }, TOKEN_SECRET);
+    // TODO:
+    // }, TOKEN_SECRET, { expiresIn: '1800s' });
     host.accessToken = accessToken;
 
     await conn.query('COMMIT');
@@ -49,4 +85,5 @@ const signUp = async (nickname, email, password) => {
 
 module.exports = {
   signUp,
+  signIn,
 };

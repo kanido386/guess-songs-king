@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Box, VStack, Grid, Heading, Button, Stack, Link } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+import { Box, VStack, Grid, Heading, Button, Stack, Link, Text } from '@chakra-ui/react';
+import jwt from 'jwt-decode';
 
 function HostHome() {
+  const navigate = useNavigate();
   const [nickname, setNickname] = useState('');
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
-    // TODO: Get host nickname from API
-    setNickname('說話做到');
+    const accessToken = localStorage.getItem('accessToken');
+    const nick = jwt(accessToken).nickname;
+    setNickname(nick);
   }, []);
 
   useEffect(() => {
@@ -23,12 +27,26 @@ function HostHome() {
     setGreeting(greetings[i]);
   }, []);
 
+  async function logout() {
+    try {
+      localStorage.removeItem('accessToken');
+      alert('哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～');
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+      alert('發生不明錯誤⋯⋯');
+    }
+  }
+
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={100}>
         <VStack spacing={8}>
           <Heading size="lg" fontSize="50px" m={7}>
-            {nickname}，{greeting}
+            <Text as="span" color="blue">
+              {nickname}
+            </Text>
+            ，{greeting}
           </Heading>
           <Stack direction="row" spacing={8} align="center">
             <Button
@@ -50,17 +68,16 @@ function HostHome() {
               我的歌曲集
             </Button>
             {/* TODO: Do logout thing */}
-            <Button
-              as={Link}
-              href="/"
-              colorScheme="teal"
-              variant="outline"
-              size="lg"
-              style={{ textDecoration: 'none' }}>
+            <Button onClick={logout} colorScheme="teal" variant="outline" size="lg">
               登出
             </Button>
           </Stack>
         </VStack>
+        <Box textAlign="center" pt={11}>
+          <Link color="yellow.700" href="/" fontSize="18px">
+            我想當玩家
+          </Link>
+        </Box>
       </Grid>
     </Box>
   );

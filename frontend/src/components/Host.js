@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, VStack, Grid, Heading, Button, Stack, Link } from '@chakra-ui/react';
 
 function Host() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      navigate('/host/home');
+    }
+  }, []);
+
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={100}>

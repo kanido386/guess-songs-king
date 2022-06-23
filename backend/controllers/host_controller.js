@@ -48,6 +48,43 @@ const signUp = async (req, res) => {
   });
 };
 
+const signIn = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400).send({
+      error: 'Request Error: email and password are required.',
+    });
+    return;
+  }
+
+  const result = await Host.signIn(email, password);
+  if (result.error) {
+    res.status(403).send({
+      error: result.error,
+    });
+    return;
+  }
+
+  const { host } = result;
+  if (!host) {
+    res.status(500).send({
+      error: 'Database Query Error',
+    });
+    return;
+  }
+
+  res.status(200).send({
+    host: {
+      id: host.id,
+      nickname: host.nickname,
+      email: host.email,
+      accessToken: host.accessToken,
+    },
+  });
+};
+
 module.exports = {
   signUp,
+  signIn,
 };

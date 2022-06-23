@@ -12,8 +12,36 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const { REACT_APP_BACKEND_URL } = process.env;
 
 export default function SignIn() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [check, setCheck] = useState(false);
+
+  async function signin() {
+    if (!check) {
+      alert('你忘記簽到囉！');
+      return;
+    }
+    try {
+      const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/host/signin`, {
+        email,
+        password
+      });
+      localStorage.setItem('accessToken', response.data.host.accessToken);
+      navigate('/host/home');
+    } catch (error) {
+      // console.log(error);
+      alert('你是誰？我不認識你！');
+    }
+  }
+
   return (
     <Flex
       minH="100vh"
@@ -28,11 +56,11 @@ export default function SignIn() {
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>電子郵件地址</FormLabel>
-              <Input type="email" />
+              <Input type="email" onChange={event => setEmail(event.currentTarget.value)} />
             </FormControl>
             <FormControl id="password">
               <FormLabel>密碼</FormLabel>
-              <Input type="password" />
+              <Input type="password" onChange={event => setPassword(event.currentTarget.value)} />
             </FormControl>
             <Stack spacing={10}>
               <Stack
@@ -40,15 +68,15 @@ export default function SignIn() {
                 mt={3}
                 align="start"
                 justify="space-between">
-                <Checkbox>記住我</Checkbox>
+                <Checkbox onChange={event => setCheck(event.currentTarget.checked)}>
+                  記得按指紋簽到
+                </Checkbox>
                 {/* <Link color="blue.400" href="/">
                   忘記密碼了嗎？
                 </Link> */}
               </Stack>
               <Button
-                as={Link}
-                href="/host/home"
-                style={{ textDecoration: 'none' }}
+                onClick={signin}
                 bg="blue.400"
                 color="white"
                 _hover={{

@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-shadow */
 
 import {
@@ -38,8 +37,8 @@ export default function SignUp() {
         email,
         password
       });
-      console.log(response);
-      alert(response.data.host.accessToken);
+      // console.log(response);
+      // alert(response.data.host.accessToken);
       localStorage.setItem('accessToken', response.data.host.accessToken);
       navigate('/host/home');
     } catch (error) {

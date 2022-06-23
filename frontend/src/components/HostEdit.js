@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Box, VStack, Grid, Heading, Button, Stack, Link, Input } from '@chakra-ui/react';
+import { Box, VStack, Grid, Heading, Button, Stack, Link, Input, Text } from '@chakra-ui/react';
+import jwt from 'jwt-decode';
 
 function HostHome() {
   const [nickname, setNickname] = useState('');
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
-    // TODO: Get host nickname from API
-    setNickname('說話做到');
+    const accessToken = localStorage.getItem('accessToken');
+    const nick = jwt(accessToken).nickname;
+    setNickname(nick);
   }, []);
 
   useEffect(() => {
@@ -26,7 +28,10 @@ function HostHome() {
       <Grid minH="100vh" p={100}>
         <VStack spacing={8}>
           <Heading size="lg" fontSize="42px" m={7}>
-            {nickname}，{greeting}
+            <Text as="span" color="blue">
+              {nickname}
+            </Text>
+            ，{greeting}
           </Heading>
           <Input type="text" placeholder="新暱稱" w={300} textAlign="center" fontWeight={700} />
           <Stack direction="row" spacing={8} align="center" p={7}>
