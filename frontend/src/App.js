@@ -15,6 +15,7 @@ import PlayGame from './components/PlayGame';
 import PartyManage from './components/PartyManage';
 import PartyCreate1 from './components/PartyCreate1';
 import PartyCreate2 from './components/PartyCreate2';
+import PartyCreate3 from './components/PartyCreate3';
 import Party from './components/Party';
 import PartyEdit1 from './components/PartyEdit1';
 import PartyEdit2 from './components/PartyEdit2';
@@ -54,6 +55,7 @@ function App() {
         <Route path="/party/manage" element={<PartyManage />} />
         <Route path="/party/create/step/1" element={<PartyCreate1 />} />
         <Route path="/party/create/step/2" element={<PartyCreate2 />} />
+        <Route path="/party/create/step/3" element={<PartyCreate3 />} />
         <Route path="/party/:id" element={<Party />} />
         <Route path="/party/edit/:id/step/1" element={<PartyEdit1 />} />
         <Route path="/party/edit/:id/step/2" element={<PartyEdit2 />} />
