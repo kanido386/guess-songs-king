@@ -12,6 +12,7 @@ scipy = "*"
 pytube = "*"
 numpy = "*"
 urllib3 = "==1.23"
+flask-cors = "*"
 
 [dev-packages]
 

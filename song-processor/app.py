@@ -1,5 +1,6 @@
 from threading import Thread
 from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import urllib.parse
 from service.kkbox_agent import KkboxAgent
 from service.youtube_agent import YoutubeAgent
@@ -7,10 +8,33 @@ from service.pytube_agent import PytubeAgent
 from service.audio_process_agent import AudioProcessAgent
 
 app = Flask(__name__)
+# https://stackoverflow.com/questions/25594893/how-to-enable-cors-in-flask
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 kkbox = KkboxAgent()
 youtube = YoutubeAgent()
 pytube = PytubeAgent()
 audio_process = AudioProcessAgent()
+
+@app.route('/api/v1/playlists_new', methods=['POST'])
+@cross_origin()
+def get_playlists_new():
+    num_playlists = int(request.get_json().get('num_playlists'))
+    playlists = kkbox.get_chart_playlists(num_playlists)
+    return jsonify(
+        data=playlists
+    )
+
+@app.route('/api/v1/tracks_new', methods=['POST'])
+@cross_origin()
+def get_tracks_new():
+    playlist_id = request.get_json().get('playlist_id')
+    num_tracks = int(request.get_json().get('num_tracks'))
+    tracks = kkbox.get_tracks_of_chart_playlist(playlist_id, num_tracks)
+    return jsonify(
+        data=tracks
+    )
 
 @app.route('/api/v1/download_and_process', methods=['POST'])
 def download_and_process():

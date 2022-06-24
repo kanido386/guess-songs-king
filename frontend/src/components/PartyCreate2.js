@@ -27,7 +27,10 @@ import {
   Wrap,
   WrapItem
 } from '@chakra-ui/react';
-import { StarIcon } from '@chakra-ui/icons';
+import { StarIcon, RepeatIcon } from '@chakra-ui/icons';
+import axios from 'axios';
+
+const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 
 const colors = [
   'gray',
@@ -42,6 +45,22 @@ const colors = [
   'pink'
 ];
 
+function makeRandomColor() {
+  // let c = '';
+  // while (c.length < 6) {
+  //   c += Math.random().toString(16).substr(-6).substr(-1);
+  // }
+  // return `#${c}`;
+
+  // Javascript - Generate random dark color
+  // https://stackoverflow.com/questions/20114469/javascript-generate-random-dark-color
+  let color = '#';
+  for (let i = 0; i < 6; i += 1) {
+    color += Math.floor(Math.random() * 10);
+  }
+  return color;
+}
+
 function PartyCreate2() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -53,6 +72,34 @@ function PartyCreate2() {
   const [trackName, setTrackName] = useState('');
   const [trackId, setTrackId] = useState(0);
   const [partyName, setPartyName] = useState('');
+  const [playlists, setPlaylists] = useState([]);
+  const [currentPlaylist, setCurrentPlaylist] = useState([]);
+  const [kkboxTracks, setKkboxTracks] = useState([]);
+  const [mode, setMode] = useState(1);
+  const [options, setOptions] = useState([]);
+
+  async function getPlaylists(numPlaylists) {
+    axios
+      .post(`${REACT_APP_AUDIO_PROCESSOR_URL}/api/v1/playlists_new`, {
+        num_playlists: numPlaylists
+      })
+      .then(response => {
+        console.log(response.data.data);
+        setPlaylists(response.data.data);
+      });
+  }
+
+  async function getKkboxTracks(playlistId, numTracks) {
+    axios
+      .post(`${REACT_APP_AUDIO_PROCESSOR_URL}/api/v1/tracks_new`, {
+        playlist_id: playlistId,
+        num_tracks: numTracks
+      })
+      .then(response => {
+        console.log(response.data.data);
+        setKkboxTracks(response.data.data);
+      });
+  }
 
   function addTrack() {
     if (artistName === '' || trackName === '') {
@@ -75,6 +122,20 @@ function PartyCreate2() {
     artistInputRef.current.focus();
   }
 
+  function addTrackFromKkbox(artistNameTemp, trackNameTemp) {
+    setTrackId(trackId + 1);
+    console.log(trackId);
+    setTracks(prevTracks => [
+      ...prevTracks,
+      {
+        id: trackId,
+        artistName: artistNameTemp,
+        trackName: trackNameTemp,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      }
+    ]);
+  }
+
   const handleKeypress = e => {
     // it triggers by pressing the enter key
     if (e.keyCode === 13) {
@@ -91,6 +152,32 @@ function PartyCreate2() {
     window.addEventListener('keypress', handleKeypress);
     return () => window.removeEventListener('keypress', handleKeypress, false);
   }, [artistName, trackName]);
+
+  useEffect(() => {
+    getPlaylists(5);
+  }, []);
+
+  useEffect(() => {
+    // TODO:
+    setMode(1);
+    setOptions(playlists);
+    console.log(options);
+  }, [playlists]);
+
+  useEffect(() => {
+    // TODO:
+    setMode(2);
+    setOptions(kkboxTracks);
+    console.log(options);
+  }, [kkboxTracks]);
+
+  useEffect(() => {
+    if (mode === 1) {
+      setOptions(playlists);
+    } else if (mode === 2) {
+      setOptions(kkboxTracks);
+    }
+  }, [mode]);
 
   function previousStep() {
     // if (tracks.length !== 0) {
@@ -204,18 +291,78 @@ function PartyCreate2() {
               <DrawerOverlay />
               <DrawerContent>
                 <DrawerCloseButton />
-                <DrawerHeader>KKBOX 排行榜</DrawerHeader>
-
+                <DrawerHeader>{mode === 1 ? 'KKBOX 排行榜' : `${currentPlaylist[1]}`}</DrawerHeader>
                 <DrawerBody>
                   {/* <Input placeholder="Type here..." /> */}
-                  <Text>功能開發中，請耐心等候😅</Text>
+                  {/* <Text>功能開發中，請耐心等候😅</Text> */}
+                  {/* {playlists.map(playlist => ( */}
+                  {options.map(option => (
+                    <Stack
+                      // TODO:
+                      onClick={() => {
+                        if (mode === 1) {
+                          const playlistId = option[0];
+                          setCurrentPlaylist(option);
+                          getKkboxTracks(playlistId, 5);
+                        } else if (mode === 2) {
+                          addTrackFromKkbox(option[0], option[1]);
+                        }
+                      }}
+                      p="5"
+                      boxShadow="sm"
+                      m="3"
+                      borderWidth="1px"
+                      borderRadius="sm"
+                      w={250}
+                      cursor="pointer"
+                      _hover={{
+                        bg: 'gray.100'
+                      }}>
+                      {mode === 1 ? (
+                        <Text color="blue.700" fontWeight="400" fontSize="15px">
+                          {option[1]}
+                        </Text>
+                      ) : (
+                        <Text
+                          // textShadow="1px 1px 1px black;"
+                          color={makeRandomColor}
+                          fontWeight="400"
+                          fontSize="15px">
+                          {`${option[0]} - ${option[1]}`}
+                        </Text>
+                      )}
+                    </Stack>
+                  ))}
                 </DrawerBody>
 
                 <DrawerFooter>
-                  <Button variant="outline" mr={3} onClick={onClose}>
-                    取消
+                  {mode === 1 ? (
+                    <Button variant="outline" mr={3} p={5} onClick={onClose}>
+                      關閉
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      mr={3}
+                      p={5}
+                      onClick={() => {
+                        getPlaylists(5);
+                      }}>
+                      重選排行榜
+                    </Button>
+                  )}
+                  <Button
+                    colorScheme="blue"
+                    onClick={() => {
+                      if (mode === 1) {
+                        getPlaylists(5);
+                      } else if (mode === 2) {
+                        getKkboxTracks(currentPlaylist[0], 5);
+                      }
+                    }}>
+                    換一批&nbsp;
+                    <RepeatIcon />
                   </Button>
-                  <Button colorScheme="blue">好的</Button>
                 </DrawerFooter>
               </DrawerContent>
             </Drawer>
