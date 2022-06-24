@@ -41,7 +41,8 @@ def download_and_process():
     track_id = request.get_json().get('track_id')
     artist_name = request.get_json().get('artist_name')
     track_name = request.get_json().get('track_name')
-    video_url = youtube.get_url_of_track(artist_name, track_name)
+    # video_url = youtube.get_url_of_track(artist_name, track_name)
+    video_url = pytube.get_url_of_track(artist_name, track_name)
 
     # https://stackoverflow.com/questions/48994440/execute-a-function-after-flask-returns-response
     def download_job(video_url, track_id):

@@ -1,7 +1,7 @@
 import os
 import librosa
 from scipy.io.wavfile import write
-from pytube import YouTube
+from pytube import YouTube, Search
 
 # Turn off the warning "PySoundFile failed. Trying audioread instead."
 import warnings
@@ -15,6 +15,13 @@ class PytubeAgent(object):
     def create_audio_folder(self):
         if not os.path.exists(self.audio_folder):
             os.mkdir(self.audio_folder)
+
+    def get_url_of_track(self, artist_name, track_name):
+        ''' 想抓「某某」歌 => 用「某某 lyrics」當關鍵詞搜尋 YouTube => 找最相關的影片當作目標 '''
+        s = Search(f'{artist_name} {track_name} lyrics')
+        video_url = s.results[0].watch_url
+
+        return video_url
 
     def download_as_wav_new(self, video_url, track_id):
         YouTube(video_url) \
