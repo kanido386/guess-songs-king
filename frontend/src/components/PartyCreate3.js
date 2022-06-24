@@ -14,9 +14,15 @@ import {
   Heading,
   Button,
   Stack,
-  Input
+  // Input,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper
 } from '@chakra-ui/react';
 import { InfoOutlineIcon } from '@chakra-ui/icons';
+import { GrTools } from 'react-icons/gr';
 import jwt from 'jwt-decode';
 import axios from 'axios';
 
@@ -28,6 +34,14 @@ function Hint(props) {
   const { tracks, numQ1, numQ2, numQ3 } = props;
   const numLeft = tracks.length - Number(numQ1) - 3 * Number(numQ2) - Number(numQ3);
   canCreate = false;
+
+  if (Number(numQ1) < 0 || Number(numQ2) < 0 || Number(numQ3) < 0) {
+    return (
+      <Text fontWeight="400" fontSize="24.5px" color="red" mt={2}>
+        題數不能為負！
+      </Text>
+    );
+  }
 
   if (numQ1 === '' || numQ2 === '' || numQ3 === '' || !Number.isInteger(numLeft)) {
     return (
@@ -71,7 +85,7 @@ function PartyCreate3() {
   const tracks = state.tracksSent;
   const trackId = state.trackIdSent;
   // const [tracks, setTracks] = useState([]);
-  const [numQ1, setNumQ1] = useState('');
+  const [numQ1, setNumQ1] = useState(0);
   const [numQ2, setNumQ2] = useState('');
   const [numQ3, setNumQ3] = useState('');
   const [hostId, setHostId] = useState(0);
@@ -83,6 +97,9 @@ function PartyCreate3() {
     }
     const { id } = jwt(accessToken);
     setHostId(id);
+    // TODO:
+    setNumQ2(0);
+    setNumQ3(0);
   }, []);
 
   function previousStep() {
@@ -159,14 +176,48 @@ function PartyCreate3() {
                 (每題需要 1 首歌)
               </Text>
               <Spacer />
-              <Input
+              {/* <Input
                 htmlSize={11}
                 width="auto"
                 textAlign="center"
                 placeholder="題數"
                 value={numQ1}
                 onChange={event => setNumQ1(event.currentTarget.value)}
-              />
+              /> */}
+              <NumberInput size="md" maxW={24} defaultValue={0} min={0} max={tracks.length}>
+                <NumberInputField
+                  value={numQ1}
+                  onChange={event => {
+                    const newValue = event.currentTarget.value;
+                    if (newValue >= 0 && Number.isInteger(newValue)) {
+                      setNumQ1(Number(newValue));
+                    } else if (newValue > tracks.length) {
+                      setNumQ1(tracks.length);
+                    } else if (newValue < 0) {
+                      setNumQ1(0);
+                    }
+                  }}
+                  textAlign="center"
+                />
+                <NumberInputStepper>
+                  <NumberIncrementStepper
+                    onClick={() => {
+                      if (numQ1 < tracks.length) {
+                        setNumQ1(prevNum => prevNum + 1);
+                      }
+                      console.log(numQ1);
+                    }}
+                  />
+                  <NumberDecrementStepper
+                    onClick={() => {
+                      if (numQ1 > 0) {
+                        setNumQ1(prevNum => prevNum - 1);
+                      }
+                      console.log(numQ1);
+                    }}
+                  />
+                </NumberInputStepper>
+              </NumberInput>
               <Text>題</Text>
             </HStack>
           </Flex>
@@ -183,7 +234,7 @@ function PartyCreate3() {
                 (每題需要 3 首歌)
               </Text>
               <Spacer />
-              <Input
+              {/* <Input
                 htmlSize={11}
                 width="auto"
                 textAlign="center"
@@ -191,7 +242,11 @@ function PartyCreate3() {
                 value={numQ2}
                 onChange={event => setNumQ2(event.currentTarget.value)}
               />
-              <Text>題</Text>
+              <Text>題</Text> */}
+              <HStack pr={9} fontSize={15}>
+                <Text letterSpacing={5}>開發中</Text>
+                <GrTools />
+              </HStack>
             </HStack>
           </Flex>
           <Flex>
@@ -204,7 +259,7 @@ function PartyCreate3() {
                 (每題需要 1 首歌)
               </Text>
               <Spacer />
-              <Input
+              {/* <Input
                 htmlSize={11}
                 width="auto"
                 textAlign="center"
@@ -212,7 +267,11 @@ function PartyCreate3() {
                 value={numQ3}
                 onChange={event => setNumQ3(event.currentTarget.value)}
               />
-              <Text>題</Text>
+              <Text>題</Text> */}
+              <HStack pr={9} fontSize={15}>
+                <Text letterSpacing={5}>開發中</Text>
+                <GrTools />
+              </HStack>
             </HStack>
           </Flex>
           <Stack direction="row" spacing={8} align="center" p={7}>

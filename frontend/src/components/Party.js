@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 
-const { REACT_APP_BACKEND_URL } = process.env;
+const { REACT_APP_BACKEND_URL, REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 
 const colors = [
   'gray',
@@ -132,6 +132,10 @@ function Party() {
               <WrapItem>
                 <Tag
                   key={track.id}
+                  cursor="pointer"
+                  onClick={() => {
+                    window.open(`${REACT_APP_AUDIO_PROCESSOR_URL}/static/audio/${track.id}.wav`);
+                  }}
                   size="lg"
                   borderRadius="2xl"
                   variant="outline"
