@@ -19,7 +19,12 @@ class PytubeAgent(object):
     def get_url_of_track(self, artist_name, track_name):
         ''' 想抓「某某」歌 => 用「某某 lyrics」當關鍵詞搜尋 YouTube => 找最相關的影片當作目標 '''
         s = Search(f'{artist_name} {track_name} lyrics')
-        video_url = s.results[0].watch_url
+        i = 0
+        # FIXME: 長度可再調整
+        while s.results[i].length > 600:
+          print(s.results[i].length)
+          i += 1
+        video_url = s.results[i].watch_url
 
         return video_url
 

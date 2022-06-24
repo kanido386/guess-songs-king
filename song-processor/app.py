@@ -100,7 +100,8 @@ def get_tracks():
 def get_video_url():
     artist_name = request.get_json().get('artist_name')
     track_name = request.get_json().get('track_name')
-    video_url = youtube.get_url_of_track(artist_name, track_name)
+    # video_url = youtube.get_url_of_track(artist_name, track_name)
+    video_url = pytube.get_url_of_track(artist_name, track_name)
     return jsonify(
         data=video_url
     )
