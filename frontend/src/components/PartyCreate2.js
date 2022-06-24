@@ -29,6 +29,10 @@ import {
 } from '@chakra-ui/react';
 import { StarIcon, RepeatIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 
@@ -103,7 +107,15 @@ function PartyCreate2() {
 
   function addTrack() {
     if (artistName === '' || trackName === '') {
-      alert('「誰的」和「歌名」都要輸入哦～');
+      // alert('「誰的」和「歌名」都要輸入哦～');
+      // FIXME: 按 Enter 會一直跳視窗
+      MySwal.fire({
+        icon: 'info',
+        title: '提示',
+        text: '「誰的」和「歌名」都要輸入哦～',
+        allowEnterKey: false,
+        stopKeydownPropagation: true
+      });
       return;
     }
     setTrackId(trackId + 1);
@@ -136,7 +148,7 @@ function PartyCreate2() {
     ]);
   }
 
-  const handleKeypress = e => {
+  const handleKeydown = e => {
     // it triggers by pressing the enter key
     if (e.keyCode === 13) {
       addTrack();
@@ -149,8 +161,8 @@ function PartyCreate2() {
   };
 
   useEffect(() => {
-    window.addEventListener('keypress', handleKeypress);
-    return () => window.removeEventListener('keypress', handleKeypress, false);
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown, false);
   }, [artistName, trackName]);
 
   useEffect(() => {
@@ -197,7 +209,13 @@ function PartyCreate2() {
 
   function nextStep() {
     if (tracks.length === 0) {
-      alert('至少加入一首歌再下一步啦😂');
+      // alert('至少加入一首歌再下一步啦😂');
+      MySwal.fire({
+        icon: 'info',
+        title: '提示',
+        text: '至少加入一首歌再下一步啦😂',
+        stopKeydownPropagation: true
+      });
       return;
     }
     navigate('/party/create/step/3', {
@@ -276,7 +294,7 @@ function PartyCreate2() {
             />
             <Button
               onClick={addTrack}
-              onKeyPress={handleKeypress}
+              onKeyDown={handleKeydown}
               colorScheme="teal"
               variant="ghost"
               size="lg">

@@ -3,6 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, VStack, HStack, Grid, Heading, Button, Stack, Input } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 function PartyCreate1() {
   const navigate = useNavigate();
@@ -21,12 +25,25 @@ function PartyCreate1() {
 
   function backToManage() {
     if (tracks.length !== 0 || partyName !== '') {
-      const isGoingToExit = confirm('剛剛輸入的東西都不會保存哦！確定要離開？');
-      if (!isGoingToExit) {
-        return;
-      }
+      // const isGoingToExit = confirm('剛剛輸入的東西都不會保存哦！確定要離開？');
+      // if (!isGoingToExit) {
+      //   return;
+      // }
+      MySwal.fire({
+        icon: 'warning',
+        title: '注意',
+        text: '剛剛輸入的東西都會不見哦！確定要離開？',
+        showCancelButton: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '確定'
+      }).then(async result => {
+        if (result.isConfirmed) {
+          navigate('/party/manage');
+        }
+      });
+    } else {
+      navigate('/party/manage');
     }
-    navigate('/party/manage');
   }
 
   function nextStep() {

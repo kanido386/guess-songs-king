@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, VStack, Grid, Heading, Button, Stack, Link, Text } from '@chakra-ui/react';
 import jwt from 'jwt-decode';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 function HostHome() {
   const navigate = useNavigate();
@@ -33,11 +37,22 @@ function HostHome() {
   async function logout() {
     try {
       localStorage.removeItem('accessToken');
-      alert('哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～');
-      navigate('/');
+      // alert('哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～');
+      MySwal.fire({
+        // icon: 'error',
+        // title: '奇怪',
+        text: '哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～'
+      }).then(() => {
+        navigate('/');
+      });
     } catch (error) {
       console.log(error);
-      alert('發生不明錯誤⋯⋯');
+      // alert('發生不明錯誤⋯⋯');
+      MySwal.fire({
+        icon: 'error',
+        title: '奇怪',
+        text: '發生不明錯誤⋯⋯！'
+      });
     }
   }
 

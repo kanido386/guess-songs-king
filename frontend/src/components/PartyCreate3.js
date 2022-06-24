@@ -25,6 +25,10 @@ import { InfoOutlineIcon } from '@chakra-ui/icons';
 import { GrTools } from 'react-icons/gr';
 import jwt from 'jwt-decode';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -118,31 +122,40 @@ function PartyCreate3() {
     //   return;
     // }
     if (!canCreate) {
-      alert('我覺得不行！');
+      // alert('我覺得不行！');
+      MySwal.fire({
+        icon: 'error',
+        title: '我覺得不行',
+        text: '配置有誤！'
+      });
       return;
     }
 
-    const isGoingToCreate = confirm('確定先這樣囉？');
-    if (!isGoingToCreate) {
-      return;
-    }
-
-    const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/party/create`, {
-      hostId,
-      partyName,
-      tracks,
-      numQ1,
-      numQ2,
-      numQ3
+    // const isGoingToCreate = confirm('確定先這樣囉？');
+    // if (!isGoingToCreate) {
+    //   return;
+    // }
+    MySwal.fire({
+      icon: 'question',
+      title: 'Nice!',
+      text: '確定要建立歌曲集？',
+      showCancelButton: true,
+      cancelButtonText: '取消',
+      confirmButtonText: '確定'
+    }).then(async result => {
+      if (result.isConfirmed) {
+        const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/party/create`, {
+          hostId,
+          partyName,
+          tracks,
+          numQ1,
+          numQ2,
+          numQ3
+        });
+        console.log(response);
+        navigate('/party/manage');
+      }
     });
-    // console.log(hostId);
-    // console.log(partyName);
-    // console.log(tracks);
-    // console.log(numQ1);
-    // console.log(numQ2);
-    // console.log(numQ3);
-    console.log(response);
-    navigate('/party/manage');
   }
 
   return (

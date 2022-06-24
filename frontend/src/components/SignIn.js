@@ -15,6 +15,10 @@ import {
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -26,7 +30,12 @@ export default function SignIn() {
 
   async function signin() {
     if (!check) {
-      alert('你忘記簽到囉！');
+      // alert('你忘記簽到囉！');
+      MySwal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: '你忘記簽到囉！'
+      });
       return;
     }
     try {
@@ -38,7 +47,12 @@ export default function SignIn() {
       navigate('/host/home');
     } catch (error) {
       // console.log(error);
-      alert('你是誰？我不認識你！');
+      // alert('你是誰？我不認識你！');
+      MySwal.fire({
+        icon: 'question',
+        title: '先等等',
+        text: '你是誰？我不認識你！'
+      });
     }
   }
 
