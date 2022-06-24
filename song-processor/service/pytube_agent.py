@@ -31,7 +31,9 @@ class PytubeAgent(object):
 
     def convert_to_wav_new(self, track_id):
         y, sr = librosa.load(f'{self.audio_folder}/temp{track_id}', mono=False, sr=None)
-        new_audio_filename = f'{track_id}.wav'
+        # TODO:
+        # new_audio_filename = f'{track_id}.wav'
+        new_audio_filename = f'temp{track_id}.wav'
         if y.shape[0] == 2:   # stereo
             write(f'{self.audio_folder}/{new_audio_filename}', sr, y.T)
         else:   # mono

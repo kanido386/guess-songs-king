@@ -94,6 +94,42 @@ const createParty = async (req, res) => {
   });
 };
 
+const checkParty = async (req, res) => {
+  const { partyId } = req.body;
+
+  const result = await Party.getTracksByPartyId(partyId);
+  if (result.error) {
+    res.status(403).send({
+      error: result.error,
+    });
+    return;
+  }
+
+  const { tracks } = result;
+  if (!tracks) {
+    res.status(500).send({
+      error: 'Database Query Error',
+    });
+    return;
+  }
+
+  let isReady = true;
+  for (let i = 0; i < tracks.length; i += 1) {
+    // TODO:
+    const response = await axios.post(`${SONG_PROCESSOR_URL}/api/v1/audio_status_new`, {
+      track_id: tracks[i].id,
+    });
+    if (response.data.status === false) {
+      isReady = false;
+      break;
+    }
+  }
+
+  res.status(200).send({
+    isReady,
+  });
+};
+
 const getPartiesByHostId = async (req, res) => {
   const { hostId } = req.body;
 
@@ -168,6 +204,7 @@ const getTracksByPartyId = async (req, res) => {
 
 module.exports = {
   createParty,
+  checkParty,
   getPartyByPartyId,
   getPartiesByHostId,
   getTracksByPartyId,

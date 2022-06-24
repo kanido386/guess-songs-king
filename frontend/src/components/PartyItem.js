@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stack, Link, HStack, Text, Button, Flex, Spacer } from '@chakra-ui/react';
 // import { SettingsIcon, DeleteIcon } from '@chakra-ui/icons';
+import axios from 'axios';
+
+const { REACT_APP_BACKEND_URL } = process.env;
 
 function PartyItem(props) {
   const { id, name, numTracks, numQuestions } = props;
-  return (
+  const [status, setStatus] = useState([]);
+
+  useEffect(() => {
+    axios
+      .post(`${REACT_APP_BACKEND_URL}/api/v1/party/check`, {
+        partyId: id
+      })
+      .then(response => {
+        setStatus(response.data.isReady);
+      });
+  }, []);
+
+  return status ? (
     <Stack
       p="5"
       boxShadow="sm"
@@ -30,41 +45,39 @@ function PartyItem(props) {
           <Text fontSize="md">歌曲數：{numTracks}</Text>
           <Text fontSize="md">題數：{numQuestions}</Text>
           <Spacer />
-          {/* <HStack spacing={2}>
-            <IconButton
-              variant="ghost"
-              colorScheme="blue"
-              aria-label="Call Sage"
-              fontSize="16px"
-              icon={<SettingsIcon />}
-            />
-            <IconButton
-              variant="ghost"
-              colorScheme="red"
-              aria-label="Call Sage"
-              fontSize="16px"
-              icon={<DeleteIcon />}
-            />
-          </HStack> */}
           {/* TODO: href & disable */}
-          {id === 1 ? (
-            <Button
-              as={Link}
-              href={`/host/game/${id}`}
-              style={{ textDecoration: 'none' }}
-              colorScheme="green">
-              開始玩！
-            </Button>
-          ) : (
-            <Button
-              isDisabled
-              // as={Link}
-              // href="/"
-              style={{ textDecoration: 'none' }}
-              colorScheme="gray">
-              處理中⋯
-            </Button>
-          )}
+          <Button
+            as={Link}
+            href={`/host/game/${id}`}
+            style={{ textDecoration: 'none' }}
+            colorScheme="green">
+            開始玩！
+          </Button>
+        </HStack>
+      </Flex>
+    </Stack>
+  ) : (
+    <Stack p="5" boxShadow="sm" mb="5" borderWidth="1px" borderRadius="sm" w={800}>
+      <Flex>
+        <HStack spacing={7}>
+          <Text color="purple.600" fontWeight="semibold" fontSize="22px">
+            {name}
+          </Text>
+        </HStack>
+        <Spacer />
+        <HStack spacing={7}>
+          <Text fontSize="md">歌曲數：{numTracks}</Text>
+          <Text fontSize="md">題數：{numQuestions}</Text>
+          <Spacer />
+          {/* TODO: href & disable */}
+          <Button
+            isDisabled
+            // as={Link}
+            // href="/"
+            style={{ textDecoration: 'none' }}
+            colorScheme="gray">
+            處理中⋯
+          </Button>
         </HStack>
       </Flex>
     </Stack>

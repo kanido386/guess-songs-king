@@ -43,6 +43,15 @@ def download_and_process():
         data='Request sent!'
     )
 
+@app.route('/api/v1/audio_status_new', methods=['POST'])
+def get_audio_status_new():
+    track_id = request.get_json().get('track_id')
+    audio_filename = f'{track_id}.wav'
+    audio_status = audio_process.get_audio_status(audio_filename)
+    return jsonify(
+        status=audio_status
+    )
+
 # ==============================
 
 @app.route('/api/v1/playlists', methods=['GET'])

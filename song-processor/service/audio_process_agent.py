@@ -34,6 +34,11 @@ class AudioProcessAgent(object):
         end = begin + sr * segment_length
         new_y = y[:, begin:end]
 
+        # TODO:
+        if os.path.exists(f'{self.audio_folder}/{audio_filename}'):
+            os.remove(f'{self.audio_folder}/{audio_filename}')
+        audio_filename = audio_filename.replace('temp', '')
+
         if new_y.shape[0] == 2:   # stereo
             write(f'{self.audio_folder}/{audio_filename}', sr, new_y.T)
         else:   # mono

@@ -18,7 +18,6 @@ function PartyManage() {
   // const [hostId, setHostId] = useState(0);
 
   useEffect(() => {
-    // TODO: Get parties from API
     const tempParties = [];
     axios
       .post(`${REACT_APP_BACKEND_URL}/api/v1/parties`, {
