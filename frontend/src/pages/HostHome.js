@@ -12,6 +12,28 @@ function HostHome() {
   const [nickname, setNickname] = useState('');
   const [greeting, setGreeting] = useState('');
 
+  const logout = async () => {
+    try {
+      localStorage.removeItem('accessToken');
+      // alert('哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～');
+      MySwal.fire({
+        // icon: 'error',
+        // title: '奇怪',
+        text: '哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～'
+      }).then(() => {
+        navigate('/');
+      });
+    } catch (error) {
+      console.log(error);
+      // alert('發生不明錯誤⋯⋯');
+      MySwal.fire({
+        icon: 'error',
+        title: '奇怪',
+        text: '發生不明錯誤⋯⋯！'
+      });
+    }
+  };
+
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
@@ -33,28 +55,6 @@ function HostHome() {
     const i = Math.floor(Math.random() * greetings.length);
     setGreeting(greetings[i]);
   }, []);
-
-  async function logout() {
-    try {
-      localStorage.removeItem('accessToken');
-      // alert('哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～');
-      MySwal.fire({
-        // icon: 'error',
-        // title: '奇怪',
-        text: '哈囉你好嗎？衷心感謝。珍重再見！期待再相逢～'
-      }).then(() => {
-        navigate('/');
-      });
-    } catch (error) {
-      console.log(error);
-      // alert('發生不明錯誤⋯⋯');
-      MySwal.fire({
-        icon: 'error',
-        title: '奇怪',
-        text: '發生不明錯誤⋯⋯！'
-      });
-    }
-  }
 
   return (
     <Box textAlign="center" fontSize="xl">

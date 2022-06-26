@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -15,21 +17,19 @@ import {
   useColorModeValue,
   Link
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
-export default function SignUp() {
+function SignUp() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  async function signup() {
+  const signup = async () => {
     try {
       // https://stackoverflow.com/questions/48378337/create-react-app-not-picking-up-env-files
       const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/host/signup`, {
@@ -44,7 +44,7 @@ export default function SignUp() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <Flex
@@ -111,3 +111,5 @@ export default function SignUp() {
     </Flex>
   );
 }
+
+export default SignUp;

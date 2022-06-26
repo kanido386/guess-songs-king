@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -12,8 +14,6 @@ import {
   Text,
   useColorModeValue
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
@@ -22,13 +22,13 @@ const MySwal = withReactContent(Swal);
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
-export default function SignIn() {
+function SignIn() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
 
-  async function signin() {
+  const signin = async () => {
     if (!check) {
       // alert('你忘記簽到囉！');
       MySwal.fire({
@@ -54,7 +54,7 @@ export default function SignIn() {
         text: '你是誰？我不認識你！'
       });
     }
-  }
+  };
 
   return (
     <Flex
@@ -113,3 +113,5 @@ export default function SignIn() {
     </Flex>
   );
 }
+
+export default SignIn;

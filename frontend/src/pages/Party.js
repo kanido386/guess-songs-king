@@ -78,7 +78,6 @@ function Party() {
   }, []);
 
   // useEffect(() => {
-  //   // TODO: Get tracks from API
   //   setTracks([
   //     {
   //       id: 1,

@@ -1,3 +1,6 @@
+// import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+// import { Link as LinkToPage } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -9,16 +12,13 @@ import {
   Heading,
   useColorModeValue
 } from '@chakra-ui/react';
-// import { Link as LinkToPage } from 'react-router-dom';
 // import io from 'socket.io-client';
-// import React, { useContext } from 'react';
-import React, { useState, useEffect, useContext } from 'react';
 import SocketContext from '../context/socket';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-export default function Join() {
+function Join() {
   const socket = useContext(SocketContext);
   const [nickname, setNickname] = useState('');
 
@@ -29,14 +29,6 @@ export default function Join() {
     });
   };
 
-  useEffect(() => {
-    socket.on('join-error', () => {});
-
-    // socket.on('join-success', () => {
-    //   navigate('/join');
-    // });
-  }, [socket]);
-
   // const sendSomething = () => {
   //   // socket.emit('send', {
   //   //   message: 'That was dope!'
@@ -46,6 +38,14 @@ export default function Join() {
   //     room: '123'
   //   });
   // };
+
+  useEffect(() => {
+    socket.on('join-error', () => {});
+
+    // socket.on('join-success', () => {
+    //   navigate('/join');
+    // });
+  }, [socket]);
 
   // useEffect(() => {
   //   socket.on('host', data => {
@@ -104,3 +104,5 @@ export default function Join() {
     </Flex>
   );
 }
+
+export default Join;

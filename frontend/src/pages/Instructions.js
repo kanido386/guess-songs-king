@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
 
-function Welcome() {
+function Instructions() {
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={100}>
@@ -16,4 +16,4 @@ function Welcome() {
   );
 }
 
-export default Welcome;
+export default Instructions;

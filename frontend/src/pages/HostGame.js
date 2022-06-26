@@ -26,13 +26,6 @@ function HostGame() {
   const socket = useContext(SocketContext);
   const [players, setPlayers] = useState([]);
 
-  // useEffect(() => {
-  //   socket.emit('send', {
-  //     room: '123',
-  //     message: 'wow!!!'
-  //   });
-  // }, []);
-
   const generatePin = () => {
     socket.emit('init-game', {
       pin,
@@ -41,16 +34,11 @@ function HostGame() {
   };
 
   // useEffect(() => {
-  //   // TODO:
-  //   setPlayers([]);
-
-  //   console.log(socket.id);
-
-  //   socket.emit('init-game', {
-  //     pin,
-  //     id: socket.id
+  //   socket.emit('send', {
+  //     room: '123',
+  //     message: 'wow!!!'
   //   });
-  // }, [socket]);
+  // }, []);
 
   useEffect(() => {
     socket.on('add-player', data => {
@@ -63,6 +51,18 @@ function HostGame() {
       ]);
     });
   }, [socket]);
+
+  // useEffect(() => {
+  //   // TODO:
+  //   setPlayers([]);
+
+  //   console.log(socket.id);
+
+  //   socket.emit('init-game', {
+  //     pin,
+  //     id: socket.id
+  //   });
+  // }, [socket]);
 
   return (
     <Box textAlign="center" fontSize="xl">

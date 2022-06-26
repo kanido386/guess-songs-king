@@ -3,6 +3,8 @@ import React from 'react';
 import io from 'socket.io-client';
 
 const { REACT_APP_BACKEND_URL } = process.env;
+
+// FIXME:
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 export const socket = io(REACT_APP_BACKEND_URL);
 const SocketContext = React.createContext(socket);

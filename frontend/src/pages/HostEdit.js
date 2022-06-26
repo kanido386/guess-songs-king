@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, VStack, Grid, Heading, Button, Stack, Link, Input, Text } from '@chakra-ui/react';
 import jwt from 'jwt-decode';
 
-function HostHome() {
+function HostEdit() {
   const [nickname, setNickname] = useState('');
   const [greeting, setGreeting] = useState('');
 
@@ -63,4 +63,4 @@ function HostHome() {
   );
 }
 
-export default HostHome;
+export default HostEdit;

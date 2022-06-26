@@ -94,19 +94,7 @@ function PartyCreate3() {
   const [numQ3, setNumQ3] = useState('');
   const [hostId, setHostId] = useState(0);
 
-  useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (!accessToken) {
-      return;
-    }
-    const { id } = jwt(accessToken);
-    setHostId(id);
-    // TODO:
-    setNumQ2(0);
-    setNumQ3(0);
-  }, []);
-
-  function previousStep() {
+  const previousStep = () => {
     navigate('/party/create/step/2', {
       state: {
         partyNameSent: partyName,
@@ -114,9 +102,9 @@ function PartyCreate3() {
         trackIdSent: trackId
       }
     });
-  }
+  };
 
-  async function createParty() {
+  const createParty = async () => {
     // if (tracks.length === 0) {
     //   alert('至少加入一首歌再下一步啦😂');
     //   return;
@@ -156,7 +144,19 @@ function PartyCreate3() {
         navigate('/party/manage');
       }
     });
-  }
+  };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      return;
+    }
+    const { id } = jwt(accessToken);
+    setHostId(id);
+    // TODO:
+    setNumQ2(0);
+    setNumQ3(0);
+  }, []);
 
   return (
     <Box textAlign="center" fontSize="xl">

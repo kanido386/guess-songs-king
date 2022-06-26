@@ -15,15 +15,7 @@ function PartyCreate1() {
   const [partyName, setPartyName] = useState('');
   const [trackId, setTrackId] = useState(0);
 
-  useEffect(() => {
-    if (state) {
-      setPartyName(state.partyNameSent);
-      setTracks(state.tracksSent);
-      setTrackId(state.trackIdSent);
-    }
-  }, []);
-
-  function backToManage() {
+  const backToManage = () => {
     if (tracks.length !== 0 || partyName !== '') {
       // const isGoingToExit = confirm('剛剛輸入的東西都不會保存哦！確定要離開？');
       // if (!isGoingToExit) {
@@ -44,9 +36,9 @@ function PartyCreate1() {
     } else {
       navigate('/party/manage');
     }
-  }
+  };
 
-  function nextStep() {
+  const nextStep = () => {
     navigate('/party/create/step/2', {
       state: {
         partyNameSent: partyName,
@@ -54,7 +46,15 @@ function PartyCreate1() {
         trackIdSent: trackId
       }
     });
-  }
+  };
+
+  useEffect(() => {
+    if (state) {
+      setPartyName(state.partyNameSent);
+      setTracks(state.tracksSent);
+      setTrackId(state.trackIdSent);
+    }
+  }, []);
 
   return (
     <Box textAlign="center" fontSize="xl">

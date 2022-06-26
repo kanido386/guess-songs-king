@@ -6,8 +6,8 @@ import PartyItem from './PartyItem';
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
-const accessToken = localStorage.getItem('accessToken');
 let hostId = 11;
+const accessToken = localStorage.getItem('accessToken');
 if (accessToken) {
   const { id } = jwt(accessToken);
   hostId = id;

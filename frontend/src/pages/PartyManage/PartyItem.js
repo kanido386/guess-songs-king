@@ -69,13 +69,7 @@ function PartyItem(props) {
           <Text fontSize="md">歌曲數：{numTracks}</Text>
           <Text fontSize="md">題數：{numQuestions}</Text>
           <Spacer />
-          {/* TODO: href & disable */}
-          <Button
-            isDisabled
-            // as={Link}
-            // href="/"
-            style={{ textDecoration: 'none' }}
-            colorScheme="gray">
+          <Button isDisabled style={{ textDecoration: 'none' }} colorScheme="gray">
             處理中⋯
           </Button>
         </HStack>

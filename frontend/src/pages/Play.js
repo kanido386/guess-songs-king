@@ -1,3 +1,7 @@
+// import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+// import { Link as LinkToPage } from 'react-router-dom';
 import {
   Flex,
   Box,
@@ -9,12 +13,7 @@ import {
   Heading,
   useColorModeValue
 } from '@chakra-ui/react';
-// import { Link as LinkToPage } from 'react-router-dom';
-
 // import io from 'socket.io-client';
-// import React, { useContext } from 'react';
-import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import SocketContext from '../context/socket';
@@ -24,7 +23,7 @@ const MySwal = withReactContent(Swal);
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-export default function Play() {
+function Play() {
   const socket = useContext(SocketContext);
   const navigate = useNavigate();
   const [pin, setPin] = useState('');
@@ -116,3 +115,5 @@ export default function Play() {
     </Flex>
   );
 }
+
+export default Play;

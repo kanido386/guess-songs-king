@@ -49,7 +49,7 @@ const colors = [
   'pink'
 ];
 
-function makeRandomColor() {
+const makeRandomColor = () => {
   // let c = '';
   // while (c.length < 6) {
   //   c += Math.random().toString(16).substr(-6).substr(-1);
@@ -63,12 +63,12 @@ function makeRandomColor() {
     color += Math.floor(Math.random() * 10);
   }
   return color;
-}
+};
 
 function PartyCreate2() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
   const artistInputRef = useRef(null);
   const [tracks, setTracks] = useState([]);
@@ -82,7 +82,7 @@ function PartyCreate2() {
   const [mode, setMode] = useState(1);
   const [options, setOptions] = useState([]);
 
-  async function getPlaylists(numPlaylists) {
+  const getPlaylists = async numPlaylists => {
     axios
       .post(`${REACT_APP_AUDIO_PROCESSOR_URL}/api/v1/playlists_new`, {
         num_playlists: numPlaylists
@@ -91,9 +91,9 @@ function PartyCreate2() {
         console.log(response.data.data);
         setPlaylists(response.data.data);
       });
-  }
+  };
 
-  async function getKkboxTracks(playlistId, numTracks) {
+  const getKkboxTracks = async (playlistId, numTracks) => {
     axios
       .post(`${REACT_APP_AUDIO_PROCESSOR_URL}/api/v1/tracks_new`, {
         playlist_id: playlistId,
@@ -103,9 +103,9 @@ function PartyCreate2() {
         console.log(response.data.data);
         setKkboxTracks(response.data.data);
       });
-  }
+  };
 
-  function addTrack() {
+  const addTrack = () => {
     if (artistName === '' || trackName === '') {
       // alert('「誰的」和「歌名」都要輸入哦～');
       // FIXME: 按 Enter 會一直跳視窗
@@ -132,9 +132,9 @@ function PartyCreate2() {
     setArtistName('');
     setTrackName('');
     artistInputRef.current.focus();
-  }
+  };
 
-  function addTrackFromKkbox(artistNameTemp, trackNameTemp) {
+  const addTrackFromKkbox = (artistNameTemp, trackNameTemp) => {
     setTrackId(trackId + 1);
     console.log(trackId);
     setTracks(prevTracks => [
@@ -146,7 +146,7 @@ function PartyCreate2() {
         color: colors[Math.floor(Math.random() * colors.length)]
       }
     ]);
-  }
+  };
 
   const handleKeydown = e => {
     // it triggers by pressing the enter key
@@ -160,38 +160,7 @@ function PartyCreate2() {
     setTracks(prevTracks => prevTracks.filter(t => t.id !== id));
   };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeydown);
-    return () => window.removeEventListener('keydown', handleKeydown, false);
-  }, [artistName, trackName]);
-
-  useEffect(() => {
-    getPlaylists(5);
-  }, []);
-
-  useEffect(() => {
-    // TODO:
-    setMode(1);
-    setOptions(playlists);
-    console.log(options);
-  }, [playlists]);
-
-  useEffect(() => {
-    // TODO:
-    setMode(2);
-    setOptions(kkboxTracks);
-    console.log(options);
-  }, [kkboxTracks]);
-
-  useEffect(() => {
-    if (mode === 1) {
-      setOptions(playlists);
-    } else if (mode === 2) {
-      setOptions(kkboxTracks);
-    }
-  }, [mode]);
-
-  function previousStep() {
+  const previousStep = () => {
     // if (tracks.length !== 0) {
     //   const isGoingToExit = confirm('辛苦輸入的歌曲們都會不見哦！確定要離開？');
     //   if (!isGoingToExit) {
@@ -205,9 +174,9 @@ function PartyCreate2() {
         trackIdSent: trackId
       }
     });
-  }
+  };
 
-  function nextStep() {
+  const nextStep = () => {
     if (tracks.length === 0) {
       // alert('至少加入一首歌再下一步啦😂');
       MySwal.fire({
@@ -225,7 +194,7 @@ function PartyCreate2() {
         trackIdSent: trackId
       }
     });
-  }
+  };
 
   useEffect(() => {
     if (state) {
@@ -266,6 +235,37 @@ function PartyCreate2() {
     //   }
     // ]);
   }, []);
+
+  useEffect(() => {
+    getPlaylists(5);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeydown);
+    return () => window.removeEventListener('keydown', handleKeydown, false);
+  }, [artistName, trackName]);
+
+  useEffect(() => {
+    // TODO:
+    setMode(1);
+    setOptions(playlists);
+    console.log(options);
+  }, [playlists]);
+
+  useEffect(() => {
+    // TODO:
+    setMode(2);
+    setOptions(kkboxTracks);
+    console.log(options);
+  }, [kkboxTracks]);
+
+  useEffect(() => {
+    if (mode === 1) {
+      setOptions(playlists);
+    } else if (mode === 2) {
+      setOptions(kkboxTracks);
+    }
+  }, [mode]);
 
   return (
     <Box textAlign="center" fontSize="xl">
@@ -364,7 +364,8 @@ function PartyCreate2() {
                       mr={3}
                       p={5}
                       onClick={() => {
-                        getPlaylists(5);
+                        // getPlaylists(5);
+                        setMode(1);
                       }}>
                       重選排行榜
                     </Button>

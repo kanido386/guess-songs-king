@@ -3,24 +3,24 @@ import { Routes, Route } from 'react-router-dom';
 // import { Box, Text, Link, VStack, Code, Grid } from '@chakra-ui/react';
 // import { ColorModeSwitcher } from './ColorModeSwitcher';
 // import { Logo } from './Logo';
-import Welcome from './components/Welcome';
-import Host from './components/Host';
-import SignUp from './components/SignUp';
-import SignIn from './components/SignIn';
-import HostHome from './components/HostHome';
-import HostEdit from './components/HostEdit';
-import HostGame from './components/HostGame';
-import Play from './components/Play';
-import Join from './components/Join';
-import Instructions from './components/Instructions';
-import PlayGame from './components/PlayGame';
-import PartyManage from './components/PartyManage';
-import PartyCreate1 from './components/PartyCreate1';
-import PartyCreate2 from './components/PartyCreate2';
-import PartyCreate3 from './components/PartyCreate3';
-import Party from './components/Party';
-import PartyEdit1 from './components/PartyEdit1';
-import PartyEdit2 from './components/PartyEdit2';
+import Welcome from './pages/Welcome';
+import Host from './pages/Host';
+import SignUp from './pages/SignUp';
+import SignIn from './pages/SignIn';
+import HostHome from './pages/HostHome';
+import HostEdit from './pages/HostEdit';
+import HostGame from './pages/HostGame';
+import Play from './pages/Play';
+import Join from './pages/Join';
+import Instructions from './pages/Instructions';
+import PlayGame from './pages/PlayGame';
+import PartyManage from './pages/PartyManage';
+import PartyCreate1 from './pages/PartyCreate1';
+import PartyCreate2 from './pages/PartyCreate2';
+import PartyCreate3 from './pages/PartyCreate3';
+import Party from './pages/Party';
+// import PartyEdit1 from './components/PartyEdit1';
+// import PartyEdit2 from './components/PartyEdit2';
 
 function App() {
   return (
@@ -61,8 +61,8 @@ function App() {
         <Route path="/party/create/step/2" element={<PartyCreate2 />} />
         <Route path="/party/create/step/3" element={<PartyCreate3 />} />
         <Route path="/party/:id" element={<Party />} />
-        <Route path="/party/edit/:id/step/1" element={<PartyEdit1 />} />
-        <Route path="/party/edit/:id/step/2" element={<PartyEdit2 />} />
+        {/* <Route path="/party/edit/:id/step/1" element={<PartyEdit1 />} />
+        <Route path="/party/edit/:id/step/2" element={<PartyEdit2 />} /> */}
         {/* <Route path="/cart" element={<Cart />} /> */}
         {/* <Route path="/checkout" element={<Checkout />} /> */}
         {/* <Route path="/login" element={<Login />} /> */}
