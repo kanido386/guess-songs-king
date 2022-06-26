@@ -4,30 +4,38 @@ import {
   FormControl,
   Input,
   Stack,
-  Link,
+  // Link,
   Button,
   Heading,
   useColorModeValue
 } from '@chakra-ui/react';
 // import { Link as LinkToPage } from 'react-router-dom';
-
 // import io from 'socket.io-client';
 // import React, { useContext } from 'react';
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
 import SocketContext from '../context/socket';
-
-const MySwal = withReactContent(Swal);
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-export default function Play() {
+export default function Join() {
   const socket = useContext(SocketContext);
-  const navigate = useNavigate();
-  const [pin, setPin] = useState('');
+  const [nickname, setNickname] = useState('');
+
+  const sendNicknameToServer = () => {
+    socket.emit('add-nickname', {
+      nickname,
+      id: socket.id
+    });
+  };
+
+  useEffect(() => {
+    socket.on('join-error', () => {});
+
+    // socket.on('join-success', () => {
+    //   navigate('/join');
+    // });
+  }, [socket]);
 
   // const sendSomething = () => {
   //   // socket.emit('send', {
@@ -38,27 +46,6 @@ export default function Play() {
   //     room: '123'
   //   });
   // };
-
-  const sendPinToServer = () => {
-    socket.emit('join', {
-      pin,
-      id: socket.id
-    });
-  };
-
-  useEffect(() => {
-    socket.on('join-error', () => {
-      MySwal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: '無法識別該遊戲 PIN 碼！'
-      });
-    });
-
-    socket.on('join-success', () => {
-      navigate('/join');
-    });
-  }, [socket]);
 
   // useEffect(() => {
   //   socket.on('host', data => {
@@ -83,35 +70,36 @@ export default function Play() {
             <FormControl id="pin">
               <Input
                 type="text"
-                placeholder="遊戲 PIN 碼"
+                placeholder="暱稱"
                 textAlign="center"
                 fontWeight={700}
-                onChange={event => setPin(event.currentTarget.value)}
+                value={nickname}
+                onChange={event => setNickname(event.currentTarget.value)}
               />
             </FormControl>
             <Stack spacing={10}>
               <Button
                 // as={LinkToPage}
-                // to={{ pathname: '/join', state: { test: '123' } }}
-                onClick={sendPinToServer}
+                // to={{ pathname: '/instructions', state: { test: '123' } }}
+                onClick={sendNicknameToServer}
                 // as={Link}
-                // href="/join"
+                // href="/instructions"
                 // style={{ textDecoration: 'none' }}
                 bg="gray.700"
                 color="white"
                 _hover={{
                   bg: 'gray.600'
                 }}>
-                輸入
+                好，開始！
               </Button>
             </Stack>
           </Stack>
         </Box>
-        <Box textAlign="center" pt={11}>
+        {/* <Box textAlign="center" pt={11}>
           <Link color="yellow.700" href="/" fontSize="18px">
             我想當遊戲主持人
           </Link>
-        </Box>
+        </Box> */}
       </Stack>
     </Flex>
   );

@@ -11,6 +11,8 @@ import HostHome from './components/HostHome';
 import HostEdit from './components/HostEdit';
 import HostGame from './components/HostGame';
 import Play from './components/Play';
+import Join from './components/Join';
+import Instructions from './components/Instructions';
 import PlayGame from './components/PlayGame';
 import PartyManage from './components/PartyManage';
 import PartyCreate1 from './components/PartyCreate1';
@@ -51,6 +53,8 @@ function App() {
         <Route path="/host/edit" element={<HostEdit />} />
         <Route path="/host/game/:id" element={<HostGame />} />
         <Route path="/play" element={<Play />} />
+        <Route path="/join" element={<Join />} />
+        <Route path="/instructions" element={<Instructions />} />
         <Route path="/play/game" element={<PlayGame />} />
         <Route path="/party/manage" element={<PartyManage />} />
         <Route path="/party/create/step/1" element={<PartyCreate1 />} />
