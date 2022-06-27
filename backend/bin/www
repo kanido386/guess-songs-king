@@ -28,15 +28,18 @@ app.set('port', port);
 
 const server = http.createServer(app);
 
-// TODO:
+// TODO: =============== socket part ===============
+
 const io = new Server(server, {
   cors: {
+    // FIXME:
     // orgin: FRONTEND_URL,
     orgin: '*',
     methods: ['GET', 'POST'],
   },
 });
 
+// FIXME:
 const pin = [];
 let host = '';
 
@@ -79,6 +82,8 @@ io.on('connection', (socket) => {
     socket.to(data.room).emit('host', data);
   });
 });
+
+// TODO: =============== socket part ===============
 
 /**
  * Listen on provided port, on all network interfaces.

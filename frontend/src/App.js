@@ -10,9 +10,9 @@ import SignIn from './pages/SignIn';
 import HostHome from './pages/HostHome';
 import HostEdit from './pages/HostEdit';
 import HostGame from './pages/HostGame';
-import Play from './pages/Play';
-import Join from './pages/Join';
-import Instructions from './pages/Instructions';
+// import Play from './pages/Play';
+// import Join from './pages/Join';
+// import Instructions from './pages/Instructions';
 import PlayGame from './pages/PlayGame';
 import PartyManage from './pages/PartyManage';
 import PartyCreate1 from './pages/PartyCreate1';
@@ -21,6 +21,18 @@ import PartyCreate3 from './pages/PartyCreate3';
 import Party from './pages/Party';
 // import PartyEdit1 from './components/PartyEdit1';
 // import PartyEdit2 from './components/PartyEdit2';
+
+// TODO: PlayerScreen
+// import HelloPlayer from './pages/PlayerScreen/HelloPlayer';
+// import Join from './pages/PlayerScreen/Join';
+// import Instructions from './pages/PlayerScreen/Instructions';
+// import WaitGame from './pages/PlayerScreen/WaitGame';
+// import WaitQuestion from './pages/PlayerScreen/WaitQuestion';
+// import TypeAnswer from './pages/PlayerScreen/TypeAnswer';
+// import WaitAnswer from './pages/PlayerScreen/WaitAnswer';
+// import ShowAnswer from './pages/PlayerScreen/ShowAnswer';
+// import WaitPodium from './pages/PlayerScreen/WaitPodium';
+import Podium from './pages/PlayerScreen/Podium';
 
 function App() {
   return (
@@ -51,10 +63,39 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/host/home" element={<HostHome />} />
         <Route path="/host/edit" element={<HostEdit />} />
+
+        {/* TODO: HostScreen */}
+        {/* 1, 7, 8, 9, 10, 11, 12, 13, 14 */}
         <Route path="/host/game/:id" element={<HostGame />} />
-        <Route path="/play" element={<Play />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/instructions" element={<Instructions />} />
+
+        {/* TODO: PlayerScreen */}
+        {/* 2 */}
+        {/* <Route path="/play" element={<HelloPlayer />} /> */}
+        {/* 3 先跳 */}
+        {/* 4 */}
+        {/* <Route path="/play" element={<Join />} /> */}
+        {/* 5 先跳 */}
+        {/* 6 */}
+        {/* <Route path="/play" element={<Instructions />} /> */}
+        {/* 15 */}
+        {/* <Route path="/play" element={<WaitGame />} /> */}
+        {/* 16 */}
+        {/* <Route path="/play" element={<WaitQuestion />} /> */}
+        {/* 17 */}
+        {/* <Route path="/play" element={<TypeAnswer />} /> */}
+        {/* 18 */}
+        {/* <Route path="/play" element={<WaitAnswer />} /> */}
+        {/* 19 */}
+        {/* <Route path="/play" element={<ShowAnswer />} /> */}
+        {/* 20 */}
+        {/* <Route path="/play" element={<WaitPodium />} /> */}
+        {/* 21 */}
+        <Route path="/play" element={<Podium />} />
+        {/* FIXME: */}
+        {/* <Route path="/play" element={<Play />} /> */}
+        {/* <Route path="/join" element={<Join />} /> */}
+        {/* <Route path="/instructions" element={<Instructions />} /> */}
+
         <Route path="/play/game" element={<PlayGame />} />
         <Route path="/party/manage" element={<PartyManage />} />
         <Route path="/party/create/step/1" element={<PartyCreate1 />} />
