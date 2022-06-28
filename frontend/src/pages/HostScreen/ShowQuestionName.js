@@ -7,7 +7,8 @@ import { Progress } from '@chakra-ui/progress';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 
-function ShowQuestionName() {
+function ShowQuestionName(props) {
+  const { setScreen, currentQuestion, tracks } = props;
   // const { id } = useParams();
   // const navigate = useNavigate();
   // const [partyName, setPartyName] = useState('');
@@ -18,8 +19,10 @@ function ShowQuestionName() {
     const myInterval = setInterval(() => {
       if (progressValue < 100) {
         setProgressValue(progressValue + 0.5);
+      } else {
+        setScreen(11);
       }
-    }, 15);
+    }, 11);
     return () => {
       clearInterval(myInterval);
     };
@@ -45,7 +48,7 @@ function ShowQuestionName() {
         <GridItem w="100%" h="9vh" lineHeight="9vh">
           {/* TODO: */}
           <Text fontSize="42px" pt={10} pl={5} letterSpacing={3}>
-            1/5
+            {currentQuestion + 1} / {tracks.length}
           </Text>
         </GridItem>
       </Grid>
@@ -53,7 +56,7 @@ function ShowQuestionName() {
         <Grid minH="75vh" p={100}>
           <VStack spacing={8}>
             <Box pt={30} pb={11}>
-              <Text color="yellow.700">下一題：</Text>
+              <Text color="yellow.700">題目：</Text>
             </Box>
             <Heading size="lg" fontSize="50px" m={7}>
               {/* TODO: */}

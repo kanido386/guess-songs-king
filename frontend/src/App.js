@@ -23,6 +23,7 @@ import Party from './pages/Party';
 // import PartyEdit2 from './components/PartyEdit2';
 
 // TODO: HostScreen
+import HostScreen from './pages/HostScreen';
 // import WaitingRoom from './pages/HostScreen/WaitingRoom';
 // import ShowPartyName from './pages/HostScreen/ShowPartyName';
 // import Countdown from './pages/HostScreen/Countdown';
@@ -31,9 +32,10 @@ import Party from './pages/Party';
 // import Question from './pages/HostScreen/Question';
 // import Answer from './pages/HostScreen/Answer';
 // import Scoreboard from './pages/HostScreen/Scoreboard';
-import HostPodium from './pages/HostScreen/HostPodium';
+// import HostPodium from './pages/HostScreen/HostPodium';
 
 // TODO: PlayerScreen
+import PlayerScreen from './pages/PlayerScreen';
 // import HelloPlayer from './pages/PlayerScreen/HelloPlayer';
 // import Join from './pages/PlayerScreen/Join';
 // import Instructions from './pages/PlayerScreen/Instructions';
@@ -43,7 +45,7 @@ import HostPodium from './pages/HostScreen/HostPodium';
 // import WaitAnswer from './pages/PlayerScreen/WaitAnswer';
 // import ShowAnswer from './pages/PlayerScreen/ShowAnswer';
 // import WaitPodium from './pages/PlayerScreen/WaitPodium';
-import Podium from './pages/PlayerScreen/Podium';
+// import Podium from './pages/PlayerScreen/Podium';
 
 function App() {
   return (
@@ -75,6 +77,7 @@ function App() {
         <Route path="/host/home" element={<HostHome />} />
         <Route path="/host/edit" element={<HostEdit />} />
         {/* TODO: HostScreen */}
+        <Route path="/host/game/:id" element={<HostScreen />} />
         {/* 1 */}
         {/* <Route path="/host/game/:id" element={<WaitingRoom />} /> */}
         {/* 7 */}
@@ -92,10 +95,11 @@ function App() {
         {/* 13 */}
         {/* <Route path="/host/game/:id" element={<Scoreboard />} /> */}
         {/* 14 */}
-        <Route path="/host/game/:id" element={<HostPodium />} />
+        {/* <Route path="/host/game/:id" element={<HostPodium />} /> */}
         {/* FIXME: */}
         {/* <Route path="/host/game/:id" element={<HostGame />} /> */}
         {/* TODO: PlayerScreen */}
+        <Route path="/play" element={<PlayerScreen />} />
         {/* 2 */}
         {/* <Route path="/play" element={<HelloPlayer />} /> */}
         {/* 3 先跳 */}
@@ -117,7 +121,7 @@ function App() {
         {/* 20 */}
         {/* <Route path="/play" element={<WaitPodium />} /> */}
         {/* 21 */}
-        <Route path="/play" element={<Podium />} />
+        {/* <Route path="/play" element={<Podium />} /> */}
         {/* FIXME: */}
         {/* <Route path="/play" element={<Play />} /> */}
         {/* <Route path="/join" element={<Join />} /> */}

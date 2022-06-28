@@ -6,7 +6,8 @@ import { Box, VStack, HStack, Grid, Button, Input } from '@chakra-ui/react';
 import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
-function TypeAnswer() {
+function TypeAnswer(props) {
+  const { setScreen, nickname, score, currentQuestion, setCurrentQuestion } = props;
   // const navigate = useNavigate();
   // const { state } = useLocation();
   const [artistName, setArtistName] = useState('');
@@ -19,6 +20,12 @@ function TypeAnswer() {
     }
   };
 
+  const submitAnswer = () => {
+    // TODO:
+    setCurrentQuestion(cur => cur + 1);
+    setScreen(18);
+  };
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown, false);
@@ -26,7 +33,8 @@ function TypeAnswer() {
 
   return (
     <Box textAlign="center" fontSize="xl">
-      <PlayerHeader number="1/5" type="播一首歌" />
+      {/* TODO: */}
+      <PlayerHeader currentQuestion={currentQuestion} totalQuestion="5" type="播一首歌" />
       <Grid minH="80vh" p={50}>
         {/* TODO: 如果時間足夠的話，加入道具 */}
         <VStack spacing={5} marginTop="25vh">
@@ -48,7 +56,7 @@ function TypeAnswer() {
               onChange={event => setTrackName(event.currentTarget.value)}
             />
             <Button
-              // onClick={addTrack}
+              onClick={submitAnswer}
               onKeyDown={handleKeydown}
               colorScheme="blue"
               variant="solid"
@@ -59,7 +67,7 @@ function TypeAnswer() {
         </VStack>
       </Grid>
       {/* TODO: */}
-      <PlayerFooter nickname="這邊是玩家的暱稱" hasScore score="100" />
+      <PlayerFooter nickname={nickname} hasScore score={score} />
     </Box>
   );
 }

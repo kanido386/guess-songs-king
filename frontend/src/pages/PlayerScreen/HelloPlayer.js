@@ -1,5 +1,6 @@
 // import React, { useContext } from 'react';
 // import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { Link as LinkToPage } from 'react-router-dom';
 import {
@@ -14,17 +15,18 @@ import {
   useColorModeValue
 } from '@chakra-ui/react';
 // import io from 'socket.io-client';
-// import Swal from 'sweetalert2';
-// import withReactContent from 'sweetalert2-react-content';
-// import SocketContext from '../context/socket';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+import SocketContext from '../../context/socket';
 
-// const MySwal = withReactContent(Swal);
+const MySwal = withReactContent(Swal);
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-function HelloPlayer() {
-  // const socket = useContext(SocketContext);
+function HelloPlayer(props) {
+  const { setScreen, pin, setPin } = props;
+  const socket = useContext(SocketContext);
   // const navigate = useNavigate();
   // const [pin, setPin] = useState('');
 
@@ -38,26 +40,27 @@ function HelloPlayer() {
   //   });
   // };
 
-  // const sendPinToServer = () => {
-  //   socket.emit('join', {
-  //     pin,
-  //     id: socket.id
-  //   });
-  // };
+  const sendPinToServer = () => {
+    socket.emit('join', {
+      pin,
+      id: socket.id
+    });
+  };
 
-  // useEffect(() => {
-  //   socket.on('join-error', () => {
-  //     MySwal.fire({
-  //       icon: 'error',
-  //       title: 'Oops...',
-  //       text: '無法識別該遊戲 PIN 碼！'
-  //     });
-  //   });
+  useEffect(() => {
+    socket.on('join-error', () => {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '無法識別該遊戲 PIN 碼！'
+      });
+    });
 
-  //   socket.on('join-success', () => {
-  //     navigate('/join');
-  //   });
-  // }, [socket]);
+    socket.on('join-success', () => {
+      // navigate('/join');
+      setScreen(4);
+    });
+  }, [socket]);
 
   // useEffect(() => {
   //   socket.on('host', data => {
@@ -85,14 +88,14 @@ function HelloPlayer() {
                 placeholder="遊戲 PIN 碼"
                 textAlign="center"
                 fontWeight={700}
-                // onChange={event => setPin(event.currentTarget.value)}
+                onChange={event => setPin(event.currentTarget.value)}
               />
             </FormControl>
             <Stack spacing={10}>
               <Button
                 // as={LinkToPage}
                 // to={{ pathname: '/join', state: { test: '123' } }}
-                // onClick={sendPinToServer}
+                onClick={sendPinToServer}
                 // as={Link}
                 // href="/join"
                 // style={{ textDecoration: 'none' }}

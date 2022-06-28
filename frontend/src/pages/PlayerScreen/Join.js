@@ -1,5 +1,6 @@
 // import React, { useContext } from 'react';
-import React, { useState, useEffect, useContext } from 'react';
+// import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 // import { Link as LinkToPage } from 'react-router-dom';
 import {
   Flex,
@@ -12,20 +13,27 @@ import {
   Heading,
   useColorModeValue
 } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 // import io from 'socket.io-client';
 import SocketContext from '../../context/socket';
+
+const MySwal = withReactContent(Swal);
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-function Join() {
+function Join(props) {
+  const { setScreen, pin, nickname, setNickname } = props;
   const socket = useContext(SocketContext);
-  const [nickname, setNickname] = useState('');
 
   const sendNicknameToServer = () => {
+    console.log('sendNicknameToServer');
+    console.log(pin);
     socket.emit('add-nickname', {
       nickname,
-      id: socket.id
+      id: socket.id,
+      pin
     });
   };
 
@@ -40,11 +48,19 @@ function Join() {
   // };
 
   useEffect(() => {
-    socket.on('join-error', () => {});
+    socket.on('add-nickname-error', () => {
+      MySwal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: '暱稱重複囉！'
+      });
+    });
 
-    // socket.on('join-success', () => {
-    //   navigate('/join');
-    // });
+    socket.on('add-nickname-success', () => {
+      // navigate('/join');
+      console.log('add-nickname-success');
+      setScreen(6);
+    });
   }, [socket]);
 
   // useEffect(() => {

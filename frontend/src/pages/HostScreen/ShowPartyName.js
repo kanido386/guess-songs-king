@@ -6,12 +6,33 @@ import axios from 'axios';
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
-function ShowPartyName() {
+function ShowPartyName(props) {
   const { id } = useParams();
+  const { setScreen } = props;
   // const navigate = useNavigate();
   const [partyName, setPartyName] = useState('');
+  const [secondLeft, setSecondLeft] = useState(3);
 
   useEffect(() => {
+    const myInterval = setInterval(() => {
+      if (secondLeft > 0) {
+        setSecondLeft(secondLeft - 1);
+      }
+      if (secondLeft === 0) {
+        // TODO:
+        setScreen(8);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
+
+  useEffect(() => {
+    // TODO:
+    if (partyName === '的') {
+      setScreen(1);
+    }
     axios
       .post(`${REACT_APP_BACKEND_URL}/api/v1/party`, {
         partyId: id

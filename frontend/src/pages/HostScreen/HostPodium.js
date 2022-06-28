@@ -19,7 +19,7 @@ import HostFooter from './components/HostFooter';
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-function Podium() {
+function HostPodium() {
   // const socket = useContext(SocketContext);
   const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
@@ -79,6 +79,10 @@ function Podium() {
     ]);
     console.log(players);
   }, []);
+
+  if (players.length === 0) {
+    return '';
+  }
 
   return (
     <Box textAlign="center" fontSize="xl">
@@ -174,4 +178,4 @@ function Podium() {
   );
 }
 
-export default Podium;
+export default HostPodium;

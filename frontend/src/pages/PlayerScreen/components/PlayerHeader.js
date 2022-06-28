@@ -2,7 +2,7 @@
 import { Box, Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
 
 function PlayerHeader(props) {
-  const { number, type } = props;
+  const { currentQuestion, totalQuestion, type } = props;
 
   return (
     <Box
@@ -11,7 +11,7 @@ function PlayerHeader(props) {
       minH="9vh">
       <Grid templateColumns="repeat(5, 1fr)" gap={6}>
         <GridItem w="100%" h="9vh" lineHeight="9vh" letterSpacing={3}>
-          {number}
+          {currentQuestion} / {totalQuestion}
         </GridItem>
         <GridItem w="100%" h="9vh" lineHeight="9vh" />
         <GridItem w="100%" h="9vh" lineHeight="9vh">

@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 
-import React, { useState, useEffect } from 'react';
-// import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Box,
   Grid,
@@ -17,7 +16,7 @@ import {
   Text
 } from '@chakra-ui/react';
 // import io from 'socket.io-client';
-// import SocketContext from '../../context/socket';
+import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
@@ -55,10 +54,19 @@ function PlayerItem(props) {
   );
 }
 
-function Scoreboard() {
-  // const socket = useContext(SocketContext);
+function Scoreboard(props) {
+  const { setScreen, pin, setCurrentQuestion, currentQuestion, tracks } = props;
+  const socket = useContext(SocketContext);
   const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
+
+  const nextQuestion = () => {
+    socket.emit('get-ready', {
+      pin
+    });
+    setCurrentQuestion(cur => cur + 1);
+    setScreen(9);
+  };
 
   // useEffect(() => {
   //   const myInterval = setInterval(() => {
@@ -136,6 +144,7 @@ function Scoreboard() {
               // as={Link}
               // href={`/host/game/${id}`}
               // style={{ textDecoration: 'none' }}
+              onClick={nextQuestion}
               colorScheme="blue">
               下一題
             </Button>
@@ -148,7 +157,11 @@ function Scoreboard() {
         </Box>
       </Box>
       {/* TODO: */}
-      <HostFooter leftQuestion="1" totalQuestion="5" gamePin="9898" />
+      <HostFooter
+        currentQuestion={currentQuestion + 1}
+        totalQuestion={tracks.length}
+        gamePin="9898"
+      />
     </Box>
   );
 }

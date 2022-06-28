@@ -21,10 +21,15 @@ import HostFooter from './components/HostFooter';
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-function Answer() {
+function Answer(props) {
+  const { setScreen, currentQuestion, tracks } = props;
   // const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
+
+  const seeScoreboard = () => {
+    setScreen(13);
+  };
 
   // useEffect(() => {
   //   const myInterval = setInterval(() => {
@@ -90,6 +95,7 @@ function Answer() {
               // as={Link}
               // href={`/host/game/${id}`}
               // style={{ textDecoration: 'none' }}
+              onClick={seeScoreboard}
               colorScheme="blue">
               看排行
             </Button>
@@ -105,7 +111,7 @@ function Answer() {
           <GridItem w="100%" h="9vh" lineHeight="9vh">
             <ReactAudioPlayer
               // TODO:
-              src="http://localhost:5000/static/audio/113.wav"
+              src={`http://localhost:5000/static/audio/${tracks[currentQuestion].id}.wav`}
               controls
             />
           </GridItem>
@@ -123,12 +129,16 @@ function Answer() {
         <Text mt="75px">
           正確答案：
           <Text as="span" color="green.600" fontWeight="bold" fontSize="30px">
-            盧廣仲 - 魚仔
+            {tracks[currentQuestion].artistName} - {tracks[currentQuestion].trackName}
           </Text>
         </Text>
       </Box>
       {/* TODO: */}
-      <HostFooter leftQuestion="1" totalQuestion="5" gamePin="9898" />
+      <HostFooter
+        currentQuestion={currentQuestion + 1}
+        totalQuestion={tracks.length}
+        gamePin="9898"
+      />
     </Box>
   );
 }

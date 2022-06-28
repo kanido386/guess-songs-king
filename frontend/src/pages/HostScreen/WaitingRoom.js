@@ -21,16 +21,26 @@ import SocketContext from '../../context/socket';
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 // TODO:
-const pin = String(Math.floor(Math.random() * 9000) + 1000);
+const newPin = String(Math.floor(Math.random() * 9000) + 1000);
 
-function WaitingRoom() {
+function WaitingRoom(props) {
+  const { setScreen, pin, setPin, players, setPlayers } = props;
   const socket = useContext(SocketContext);
-  const [players, setPlayers] = useState([]);
+  // const [players, setPlayers] = useState([]);
   const [hasPin, setHasPin] = useState(false);
 
   const generatePin = () => {
     setHasPin(true);
+    setPin(newPin);
     socket.emit('init-game', {
+      pin: newPin,
+      id: socket.id
+    });
+  };
+
+  const startGame = () => {
+    setScreen(7);
+    socket.emit('start-game', {
       pin,
       id: socket.id
     });
@@ -45,13 +55,44 @@ function WaitingRoom() {
 
   useEffect(() => {
     socket.on('add-player', data => {
-      setPlayers(prev => [
-        ...prev,
-        {
-          id: data.id,
-          nickname: data.nickname
+      setPlayers(prevPlayers => {
+        // 查看有無重複暱稱
+        if (prevPlayers.some(p => p.nickname === data.nickname)) {
+          console.log('error');
+          socket.emit('add-player-error', {
+            id: data.id
+          });
+          return [...prevPlayers];
         }
-      ]);
+
+        socket.emit('add-player-success', {
+          id: data.id
+        });
+        return [
+          ...prevPlayers,
+          {
+            id: data.id,
+            nickname: data.nickname
+          }
+        ];
+      });
+      // console.log(players.some(p => p.nickname === data.nickname));
+      // console.log(players);
+      // if (players.some(p => p.nickname === data.nickname)) {
+      //   socket.emit('add-player-error', {
+      //     id: data.id
+      //   });
+      // } else {
+      //   console.log('why...');
+      //   console.log(players);
+      //   setPlayers(prev => [
+      //     ...prev,
+      //     {
+      //       id: data.id,
+      //       nickname: data.nickname
+      //     }
+      //   ]);
+      // }
     });
   }, [socket]);
 
@@ -115,13 +156,14 @@ function WaitingRoom() {
               // as={Link}
               // href={`/host/game/${id}`}
               // style={{ textDecoration: 'none' }}
+              onClick={startGame}
               colorScheme="blue">
               開始
             </Button>
           </GridItem>
         </Grid>
       </Box>
-      <Grid minH="30vh" p={100}>
+      <Grid minH="30vh" p={30}>
         <VStack spacing={8}>
           <Wrap spacing={5} p={5}>
             {players.length === 0 ? (

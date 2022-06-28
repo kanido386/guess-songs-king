@@ -1,5 +1,4 @@
-import React from 'react';
-// import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { useParams } from 'react-router';
 import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
@@ -7,10 +6,27 @@ import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 
-function ShowQuestionType() {
+function ShowQuestionType(props) {
   // const { id } = useParams();
+  const { setScreen } = props;
   // const navigate = useNavigate();
+  const [secondLeft, setSecondLeft] = useState(2);
   // const [partyName, setPartyName] = useState('');
+
+  useEffect(() => {
+    const myInterval = setInterval(() => {
+      if (secondLeft > 0) {
+        setSecondLeft(secondLeft - 1);
+      }
+      if (secondLeft === 0) {
+        // TODO:
+        setScreen(10);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
 
   // useEffect(() => {
   //   axios

@@ -13,7 +13,8 @@ import {
 // import { Box, VStack, Grid, Heading, Text, Spinner } from '@chakra-ui/react';
 import PlayerFooter from './components/PlayerFooter';
 
-function WaitQuestion() {
+function WaitQuestion(props) {
+  const { setScreen, nickname, score, currentQuestion } = props;
   // TODO:
   const [secondLeft, setSecondLeft] = useState(5);
 
@@ -21,6 +22,13 @@ function WaitQuestion() {
     const myInterval = setInterval(() => {
       if (secondLeft > 0) {
         setSecondLeft(secondLeft - 1);
+      }
+      if (secondLeft === 0) {
+        // TODO:
+        setScreen(17);
+        // socket.emit('get-ready', {
+        //   pin
+        // });
       }
     }, 1000);
     return () => {
@@ -33,8 +41,7 @@ function WaitQuestion() {
       <Grid minH="89vh" p={100}>
         <VStack spacing={8}>
           <Heading fontSize="36px" mt={9}>
-            {/* TODO: */}
-            第一題
+            {/* TODO: */}第 {currentQuestion} 題
           </Heading>
           {/* <Spinner thickness="11px" speed="1s" emptyColor="gray.200" color="blue.500" size="xl" /> */}
           <CircularProgress
@@ -51,7 +58,7 @@ function WaitQuestion() {
         </VStack>
       </Grid>
       {/* TODO: */}
-      <PlayerFooter nickname="這邊是玩家的暱稱" hasScore={false} />
+      <PlayerFooter nickname={nickname} hasScore score={score} />
     </Box>
   );
 }

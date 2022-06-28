@@ -40,8 +40,8 @@ const io = new Server(server, {
 });
 
 // FIXME:
-const pin = [];
-let host = '';
+const pinList = [];
+const hostList = {};
 
 io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
@@ -49,14 +49,14 @@ io.on('connection', (socket) => {
   socket.on('init-game', (data) => {
     socket.join(data.pin);
     console.log(data.pin);
-    pin.push(data.pin);
-    host = data.id;
+    pinList.push(data.pin);
+    hostList[data.pin] = data.id;
     console.log(data);
   });
 
   socket.on('join', (data) => {
     console.log(data);
-    if (!pin.includes(data.pin)) {
+    if (!pinList.includes(data.pin)) {
       // https://stackoverflow.com/questions/45951126/socket-tosocket-id-emit-does-not-work
       socket.emit('join-error');
       return;
@@ -69,18 +69,35 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add-nickname', (data) => {
-    console.log(host);
-    socket.to(host).emit('add-player', {
+    console.log(hostList[data.pin]);
+    socket.to(hostList[data.pin]).emit('add-player', {
       nickname: data.nickname,
       id: data.id,
     });
   });
 
-  socket.on('send', (data) => {
-    console.log(data);
-    // socket.broadcast.emit('host', data);
-    socket.to(data.room).emit('host', data);
+  socket.on('add-player-error', (data) => {
+    console.log('error', data.id);
+    socket.to(data.id).emit('add-nickname-error');
   });
+
+  socket.on('add-player-success', (data) => {
+    socket.to(data.id).emit('add-nickname-success');
+  });
+
+  socket.on('start-game', (data) => {
+    socket.broadcast.to(data.pin).emit('start');
+  });
+
+  socket.on('get-ready', (data) => {
+    socket.broadcast.to(data.pin).emit('ready');
+  });
+
+  // socket.on('send', (data) => {
+  //   console.log(data);
+  //   // socket.broadcast.emit('host', data);
+  //   socket.to(data.room).emit('host', data);
+  // });
 });
 
 // TODO: =============== socket part ===============

@@ -2,7 +2,7 @@
 import { Box, Grid, GridItem, useColorModeValue } from '@chakra-ui/react';
 
 function HostFooter(props) {
-  const { leftQuestion, totalQuestion, gamePin } = props;
+  const { currentQuestion, totalQuestion, gamePin } = props;
 
   return (
     <Box
@@ -11,7 +11,7 @@ function HostFooter(props) {
       minH="11vh">
       <Grid templateColumns="repeat(5, 1fr)" gap={6}>
         <GridItem w="100%" h="11vh" lineHeight="11vh" letterSpacing={3}>
-          {leftQuestion} / {totalQuestion}
+          {currentQuestion} / {totalQuestion}
         </GridItem>
         <GridItem w="100%" h="11vh" lineHeight="11vh" />
         <GridItem w="100%" h="11vh" lineHeight="11vh" />
