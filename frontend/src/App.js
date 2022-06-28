@@ -9,7 +9,7 @@ import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
 import HostHome from './pages/HostHome';
 import HostEdit from './pages/HostEdit';
-import HostGame from './pages/HostGame';
+// import HostGame from './pages/HostGame';
 // import Play from './pages/Play';
 // import Join from './pages/Join';
 // import Instructions from './pages/Instructions';
@@ -21,6 +21,17 @@ import PartyCreate3 from './pages/PartyCreate3';
 import Party from './pages/Party';
 // import PartyEdit1 from './components/PartyEdit1';
 // import PartyEdit2 from './components/PartyEdit2';
+
+// TODO: HostScreen
+// import WaitingRoom from './pages/HostScreen/WaitingRoom';
+// import ShowPartyName from './pages/HostScreen/ShowPartyName';
+// import Countdown from './pages/HostScreen/Countdown';
+// import ShowQuestionType from './pages/HostScreen/ShowQuestionType';
+// import ShowQuestionName from './pages/HostScreen/ShowQuestionName';
+// import Question from './pages/HostScreen/Question';
+// import Answer from './pages/HostScreen/Answer';
+// import Scoreboard from './pages/HostScreen/Scoreboard';
+import HostPodium from './pages/HostScreen/HostPodium';
 
 // TODO: PlayerScreen
 // import HelloPlayer from './pages/PlayerScreen/HelloPlayer';
@@ -63,11 +74,27 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/host/home" element={<HostHome />} />
         <Route path="/host/edit" element={<HostEdit />} />
-
         {/* TODO: HostScreen */}
-        {/* 1, 7, 8, 9, 10, 11, 12, 13, 14 */}
-        <Route path="/host/game/:id" element={<HostGame />} />
-
+        {/* 1 */}
+        {/* <Route path="/host/game/:id" element={<WaitingRoom />} /> */}
+        {/* 7 */}
+        {/* <Route path="/host/game/:id" element={<ShowPartyName />} /> */}
+        {/* 8 */}
+        {/* <Route path="/host/game/:id" element={<Countdown />} /> */}
+        {/* 9 */}
+        {/* <Route path="/host/game/:id" element={<ShowQuestionType />} /> */}
+        {/* 10 */}
+        {/* <Route path="/host/game/:id" element={<ShowQuestionName />} /> */}
+        {/* 11 */}
+        {/* <Route path="/host/game/:id" element={<Question />} /> */}
+        {/* 12 */}
+        {/* <Route path="/host/game/:id" element={<Answer />} /> */}
+        {/* 13 */}
+        {/* <Route path="/host/game/:id" element={<Scoreboard />} /> */}
+        {/* 14 */}
+        <Route path="/host/game/:id" element={<HostPodium />} />
+        {/* FIXME: */}
+        {/* <Route path="/host/game/:id" element={<HostGame />} /> */}
         {/* TODO: PlayerScreen */}
         {/* 2 */}
         {/* <Route path="/play" element={<HelloPlayer />} /> */}
@@ -95,7 +122,6 @@ function App() {
         {/* <Route path="/play" element={<Play />} /> */}
         {/* <Route path="/join" element={<Join />} /> */}
         {/* <Route path="/instructions" element={<Instructions />} /> */}
-
         <Route path="/play/game" element={<PlayGame />} />
         <Route path="/party/manage" element={<PartyManage />} />
         <Route path="/party/create/step/1" element={<PartyCreate1 />} />
