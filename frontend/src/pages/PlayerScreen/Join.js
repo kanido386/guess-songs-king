@@ -24,7 +24,7 @@ const MySwal = withReactContent(Swal);
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function Join(props) {
-  const { setScreen, pin, nickname, setNickname } = props;
+  const { setScreen, pin, nickname, setNickname, setPartyId } = props;
   const socket = useContext(SocketContext);
 
   const sendNicknameToServer = () => {
@@ -56,9 +56,10 @@ function Join(props) {
       });
     });
 
-    socket.on('add-nickname-success', () => {
+    socket.on('add-nickname-success', data => {
       // navigate('/join');
       console.log('add-nickname-success');
+      setPartyId(data.partyId);
       setScreen(6);
     });
   }, [socket]);

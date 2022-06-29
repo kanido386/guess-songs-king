@@ -1,13 +1,15 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, VStack, HStack, Grid, Button, Input } from '@chakra-ui/react';
+import SocketContext from '../../context/socket';
 import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
 function TypeAnswer(props) {
-  const { setScreen, nickname, score, currentQuestion, setCurrentQuestion } = props;
+  const { setScreen, nickname, score, currentQuestion, numQuestions, pin } = props;
+  const socket = useContext(SocketContext);
   // const navigate = useNavigate();
   // const { state } = useLocation();
   const [artistName, setArtistName] = useState('');
@@ -22,7 +24,14 @@ function TypeAnswer(props) {
 
   const submitAnswer = () => {
     // TODO:
-    setCurrentQuestion(cur => cur + 1);
+    // setCurrentQuestion(cur => cur);
+    // setCurrentQuestion(cur => cur + 1);
+    socket.emit('submit-answer', {
+      id: socket.id,
+      artistName,
+      trackName,
+      pin
+    });
     setScreen(18);
   };
 
@@ -31,10 +40,21 @@ function TypeAnswer(props) {
     return () => window.removeEventListener('keydown', handleKeydown, false);
   }, [artistName, trackName]);
 
+  useEffect(() => {
+    // TODO:
+    socket.on('times-up', () => {
+      setScreen(23);
+    });
+  }, [socket]);
+
   return (
     <Box textAlign="center" fontSize="xl">
       {/* TODO: */}
-      <PlayerHeader currentQuestion={currentQuestion} totalQuestion="5" type="播一首歌" />
+      <PlayerHeader
+        currentQuestion={currentQuestion}
+        totalQuestion={numQuestions}
+        type="播一首歌"
+      />
       <Grid minH="80vh" p={50}>
         {/* TODO: 如果時間足夠的話，加入道具 */}
         <VStack spacing={5} marginTop="25vh">

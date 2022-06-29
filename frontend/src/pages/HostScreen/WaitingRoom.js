@@ -1,5 +1,6 @@
 // import React, { useState, useEffect } from 'react';
 import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router';
 import {
   Box,
   VStack,
@@ -24,6 +25,7 @@ import SocketContext from '../../context/socket';
 const newPin = String(Math.floor(Math.random() * 9000) + 1000);
 
 function WaitingRoom(props) {
+  const { id } = useParams();
   const { setScreen, pin, setPin, players, setPlayers } = props;
   const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
@@ -66,13 +68,19 @@ function WaitingRoom(props) {
         }
 
         socket.emit('add-player-success', {
-          id: data.id
+          id: data.id,
+          // TODO:
+          partyId: id
         });
         return [
           ...prevPlayers,
           {
             id: data.id,
-            nickname: data.nickname
+            nickname: data.nickname,
+            // TODO:
+            score: 0,
+            currentArtistName: null,
+            currentTrackName: null
           }
         ];
       });

@@ -1,13 +1,19 @@
 /* eslint-disable no-restricted-globals */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import { useNavigate, useLocation } from 'react-router-dom';
 import { Box, VStack, Text, Grid, Spinner } from '@chakra-ui/react';
+import SocketContext from '../../context/socket';
 import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
-function WaitAnswer() {
+function WaitAnswer(props) {
+  const { setScreen, nickname, score, setScore, currentQuestion, numQuestions, setGetScore } =
+    props;
+  const socket = useContext(SocketContext);
   const [greeting, setGreeting] = useState('');
+  const [result, setResult] = useState('');
+  const [tempScore, setTempScore] = useState(-1);
 
   useEffect(() => {
     const greetings = [
@@ -19,9 +25,54 @@ function WaitAnswer() {
     setGreeting(greetings[i]);
   }, []);
 
+  // useEffect(() => {
+  //   // TODO:
+  //   socket.on('done', () => {
+  //     setScreen(19);
+  //   });
+  // }, [socket]);
+
+  // FIXME:
+  useEffect(() => {
+    setScore(prevScore => prevScore + tempScore);
+    if (result === 'nice') {
+      console.log('setScreen(22)');
+      setScreen(22);
+    } else if (result === 'bad') {
+      console.log('setScreen(19)');
+      setScreen(19);
+    }
+  }, [tempScore]);
+
+  useEffect(() => {
+    // TODO:
+    socket.on('nice', data => {
+      // setScore(prevScore => prevScore + data.getScore);
+      setTempScore(data.getScore);
+      setGetScore(data.getScore);
+      setResult('nice');
+      // setScreen(22);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    // TODO:
+    socket.on('bad', data => {
+      // setScore(prevScore => prevScore + data.getScore);
+      setTempScore(data.getScore);
+      setGetScore(data.getScore);
+      setResult('bad');
+      // setScreen(19);
+    });
+  }, [socket]);
+
   return (
     <Box textAlign="center" fontSize="xl">
-      <PlayerHeader number="1/5" type="播一首歌" />
+      <PlayerHeader
+        currentQuestion={currentQuestion}
+        totalQuestion={numQuestions}
+        type="播一首歌"
+      />
       <Grid minH="80vh" p={50}>
         <VStack spacing={5} marginTop="25vh">
           <Spinner thickness="11px" speed="1s" emptyColor="gray.200" color="blue.500" size="xl" />
@@ -29,7 +80,7 @@ function WaitAnswer() {
         </VStack>
       </Grid>
       {/* TODO: */}
-      <PlayerFooter nickname="這邊是玩家的暱稱" hasScore score="100" />
+      <PlayerFooter nickname={nickname} hasScore score={score} />
     </Box>
   );
 }

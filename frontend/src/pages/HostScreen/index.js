@@ -25,6 +25,7 @@ import ShowQuestionName from './ShowQuestionName';
 import Question from './Question';
 import Answer from './Answer';
 import Scoreboard from './Scoreboard';
+import HostPodium from './HostPodium';
 
 const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
@@ -109,6 +110,8 @@ function PlayerScreen() {
           setPin={setPin}
           players={players}
           setPlayers={setPlayers}
+          // tracks={tracks}
+          // setTracks={setTracks}
         />
       );
     case 7:
@@ -128,10 +131,15 @@ function PlayerScreen() {
           audio={new Audio(`http://localhost:5000/static/audio/${tracks[currentQuestion].id}.wav`)}
           currentQuestion={currentQuestion}
           tracks={tracks}
+          pin={pin}
+          players={players}
+          setPlayers={setPlayers}
         />
       );
     case 12:
-      return <Answer setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} />;
+      return (
+        <Answer setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} pin={pin} />
+      );
     case 13:
       return (
         <Scoreboard
@@ -140,6 +148,16 @@ function PlayerScreen() {
           setCurrentQuestion={setCurrentQuestion}
           currentQuestion={currentQuestion}
           tracks={tracks}
+          setPlayers={setPlayers}
+        />
+      );
+    case 14:
+      return (
+        <HostPodium
+          currentQuestion={currentQuestion}
+          tracks={tracks}
+          pin={pin}
+          setPlayers={setPlayers}
         />
       );
     default:

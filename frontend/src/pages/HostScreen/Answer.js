@@ -22,13 +22,17 @@ import HostFooter from './components/HostFooter';
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function Answer(props) {
-  const { setScreen, currentQuestion, tracks } = props;
+  const { setScreen, currentQuestion, tracks, pin } = props;
   // const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
 
   const seeScoreboard = () => {
     setScreen(13);
+  };
+
+  const seePodium = () => {
+    setScreen(14);
   };
 
   // useEffect(() => {
@@ -91,14 +95,25 @@ function Answer(props) {
             </Text>
           </GridItem>
           <GridItem w="100%" h="9vh" lineHeight="9vh">
-            <Button
-              // as={Link}
-              // href={`/host/game/${id}`}
-              // style={{ textDecoration: 'none' }}
-              onClick={seeScoreboard}
-              colorScheme="blue">
-              看排行
-            </Button>
+            {currentQuestion + 1 === tracks.length ? (
+              <Button
+                // as={Link}
+                // href={`/host/game/${id}`}
+                // style={{ textDecoration: 'none' }}
+                onClick={seePodium}
+                colorScheme="green">
+                看比賽結果！
+              </Button>
+            ) : (
+              <Button
+                // as={Link}
+                // href={`/host/game/${id}`}
+                // style={{ textDecoration: 'none' }}
+                onClick={seeScoreboard}
+                colorScheme="blue">
+                看排行
+              </Button>
+            )}
           </GridItem>
         </Grid>
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
@@ -137,7 +152,7 @@ function Answer(props) {
       <HostFooter
         currentQuestion={currentQuestion + 1}
         totalQuestion={tracks.length}
-        gamePin="9898"
+        gamePin={pin}
       />
     </Box>
   );

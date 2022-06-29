@@ -55,9 +55,9 @@ function PlayerItem(props) {
 }
 
 function Scoreboard(props) {
-  const { setScreen, pin, setCurrentQuestion, currentQuestion, tracks } = props;
+  const { setScreen, pin, setCurrentQuestion, currentQuestion, tracks, setPlayers } = props;
   const socket = useContext(SocketContext);
-  const [players, setPlayers] = useState([]);
+  const [topPlayers, setTopPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
 
   const nextQuestion = () => {
@@ -99,28 +99,33 @@ function Scoreboard(props) {
   // }, [socket]);
 
   useEffect(() => {
-    setPlayers([
-      {
-        nickname: '我是猜歌達人',
-        score: 386
-      },
-      {
-        nickname: '我是猜歌達人',
-        score: 386
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      }
-    ]);
+    setPlayers(prev => {
+      console.log(prev);
+      setTopPlayers(prev.sort((a, b) => b.score - a.score));
+      // setTopPlayers([
+      //   {
+      //     nickname: '我是猜歌達人',
+      //     score: 386
+      //   },
+      //   {
+      //     nickname: '我是猜歌達人',
+      //     score: 386
+      //   },
+      //   {
+      //     nickname: '都沒在聽歌的',
+      //     score: 88
+      //   },
+      //   {
+      //     nickname: '都沒在聽歌的',
+      //     score: 88
+      //   },
+      //   {
+      //     nickname: '都沒在聽歌的',
+      //     score: 88
+      //   }
+      // ]);
+      return prev;
+    });
   }, []);
 
   return (
@@ -151,7 +156,7 @@ function Scoreboard(props) {
           </GridItem>
         </Grid>
         <Box>
-          {players.map(player => (
+          {topPlayers.map(player => (
             <PlayerItem key={player.nickname} nickname={player.nickname} score={player.score} />
           ))}
         </Box>
@@ -160,7 +165,7 @@ function Scoreboard(props) {
       <HostFooter
         currentQuestion={currentQuestion + 1}
         totalQuestion={tracks.length}
-        gamePin="9898"
+        gamePin={pin}
       />
     </Box>
   );

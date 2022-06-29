@@ -19,9 +19,10 @@ import HostFooter from './components/HostFooter';
 // const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
-function HostPodium() {
+function HostPodium(props) {
+  const { currentQuestion, tracks, pin, setPlayers } = props;
   // const socket = useContext(SocketContext);
-  const [players, setPlayers] = useState([]);
+  const [tempPlayers, setTempPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
 
   // useEffect(() => {
@@ -55,32 +56,36 @@ function HostPodium() {
   // }, [socket]);
 
   useEffect(() => {
-    setPlayers([
-      {
-        nickname: '我是猜歌達人',
-        score: 386
-      },
-      {
-        nickname: '我是猜歌達人',
-        score: 386
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      },
-      {
-        nickname: '都沒在聽歌的',
-        score: 88
-      }
-    ]);
-    console.log(players);
+    setPlayers(prev => {
+      setTempPlayers(prev);
+      return prev;
+    });
+    // setPlayers([
+    //   {
+    //     nickname: '我是猜歌達人',
+    //     score: 386
+    //   },
+    //   {
+    //     nickname: '我是猜歌達人',
+    //     score: 386
+    //   },
+    //   {
+    //     nickname: '都沒在聽歌的',
+    //     score: 88
+    //   },
+    //   {
+    //     nickname: '都沒在聽歌的',
+    //     score: 88
+    //   },
+    //   {
+    //     nickname: '都沒在聽歌的',
+    //     score: 88
+    //   }
+    // ]);
+    // console.log(players);
   }, []);
 
-  if (players.length === 0) {
+  if (tempPlayers.length === 0) {
     return '';
   }
 
@@ -125,7 +130,7 @@ function HostPodium() {
             colEnd={1}
             bg="papayawhip"
             lineHeight="65px">
-            {players[1].nickname}
+            {tempPlayers[1] !== undefined ? tempPlayers[1].nickname : ''}
           </GridItem>
           <GridItem
             rowStart={3}
@@ -142,7 +147,7 @@ function HostPodium() {
             colEnd={2}
             bg="papayawhip"
             lineHeight="65px">
-            {players[0].nickname}
+            {tempPlayers[0] !== undefined ? tempPlayers[0].nickname : ''}
           </GridItem>
           <GridItem
             rowStart={2}
@@ -160,7 +165,7 @@ function HostPodium() {
             colEnd={3}
             bg="papayawhip"
             lineHeight="65px">
-            {players[2].nickname}
+            {tempPlayers[2] !== undefined ? tempPlayers[2].nickname : ''}
           </GridItem>
           <GridItem
             rowStart={4}
@@ -173,7 +178,11 @@ function HostPodium() {
         </Grid>
       </Box>
       {/* TODO: */}
-      <HostFooter leftQuestion="1" totalQuestion="5" gamePin="9898" />
+      <HostFooter
+        currentQuestion={currentQuestion + 1}
+        totalQuestion={tracks.length}
+        gamePin={pin}
+      />
     </Box>
   );
 }

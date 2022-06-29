@@ -82,7 +82,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('add-player-success', (data) => {
-    socket.to(data.id).emit('add-nickname-success');
+    socket.to(data.id).emit('add-nickname-success', {
+      partyId: data.partyId,
+    });
   });
 
   socket.on('start-game', (data) => {
@@ -91,6 +93,36 @@ io.on('connection', (socket) => {
 
   socket.on('get-ready', (data) => {
     socket.broadcast.to(data.pin).emit('ready');
+  });
+
+  socket.on('submit-answer', (data) => {
+    console.log(hostList[data.pin]);
+    console.log(data);
+    socket.to(hostList[data.pin]).emit('new-answer-in', {
+      id: data.id,
+      artistName: data.artistName,
+      trackName: data.trackName,
+    });
+  });
+
+  socket.on('nice-try', (data) => {
+    socket.to(data.id).emit('nice', {
+      getScore: data.getScore,
+    });
+  });
+
+  socket.on('bad-try', (data) => {
+    socket.to(data.id).emit('bad', {
+      getScore: data.getScore,
+    });
+  });
+
+  socket.on('question-done', (data) => {
+    socket.broadcast.to(data.pin).emit('times-up');
+  });
+
+  socket.on('question-done-one', (data) => {
+    socket.to(data.id).emit('times-up');
   });
 
   // socket.on('send', (data) => {

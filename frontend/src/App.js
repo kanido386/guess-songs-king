@@ -43,7 +43,9 @@ import PlayerScreen from './pages/PlayerScreen';
 // import WaitQuestion from './pages/PlayerScreen/WaitQuestion';
 // import TypeAnswer from './pages/PlayerScreen/TypeAnswer';
 // import WaitAnswer from './pages/PlayerScreen/WaitAnswer';
-// import ShowAnswer from './pages/PlayerScreen/ShowAnswer';
+// import BadAnswer from './pages/PlayerScreen/BadAnswer';
+// import GreatAnswer from './pages/PlayerScreen/GreatAnswer';
+// import TimesUp from './pages/PlayerScreen/TimesUp';
 // import WaitPodium from './pages/PlayerScreen/WaitPodium';
 // import Podium from './pages/PlayerScreen/Podium';
 
@@ -117,7 +119,11 @@ function App() {
         {/* 18 */}
         {/* <Route path="/play" element={<WaitAnswer />} /> */}
         {/* 19 */}
-        {/* <Route path="/play" element={<ShowAnswer />} /> */}
+        {/* <Route path="/play" element={<BadAnswer />} /> */}
+        {/* 22 */}
+        {/* <Route path="/play" element={<GreatAnswer />} /> */}
+        {/* 23 */}
+        {/* <Route path="/play" element={<TimesUp />} /> */}
         {/* 20 */}
         {/* <Route path="/play" element={<WaitPodium />} /> */}
         {/* 21 */}

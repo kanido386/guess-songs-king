@@ -14,7 +14,7 @@ import {
 import PlayerFooter from './components/PlayerFooter';
 
 function WaitQuestion(props) {
-  const { setScreen, nickname, score, currentQuestion } = props;
+  const { setScreen, nickname, score, currentQuestion, setCurrentQuestion } = props;
   // TODO:
   const [secondLeft, setSecondLeft] = useState(5);
 
@@ -35,6 +35,10 @@ function WaitQuestion(props) {
       clearInterval(myInterval);
     };
   });
+
+  useEffect(() => {
+    setCurrentQuestion(cur => cur + 1);
+  }, []);
 
   return (
     <Box textAlign="center" fontSize="xl">
