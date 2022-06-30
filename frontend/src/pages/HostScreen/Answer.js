@@ -18,7 +18,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
 
-// const { REACT_APP_BACKEND_URL } = process.env;
+const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function Answer(props) {
@@ -129,7 +129,7 @@ function Answer(props) {
           <GridItem w="100%" h="9vh" lineHeight="9vh">
             <ReactAudioPlayer
               // TODO:
-              src={`http://localhost:5000/static/audio/${tracks[currentQuestion].id}.wav`}
+              src={`${REACT_APP_AUDIO_PROCESSOR_URL}/static/audio/${tracks[currentQuestion].id}.wav`}
               controls
             />
           </GridItem>
