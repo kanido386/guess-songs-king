@@ -25,6 +25,7 @@ import ShowQuestionName from './ShowQuestionName';
 import Question from './Question';
 import Answer from './Answer';
 import Scoreboard from './Scoreboard';
+import Nervous from './Nervous';
 import HostPodium from './HostPodium';
 
 const { REACT_APP_BACKEND_URL } = process.env;
@@ -152,6 +153,16 @@ function PlayerScreen() {
         />
       );
     case 14:
+      return (
+        <Nervous
+          setScreen={setScreen}
+          // currentQuestion={currentQuestion}
+          // tracks={tracks}
+          pin={pin}
+          setPlayers={setPlayers}
+        />
+      );
+    case 15:
       return (
         <HostPodium
           currentQuestion={currentQuestion}

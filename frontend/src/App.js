@@ -32,6 +32,7 @@ import HostScreen from './pages/HostScreen';
 // import Question from './pages/HostScreen/Question';
 // import Answer from './pages/HostScreen/Answer';
 // import Scoreboard from './pages/HostScreen/Scoreboard';
+// import Nervous from './pages/HostScreen/Nervous';
 // import HostPodium from './pages/HostScreen/HostPodium';
 
 // TODO: PlayerScreen
@@ -97,6 +98,8 @@ function App() {
         {/* 13 */}
         {/* <Route path="/host/game/:id" element={<Scoreboard />} /> */}
         {/* 14 */}
+        {/* <Route path="/host/game/:id" element={<Nervous />} /> */}
+        {/* 15 */}
         {/* <Route path="/host/game/:id" element={<HostPodium />} /> */}
         {/* FIXME: */}
         {/* <Route path="/host/game/:id" element={<HostGame />} /> */}

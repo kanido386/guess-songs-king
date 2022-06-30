@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 
-import React, { useState, useEffect } from 'react';
-// import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Grid,
@@ -10,10 +10,18 @@ import {
   // CircularProgress,
   // CircularProgressLabel,
   GridItem,
-  Text
+  Text,
+  useDisclosure,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton
 } from '@chakra-ui/react';
 // import io from 'socket.io-client';
-// import SocketContext from '../../context/socket';
+import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
@@ -21,9 +29,19 @@ import HostFooter from './components/HostFooter';
 
 function HostPodium(props) {
   const { currentQuestion, tracks, pin, setPlayers } = props;
-  // const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+  const socket = useContext(SocketContext);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
   const [tempPlayers, setTempPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
+
+  const backToHome = () => {
+    socket.emit('bye', {
+      pin
+    });
+    navigate('/host/home');
+  };
 
   // useEffect(() => {
   //   const myInterval = setInterval(() => {
@@ -57,7 +75,7 @@ function HostPodium(props) {
 
   useEffect(() => {
     setPlayers(prev => {
-      setTempPlayers(prev);
+      setTempPlayers(prev.sort((a, b) => b.score - a.score));
       return prev;
     });
     // setPlayers([
@@ -110,13 +128,14 @@ function HostPodium(props) {
               // as={Link}
               // href={`/host/game/${id}`}
               // style={{ textDecoration: 'none' }}
+              onClick={backToHome}
               colorScheme="blue">
               回到主頁
             </Button>
           </GridItem>
         </Grid>
         <Grid
-          h="370px"
+          h="300px"
           w="50vw"
           margin="0 auto"
           templateRows="repeat(6, 1fr)"
@@ -130,7 +149,17 @@ function HostPodium(props) {
             colEnd={1}
             bg="papayawhip"
             lineHeight="65px">
-            {tempPlayers[1] !== undefined ? tempPlayers[1].nickname : ''}
+            <Text
+              lineHeight="33px"
+              height="30px"
+              fontSize="22px"
+              fontWeight={500}
+              color="yellow.500">
+              {tempPlayers[1] !== undefined ? tempPlayers[1].nickname : ''}
+            </Text>
+            <Text lineHeight="25px" height="25px" fontSize="18px" fontWeight={300}>
+              {tempPlayers[1] !== undefined ? `${tempPlayers[1].score}分` : ''}
+            </Text>
           </GridItem>
           <GridItem
             rowStart={3}
@@ -147,7 +176,17 @@ function HostPodium(props) {
             colEnd={2}
             bg="papayawhip"
             lineHeight="65px">
-            {tempPlayers[0] !== undefined ? tempPlayers[0].nickname : ''}
+            <Text
+              lineHeight="33px"
+              height="30px"
+              fontSize="22px"
+              fontWeight={500}
+              color="yellow.500">
+              {tempPlayers[0] !== undefined ? tempPlayers[0].nickname : ''}
+            </Text>
+            <Text lineHeight="25px" height="25px" fontSize="18px" fontWeight={300}>
+              {tempPlayers[0] !== undefined ? `${tempPlayers[0].score}分` : ''}
+            </Text>
           </GridItem>
           <GridItem
             rowStart={2}
@@ -165,7 +204,17 @@ function HostPodium(props) {
             colEnd={3}
             bg="papayawhip"
             lineHeight="65px">
-            {tempPlayers[2] !== undefined ? tempPlayers[2].nickname : ''}
+            <Text
+              lineHeight="33px"
+              height="30px"
+              fontSize="22px"
+              fontWeight={500}
+              color="yellow.500">
+              {tempPlayers[2] !== undefined ? tempPlayers[2].nickname : ''}
+            </Text>
+            <Text lineHeight="25px" height="25px" fontSize="18px" fontWeight={300}>
+              {tempPlayers[2] !== undefined ? `${tempPlayers[2].score}分` : ''}
+            </Text>
           </GridItem>
           <GridItem
             rowStart={4}
@@ -176,6 +225,46 @@ function HostPodium(props) {
             outline="1px solid black"
           />
         </Grid>
+        <Button
+          ref={btnRef}
+          colorScheme="green"
+          variant="outline"
+          fontWeight={400}
+          onClick={onOpen}>
+          查看其他玩家
+        </Button>
+        <Drawer isOpen={isOpen} placement="right" onClose={onClose} finalFocusRef={btnRef}>
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>遺珠之憾</DrawerHeader>
+
+            <DrawerBody>
+              {tempPlayers[3] !== undefined
+                ? tempPlayers.slice(3).map((tempPlayer, index) => (
+                    <Text p={1}>
+                      <Text as="span" color="yellow.900">
+                        第{index + 4}名：
+                      </Text>
+                      <Text as="span" fontWeight={500}>
+                        【{tempPlayer.nickname}】
+                      </Text>
+                      <Text as="span" fontWeight={300}>
+                        {tempPlayer.score}分
+                      </Text>
+                    </Text>
+                  ))
+                : ''}
+            </DrawerBody>
+
+            <DrawerFooter>
+              {/* <Button variant="outline" mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme="blue">Save</Button> */}
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </Box>
       {/* TODO: */}
       <HostFooter

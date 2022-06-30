@@ -101,8 +101,8 @@ function Question(props) {
     let count = 0;
     // const str1 = tify(s1);
     // const str2 = tify(s2);
-    const str1 = s1.replace(' ', '');
-    const str2 = s2.replace(' ', '');
+    const str1 = s1.replace(' ', '').toLowerCase();
+    const str2 = s2.replace(' ', '').toLowerCase();
     for (let i = 0; i < str1.length; i += 1) {
       for (let j = 0; j < str2.length; j += 1) {
         if (str1[i] === str2[j]) {
@@ -170,7 +170,8 @@ function Question(props) {
           const playerAnser = `${data.artistName}${data.trackName}]`;
           // alert(secondLeftRef.current);
           // TODO:
-          const x = checkAnswer(playerAnser, correctAnswer) / correctAnswer.length;
+          let x = checkAnswer(correctAnswer, playerAnser) / (correctAnswer.length * 0.75);
+          x = x > 1 ? 1 : x;
           const getScore = Math.round((30 * secondLeftRef.current + 100) * (-1 * x * x + 2 * x));
           console.log(getScore);
           // FIXME: 亂糟糟...

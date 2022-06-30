@@ -28,6 +28,10 @@ function ShowAnswer(props) {
     socket.on('ready', () => {
       setScreen(16);
     });
+
+    socket.on('ready-podium', () => {
+      setScreen(20);
+    });
   }, [socket]);
 
   return (
@@ -41,14 +45,14 @@ function ShowAnswer(props) {
         <VStack spacing={5} marginTop="11vh">
           {/* <Heading fontSize="36px">正確</Heading> */}
           <Text fontSize="50px">❌</Text>
-          <Heading fontSize="36px">{greeting}</Heading>
+          <Heading fontSize="36px">+ {getScore}</Heading>
           {/* <Text fontSize="50px">✅</Text> */}
 
           {/* <Text fontSize="22px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
             + 939
           </Text> */}
           <Text fontSize="22px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
-            + {getScore}
+            {greeting}
           </Text>
         </VStack>
       </Grid>

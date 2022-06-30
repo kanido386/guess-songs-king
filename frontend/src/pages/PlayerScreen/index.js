@@ -25,6 +25,8 @@ import WaitAnswer from './WaitAnswer';
 import BadAnswer from './BadAnswer';
 import GreatAnswer from './GreatAnswer';
 import TimesUp from './TimesUp';
+import WaitPodium from './WaitPodium';
+import Podium from './Podium';
 
 const { REACT_APP_BACKEND_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
@@ -38,6 +40,7 @@ function PlayerScreen() {
   const [partyId, setPartyId] = useState(0);
   const [score, setScore] = useState(0);
   const [getScore, setGetScore] = useState(0);
+  const [place, setPlace] = useState(0);
   // TODO:
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
@@ -148,6 +151,12 @@ function PlayerScreen() {
           getScore={getScore}
         />
       );
+    case 20:
+      return (
+        <WaitPodium setScreen={setScreen} nickname={nickname} score={score} setPlace={setPlace} />
+      );
+    case 21:
+      return <Podium setScreen={setScreen} nickname={nickname} score={score} place={place} />;
     case 22:
       return (
         // TODO:

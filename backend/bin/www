@@ -125,6 +125,20 @@ io.on('connection', (socket) => {
     socket.to(data.id).emit('times-up');
   });
 
+  socket.on('ready-podium', (data) => {
+    socket.broadcast.to(data.pin).emit('ready-podium');
+  });
+
+  socket.on('see-podium', (data) => {
+    socket.to(data.id).emit('see-podium', {
+      place: data.place,
+    });
+  });
+
+  socket.on('bye', (data) => {
+    socket.broadcast.to(data.pin).emit('bye');
+  });
+
   // socket.on('send', (data) => {
   //   console.log(data);
   //   // socket.broadcast.emit('host', data);

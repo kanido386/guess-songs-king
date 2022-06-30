@@ -32,6 +32,11 @@ function WaitAnswer(props) {
   //   });
   // }, [socket]);
 
+  useEffect(() => {
+    // 因為一開始的 tempScore 為 -1，補償一下！
+    setScore(prevScore => prevScore + 1);
+  }, []);
+
   // FIXME:
   useEffect(() => {
     setScore(prevScore => prevScore + tempScore);

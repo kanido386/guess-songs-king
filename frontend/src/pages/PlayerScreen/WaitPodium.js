@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { Box, VStack, Grid, Heading, Text, Spinner } from '@chakra-ui/react';
+import SocketContext from '../../context/socket';
 import PlayerFooter from './components/PlayerFooter';
 
-function WaitGame() {
+function WaitPodium(props) {
+  const { setScreen, nickname, score, setPlace } = props;
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    socket.on('see-podium', data => {
+      setPlace(data.place);
+      setScreen(21);
+    });
+  }, [socket]);
+
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="89vh" p={100}>
@@ -15,9 +26,9 @@ function WaitGame() {
         </VStack>
       </Grid>
       {/* TODO: */}
-      <PlayerFooter nickname="這邊是玩家的暱稱" hasScore={false} />
+      <PlayerFooter nickname={nickname} hasScore score={score} />
     </Box>
   );
 }
 
-export default WaitGame;
+export default WaitPodium;

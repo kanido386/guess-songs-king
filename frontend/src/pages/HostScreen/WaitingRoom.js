@@ -1,6 +1,7 @@
 // import React, { useState, useEffect } from 'react';
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   VStack,
@@ -27,6 +28,7 @@ const newPin = String(Math.floor(Math.random() * 9000) + 1000);
 function WaitingRoom(props) {
   const { id } = useParams();
   const { setScreen, pin, setPin, players, setPlayers } = props;
+  const navigate = useNavigate();
   const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   const [hasPin, setHasPin] = useState(false);
@@ -123,7 +125,14 @@ function WaitingRoom(props) {
         color={useColorModeValue('gray.700', 'gray.200')}
         minH="9vh">
         <Grid templateColumns="repeat(3, 1fr)" gap={6}>
-          <GridItem w="100%" h="22vh" lineHeight="22vh" />
+          <GridItem w="100%" h="22vh" lineHeight="22vh">
+            <Button
+              onClick={() => {
+                navigate('/party/manage');
+              }}>
+              下次再玩
+            </Button>
+          </GridItem>
           <GridItem w="100%" h="22vh" lineHeight="22vh" fontSize="30px" fontWeight="bold">
             {hasPin ? (
               `${pin}`

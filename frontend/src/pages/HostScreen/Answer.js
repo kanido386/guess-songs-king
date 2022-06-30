@@ -1,6 +1,6 @@
 /* eslint-disable consistent-return */
 
-import React from 'react';
+import React, { useContext } from 'react';
 // import React, { useState, useEffect } from 'react';
 // import React, { useState, useEffect, useContext } from 'react';
 import {
@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 // import io from 'socket.io-client';
 import ReactAudioPlayer from 'react-audio-player';
-// import SocketContext from '../../context/socket';
+import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
@@ -23,7 +23,7 @@ import HostFooter from './components/HostFooter';
 
 function Answer(props) {
   const { setScreen, currentQuestion, tracks, pin } = props;
-  // const socket = useContext(SocketContext);
+  const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
 
@@ -32,6 +32,9 @@ function Answer(props) {
   };
 
   const seePodium = () => {
+    socket.emit('ready-podium', {
+      pin
+    });
     setScreen(14);
   };
 

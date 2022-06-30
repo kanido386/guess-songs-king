@@ -28,6 +28,10 @@ function TimesUp(props) {
     socket.on('ready', () => {
       setScreen(16);
     });
+
+    socket.on('ready-podium', () => {
+      setScreen(20);
+    });
   }, [socket]);
 
   return (

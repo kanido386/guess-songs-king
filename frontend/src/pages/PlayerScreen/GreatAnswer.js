@@ -29,6 +29,10 @@ function GreatAnswer(props) {
     socket.on('ready', () => {
       setScreen(16);
     });
+
+    socket.on('ready-podium', () => {
+      setScreen(20);
+    });
   }, [socket]);
 
   return (
@@ -41,9 +45,9 @@ function GreatAnswer(props) {
       <Grid minH="80vh" p={50}>
         <VStack spacing={5} marginTop="11vh">
           <Text fontSize="50px">✅</Text>
-          <Heading fontSize="36px">{greeting}</Heading>
+          <Heading fontSize="36px">+ {getScore}</Heading>
           <Text fontSize="22px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
-            + {getScore}
+            {greeting}
           </Text>
           {/* <Text fontSize="22px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
             {greeting}

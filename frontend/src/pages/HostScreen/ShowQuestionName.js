@@ -48,7 +48,7 @@ function ShowQuestionName(props) {
         <GridItem w="100%" h="9vh" lineHeight="9vh">
           {/* TODO: */}
           <Text fontSize="42px" pt={10} pl={5} letterSpacing={3}>
-            {currentQuestion + 1} / {tracks.length}
+            {currentQuestion + 1} of {tracks.length}
           </Text>
         </GridItem>
       </Grid>
