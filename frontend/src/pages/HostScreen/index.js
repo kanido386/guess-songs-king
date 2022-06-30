@@ -28,7 +28,7 @@ import Scoreboard from './Scoreboard';
 import Nervous from './Nervous';
 import HostPodium from './HostPodium';
 
-const { REACT_APP_BACKEND_URL } = process.env;
+const { REACT_APP_BACKEND_URL, REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function PlayerScreen() {
@@ -129,7 +129,11 @@ function PlayerScreen() {
       return (
         <Question
           setScreen={setScreen}
-          audio={new Audio(`http://localhost:5000/static/audio/${tracks[currentQuestion].id}.wav`)}
+          audio={
+            new Audio(
+              `${REACT_APP_AUDIO_PROCESSOR_URL}/static/audio/${tracks[currentQuestion].id}.wav`
+            )
+          }
           currentQuestion={currentQuestion}
           tracks={tracks}
           pin={pin}
