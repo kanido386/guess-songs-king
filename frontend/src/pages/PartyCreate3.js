@@ -200,6 +200,10 @@ function PartyCreate3() {
               <NumberInput size="md" maxW={24} defaultValue={0} min={0} max={tracks.length}>
                 <NumberInputField
                   value={numQ1}
+                  disabled
+                  _disabled={{
+                    color: 'black'
+                  }}
                   onChange={event => {
                     const newValue = event.currentTarget.value;
                     if (newValue >= 0 && Number.isInteger(newValue)) {

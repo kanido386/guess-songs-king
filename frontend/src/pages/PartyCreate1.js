@@ -39,6 +39,14 @@ function PartyCreate1() {
   };
 
   const nextStep = () => {
+    if (partyName === '') {
+      MySwal.fire({
+        icon: 'error',
+        title: '我覺得不行',
+        text: '歌曲集需要有名稱哦！'
+      });
+      return;
+    }
     navigate('/party/create/step/2', {
       state: {
         partyNameSent: partyName,

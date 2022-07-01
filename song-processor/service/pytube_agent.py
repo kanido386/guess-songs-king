@@ -22,11 +22,27 @@ class PytubeAgent(object):
         i = 0
         # FIXME: 長度可再調整
         while s.results[i].length > 600:
-          print(s.results[i].length)
-          i += 1
+            print(s.results[i].length)
+            i += 1
         video_url = s.results[i].watch_url
 
         return video_url
+
+    def get_3_urls_of_track(self, query):
+    # def get_3_urls_of_track(self, artist_name, track_name):
+        s = Search(f'{query} lyrics')
+        # s = Search(f'{artist_name} {track_name} lyrics')
+        i = 0
+        video_urls = []
+        # FIXME: 長度可再調整
+        while len(video_urls) < 3:
+            if s.results[i].length <= 600:
+                # print(s.results[i].length)
+                video_url = s.results[i].watch_url
+                video_urls.append(video_url)
+            i += 1
+
+        return video_urls
 
     def download_as_wav_new(self, video_url, track_id):
         YouTube(video_url) \

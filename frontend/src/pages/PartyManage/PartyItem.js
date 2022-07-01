@@ -7,7 +7,9 @@ const { REACT_APP_BACKEND_URL } = process.env;
 
 function PartyItem(props) {
   const { id, name, numTracks, numQuestions } = props;
-  const [status, setStatus] = useState([]);
+  const [status, setStatus] = useState(false);
+  const [numFinished, setNumFinished] = useState(0);
+  const [numTotal, setNumTotal] = useState(0);
 
   useEffect(() => {
     axios
@@ -16,6 +18,8 @@ function PartyItem(props) {
       })
       .then(response => {
         setStatus(response.data.isReady);
+        setNumFinished(response.data.numFinished);
+        setNumTotal(response.data.numTotal);
       });
   }, []);
 
@@ -70,7 +74,7 @@ function PartyItem(props) {
           <Text fontSize="md">題數：{numQuestions}</Text>
           <Spacer />
           <Button isDisabled style={{ textDecoration: 'none' }} colorScheme="gray">
-            處理中⋯
+            處理中：{numFinished}／{numTotal}
           </Button>
         </HStack>
       </Flex>

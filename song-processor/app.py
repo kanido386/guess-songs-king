@@ -26,6 +26,18 @@ def get_playlists_new():
         data=playlists
     )
 
+@app.route('/api/v1/3_urls', methods=['POST'])
+@cross_origin()
+def get_3_urls_of_track():
+    query = request.get_json().get('query')
+    # artist_name = request.get_json().get('artist_name')
+    # track_name = request.get_json().get('track_name')
+    video_urls = pytube.get_3_urls_of_track(query)
+    # video_urls = pytube.get_3_urls_of_track(artist_name, track_name)
+    return jsonify(
+        data=video_urls
+    )
+
 @app.route('/api/v1/tracks_new', methods=['POST'])
 @cross_origin()
 def get_tracks_new():

@@ -76,7 +76,8 @@ const createParty = async (req, res) => {
         });
 
       // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
-      await timer(1000); // then the created Promise can be awaited
+      // TODO:
+      await timer(10000); // then the created Promise can be awaited
     }
     // await timer(11000);
     // window.open('mailto:kanido386@gmail.com?subject=【通知】猜歌我最強&body=歌曲集處理完畢囉！');
@@ -114,6 +115,7 @@ const checkParty = async (req, res) => {
   }
 
   let isReady = true;
+  let numFinished = 0;
   for (let i = 0; i < tracks.length; i += 1) {
     // TODO:
     const response = await axios.post(`${SONG_PROCESSOR_URL}/api/v1/audio_status_new`, {
@@ -123,10 +125,13 @@ const checkParty = async (req, res) => {
       isReady = false;
       break;
     }
+    numFinished += 1;
   }
 
   res.status(200).send({
     isReady,
+    numFinished,
+    numTotal: tracks.length,
   });
 };
 

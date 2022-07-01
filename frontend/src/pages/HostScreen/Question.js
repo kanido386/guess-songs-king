@@ -15,8 +15,10 @@ import {
   // ListItem
   WrapItem,
   Tag,
-  TagLabel
+  TagLabel,
+  VStack
 } from '@chakra-ui/react';
+// import axios from 'axios';
 // TODO: 簡體轉繁體
 // import { tify } from 'chinese-conv';
 // import io from 'socket.io-client';
@@ -24,7 +26,7 @@ import {
 import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
 
-// const { REACT_APP_BACKEND_URL } = process.env;
+// const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function Question(props) {
@@ -43,6 +45,7 @@ function Question(props) {
   const [numAnswer, setNumAnswer] = useState(0);
   // TODO: 記錄批改狀況
   const [playerSubmits, setPlayerSubmits] = useState([]);
+  // const [urls, setUrls] = useState([]);
 
   const clearAnswersOfPlayers = () => {
     players.map(player => {
@@ -97,10 +100,23 @@ function Question(props) {
     setScreen(12);
   };
 
+  // const get3Urls = async (artistName, trackName) => {
+  //   axios
+  //     .post(`${REACT_APP_AUDIO_PROCESSOR_URL}/api/v1/3_urls`, {
+  //       artist_name: artistName,
+  //       track_name: trackName
+  //     })
+  //     .then(response => {
+  //       // console.log(`get3Urls: ${response.data.data}`);
+  //       return response.data.data;
+  //     });
+  // };
+
   const checkAnswer = (s1, s2) => {
     let count = 0;
     // const str1 = tify(s1);
     // const str2 = tify(s2);
+    // get3Urls(s1);
     const str1 = s1.replace(' ', '').toLowerCase();
     const str2 = s2.replace(' ', '').toLowerCase();
     for (let i = 0; i < str1.length; i += 1) {
@@ -157,8 +173,17 @@ function Question(props) {
   // }, []);
 
   useEffect(() => {
+    // socket.on('new-answer-in', async data => {
+    //   console.log('==============================');
+    //   console.log(data);
+    //   const tempUrls = await get3Urls(data.artistName, data.trackName);
+    //   setUrls(tempUrls);
+    //   console.log(urls);
+    //   console.log('==============================');
+    // });
+
     socket.on('new-answer-in', data => {
-      console.log(data);
+      // console.log(data);
       setNumAnswer(num => num + 1);
       setPlayers(prevPlayers => {
         // FIXME: 亂糟糟...
@@ -279,30 +304,32 @@ function Question(props) {
               src="url"
               controls
             /> */}
-            <Wrap spacing={3} p={0}>
-              {/* <OrderedList> */}
-              {players.length === 0 ? (
-                <Text fontSize="22px">玩家努力猜歌中…</Text>
-              ) : (
-                playerSubmits.map(playerSubmit => {
-                  return (
-                    <WrapItem>
-                      <Tag
-                        key={playerSubmit.id}
-                        size="lg"
-                        borderRadius="2xl"
-                        // colorScheme={colors[Math.floor(Math.random() * colors.length)]}
-                        variant="outline">
-                        <TagLabel>
-                          {playerSubmit.nickname}: {playerSubmit.currentArtistName} -{' '}
-                          {playerSubmit.currentTrackName}
-                        </TagLabel>
-                      </Tag>
-                    </WrapItem>
-                  );
-                })
-              )}
-            </Wrap>
+            <VStack spacing={3}>
+              <Wrap spacing={3} p={0}>
+                {/* <OrderedList> */}
+                {playerSubmits.length === 0 ? (
+                  <Text fontSize="22px">玩家努力猜歌中…</Text>
+                ) : (
+                  playerSubmits.map(playerSubmit => {
+                    return (
+                      <WrapItem>
+                        <Tag
+                          key={playerSubmit.id}
+                          size="lg"
+                          borderRadius="2xl"
+                          // colorScheme={colors[Math.floor(Math.random() * colors.length)]}
+                          variant="outline">
+                          <TagLabel>
+                            【{playerSubmit.nickname}】{playerSubmit.currentArtistName} -{' '}
+                            {playerSubmit.currentTrackName}
+                          </TagLabel>
+                        </Tag>
+                      </WrapItem>
+                    );
+                  })
+                )}
+              </Wrap>
+            </VStack>
             {/* </OrderedList> */}
           </GridItem>
           {/* <GridItem w="100%" h="9vh" lineHeight="9vh"> */}
