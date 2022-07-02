@@ -18,7 +18,11 @@ import {
   Link
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 import axios from 'axios';
+
+const MySwal = withReactContent(Swal);
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
@@ -30,6 +34,13 @@ function SignUp() {
   const [password, setPassword] = useState('');
 
   const signup = async () => {
+    if (nickname === '' || email === '' || password === '') {
+      MySwal.fire({
+        icon: 'error',
+        title: '錯誤',
+        text: '三個欄位都要填哦！'
+      });
+    }
     try {
       // https://stackoverflow.com/questions/48378337/create-react-app-not-picking-up-env-files
       const response = await axios.post(`${REACT_APP_BACKEND_URL}/api/v1/host/signup`, {
@@ -42,7 +53,13 @@ function SignUp() {
       localStorage.setItem('accessToken', response.data.host.accessToken);
       navigate('/host/home');
     } catch (error) {
-      console.log(error);
+      if (error.response.data.error === 'Email Already Exists') {
+        MySwal.fire({
+          icon: 'error',
+          title: '錯誤',
+          text: '該電子郵件地址註冊過囉！'
+        });
+      }
     }
   };
 
