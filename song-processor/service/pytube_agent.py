@@ -36,7 +36,10 @@ class PytubeAgent(object):
         video_urls = []
         # FIXME: 長度可再調整
         while len(video_urls) < 3:
-            if s.results[i].length <= 600:
+            # 防止 index out of range
+            if i >= len(s.results):
+                video_urls.append('dummy')
+            elif s.results[i].length <= 600:
                 # print(s.results[i].length)
                 video_url = s.results[i].watch_url
                 video_urls.append(video_url)

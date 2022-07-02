@@ -56,7 +56,7 @@ class AudioProcessAgent(object):
     def segment_it_new(self, audio_filename, start_point=None, segment_length=None):
         y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
         seconds = len(y[0]) // sr
-        segment_length = segment_length if segment_length else 30   # FIXME:
+        segment_length = segment_length if segment_length else 42   # FIXME: 給點緩衝
         begin = sr * start_point if start_point != None else sr * random.randint(0, seconds-1-segment_length)
         end = begin + sr * segment_length
         new_y = y[:, begin:end]
