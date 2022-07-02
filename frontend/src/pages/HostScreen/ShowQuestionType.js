@@ -8,12 +8,14 @@ import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
 
 function ShowQuestionType(props) {
   // const { id } = useParams();
-  const { setScreen } = props;
+  const { setScreen, currentQuestion, tracks } = props;
   // const navigate = useNavigate();
   const [secondLeft, setSecondLeft] = useState(2);
   // const [partyName, setPartyName] = useState('');
 
   useEffect(() => {
+    console.log(currentQuestion);
+    console.log(tracks);
     const myInterval = setInterval(() => {
       if (secondLeft > 0) {
         setSecondLeft(secondLeft - 1);
@@ -46,12 +48,14 @@ function ShowQuestionType(props) {
             <Text color="yellow.700">下一題：</Text>
           </Box>
           <Heading size="lg" fontSize="75px" m={7}>
-            {/* TODO: */}
-            播一首歌
+            {tracks[currentQuestion].qType === 1 ? '播一首歌' : '倒著播'}
           </Heading>
           <Box pt={30}>
-            {/* TODO: */}
-            <Text color="pink.700">只播一首歌出來</Text>
+            {tracks[currentQuestion].qType === 1 ? (
+              <Text color="pink.700">只播一首歌出來</Text>
+            ) : (
+              <Text color="pink.700">音檔會經過 reverse 處理</Text>
+            )}
           </Box>
         </VStack>
       </Grid>

@@ -38,7 +38,7 @@ function Party() {
   const [partyName, setPartyName] = useState('');
   const [numQuestions1, setNumQuestions1] = useState(0);
   const [numQuestions2, setNumQuestions2] = useState(0);
-  const [numQuestions3, setNumQuestions3] = useState(0);
+  //   const [numQuestions3, setNumQuestions3] = useState(0);
 
   useEffect(() => {
     axios
@@ -50,11 +50,11 @@ function Party() {
         const tempArray = response.data.party.questions.split(',');
         const numQ1 = Number(tempArray[0]);
         const numQ2 = Number(tempArray[1]);
-        const numQ3 = Number(tempArray[2]);
+        // const numQ3 = Number(tempArray[2]);
         setPartyName(response.data.party.name);
         setNumQuestions1(numQ1);
         setNumQuestions2(numQ2);
-        setNumQuestions3(numQ3);
+        // setNumQuestions3(numQ3);
       });
   }, []);
 
@@ -154,15 +154,15 @@ function Party() {
             <Text as="span" m={2} fontSize="25px" fontWeight="bold">
               {numQuestions1}
             </Text>{' '}
-            題 ／ 同時播三首{' '}
+            題 ／ 倒著播{' '}
             <Text as="span" m={2} fontSize="25px" fontWeight="bold">
               {numQuestions2}
             </Text>{' '}
-            題 ／ 倒著播{' '}
+            {/* 題 ／ 同時播三首{' '}
             <Text as="span" m={2} fontSize="25px" fontWeight="bold">
               {numQuestions3}
             </Text>{' '}
-            題
+            題 */}
           </Text>
           <Stack direction="row" spacing={8} align="center" p={7}>
             <HStack spacing={7}>

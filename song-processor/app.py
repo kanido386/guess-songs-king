@@ -53,27 +53,39 @@ def download_and_process():
     track_id = request.get_json().get('track_id')
     artist_name = request.get_json().get('artist_name')
     track_name = request.get_json().get('track_name')
+    q_type = int(request.get_json().get('q_type'))
     # video_url = youtube.get_url_of_track(artist_name, track_name)
     video_url = pytube.get_url_of_track(artist_name, track_name)
 
     # https://stackoverflow.com/questions/48994440/execute-a-function-after-flask-returns-response
-    def download_job(video_url, track_id):
+    def download_job(video_url, track_id, q_type):
         ''' 給 YouTube 影片網址，取得音檔 '''
         print('\n下載中請稍等⋯⋯')
         audio_filename = pytube.download_as_wav_new(video_url, track_id)
         print('成功取得音檔！')
 
         ''' 音檔做音量上的 normalization '''
-        print('\n處理中請稍等⋯⋯')
+        print('\n音量正規化中請稍等⋯⋯')
         audio_process.normalize_new(audio_filename)
-        print('處理完畢！')
+        print('音量正規化完畢！')
+
+        print('\n音檔處理中請稍等⋯⋯')
+        # TODO:
+        if q_type == 1:
+            # 播一首歌
+            audio_process.do_nothing(audio_filename)
+        elif q_type == 2:
+            # 倒著播
+            audio_process.reverse(audio_filename)
+        print('音檔處理完畢！')
 
         audio_process.segment_it_new(audio_filename)
         print('擷取完畢！')
 
     thread = Thread(target=download_job, kwargs={
         'video_url': video_url,
-        'track_id': track_id
+        'track_id': track_id,
+        'q_type': q_type
     })
     thread.start()
     return jsonify(

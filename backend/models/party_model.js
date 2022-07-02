@@ -28,7 +28,7 @@ const createParty = async (hostId, partyName, numQ1, numQ2, numQ3) => {
   }
 };
 
-const createTrack = async (partyId, trackSent) => {
+const createTrack = async (partyId, trackSent, qType) => {
   const conn = await pool.getConnection();
   try {
     await conn.query('START TRANSACTION');
@@ -37,12 +37,15 @@ const createTrack = async (partyId, trackSent) => {
       party_id: partyId,
       artist: trackSent.artistName,
       name: trackSent.trackName,
+      q_type: qType,
     };
 
     const queryStr = 'INSERT INTO track SET ?';
     const [result] = await conn.query(queryStr, track);
 
     track.id = result.insertId;
+    // // FIXME:
+    // track.qType = qType;
 
     await conn.query('COMMIT');
     return { track };

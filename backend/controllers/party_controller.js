@@ -44,7 +44,9 @@ const createParty = async (req, res) => {
   const createdTracks = [];
 
   for (let i = 0; i < tracks.length; i += 1) {
-    const result2 = await Party.createTrack(id, tracks[i]);
+    // FIXME:
+    const qType = i < numQ1 ? 1 : 2;
+    const result2 = await Party.createTrack(id, tracks[i], qType);
     if (result2.error) {
       res.status(403).send({
         error: result2.error,
@@ -61,9 +63,9 @@ const createParty = async (req, res) => {
     createdTracks.push(track);
   }
 
-  // console.log('==============================');
-  // console.log('hi');
-  // console.log('==============================');
+  console.log('==============================');
+  console.log(createdTracks);
+  console.log('==============================');
 
   res.on('finish', async () => {
     for (let i = 0; i < createdTracks.length; i += 1) {
@@ -73,6 +75,7 @@ const createParty = async (req, res) => {
           track_id: createdTracks[i].id,
           artist_name: createdTracks[i].artist,
           track_name: createdTracks[i].name,
+          q_type: createdTracks[i].q_type,
         });
 
       // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop

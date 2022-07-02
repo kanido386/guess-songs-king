@@ -69,7 +69,7 @@ function PlayerScreen() {
   }, []);
 
   useEffect(() => {
-    const tempTracks = [];
+    let tempTracks = [];
     axios
       .post(`${REACT_APP_BACKEND_URL}/api/v1/tracks`, {
         partyId: id
@@ -80,9 +80,16 @@ function PlayerScreen() {
           tempTracks.push({
             id: response.data.tracks[i].id,
             artistName: response.data.tracks[i].artist,
-            trackName: response.data.tracks[i].name
+            trackName: response.data.tracks[i].name,
+            qType: response.data.tracks[i].q_type
           });
         }
+        // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+        // 打亂順序
+        tempTracks = tempTracks
+          .map(value => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value);
         setTracks(tempTracks);
       });
   }, []);
@@ -120,7 +127,9 @@ function PlayerScreen() {
     case 8:
       return <Countdown setScreen={setScreen} pin={pin} />;
     case 9:
-      return <ShowQuestionType setScreen={setScreen} />;
+      return (
+        <ShowQuestionType setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} />
+      );
     case 10:
       return (
         <ShowQuestionName setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} />

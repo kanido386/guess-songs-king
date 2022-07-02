@@ -32,7 +32,7 @@ function PartyManage() {
           tempParties.push({
             id: response.data.parties[i].id,
             name: response.data.parties[i].name,
-            numTracks: numQ1 + 3 * numQ2 + numQ3,
+            numTracks: numQ1 + numQ2 + numQ3,
             numQuestions: numQ1 + numQ2 + numQ3
           });
         }
