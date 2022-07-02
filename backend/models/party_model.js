@@ -1,4 +1,7 @@
 require('dotenv').config();
+
+const { SONG_PROCESSOR_URL } = process.env;
+const axios = require('axios');
 const { pool } = require('./mysqlcon');
 
 const createParty = async (hostId, partyName, numQ1, numQ2, numQ3) => {
@@ -49,6 +52,52 @@ const createTrack = async (partyId, trackSent, qType) => {
 
     await conn.query('COMMIT');
     return { track };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
+
+const removeTrack = async (id) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
+
+    const queryStr = 'DELETE FROM track WHERE ?';
+    const [result] = await conn.query(queryStr, { id });
+
+    await conn.query('COMMIT');
+
+    // Remove the audio file
+    axios
+      .post(`${SONG_PROCESSOR_URL}/api/v1/remove_track`, {
+        track_id: id,
+      });
+
+    return { result };
+  } catch (error) {
+    console.log(error);
+    await conn.query('ROLLBACK');
+    return { error };
+  } finally {
+    await conn.release();
+  }
+};
+
+const removeParty = async (id) => {
+  const conn = await pool.getConnection();
+  try {
+    await conn.query('START TRANSACTION');
+
+    const queryStr = 'DELETE FROM party WHERE ?';
+    const [result] = await conn.query(queryStr, { id });
+
+    await conn.query('COMMIT');
+
+    return { result };
   } catch (error) {
     console.log(error);
     await conn.query('ROLLBACK');
@@ -116,6 +165,8 @@ const getTracksByPartyId = async (partyId) => {
 module.exports = {
   createParty,
   createTrack,
+  removeTrack,
+  removeParty,
   getPartyByPartyId,
   getPartiesByHostId,
   getTracksByPartyId,

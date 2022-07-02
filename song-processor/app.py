@@ -26,6 +26,15 @@ def get_playlists_new():
         data=playlists
     )
 
+@app.route('/api/v1/remove_track', methods=['POST'])
+@cross_origin()
+def remove_track():
+    track_id = int(request.get_json().get('track_id'))
+    audio_process.remove_track(track_id)
+    return jsonify(
+        data='Request sent!'
+    )
+
 @app.route('/api/v1/3_urls', methods=['POST'])
 @cross_origin()
 def get_3_urls_of_track():

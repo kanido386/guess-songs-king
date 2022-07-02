@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   VStack,
@@ -16,6 +17,10 @@ import {
   WrapItem
 } from '@chakra-ui/react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 const { REACT_APP_BACKEND_URL, REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 
@@ -34,11 +39,34 @@ const colors = [
 
 function Party() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [tracks, setTracks] = useState([]);
   const [partyName, setPartyName] = useState('');
   const [numQuestions1, setNumQuestions1] = useState(0);
   const [numQuestions2, setNumQuestions2] = useState(0);
   //   const [numQuestions3, setNumQuestions3] = useState(0);
+
+  const removeParty = async partyId => {
+    MySwal.fire({
+      icon: 'warning',
+      title: '注意',
+      text: '確定要刪除歌曲集？',
+      showCancelButton: true,
+      cancelButtonText: '取消',
+      confirmButtonText: '確定'
+    }).then(async result => {
+      if (result.isConfirmed) {
+        axios
+          .post(`${REACT_APP_BACKEND_URL}/api/v1/party/remove`, {
+            partyId
+          })
+          .then(response => {
+            console.log(response.data.message);
+            navigate('/party/manage');
+          });
+      }
+    });
+  };
 
   useEffect(() => {
     axios
@@ -169,11 +197,14 @@ function Party() {
               <Button
                 // as={Link}
                 // href="/party/manage"
+                onClick={() => {
+                  removeParty(id);
+                }}
                 colorScheme="red"
                 variant="ghost"
                 size="lg"
                 // TODO:
-                disabled
+                // disabled
                 style={{ textDecoration: 'none' }}>
                 刪除
               </Button>

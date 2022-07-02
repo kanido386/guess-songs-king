@@ -72,6 +72,11 @@ class AudioProcessAgent(object):
         else:   # mono
             write(f'{self.audio_folder}/{audio_filename}', sr, new_y)
 
+    def remove_track(self, track_id):
+        audio_file = f'{self.audio_folder}/{track_id}.wav'
+        if os.path.exists(audio_file):
+            os.remove(audio_file)
+
     # ==============================
 
     def normalize(self, audio_filename):
