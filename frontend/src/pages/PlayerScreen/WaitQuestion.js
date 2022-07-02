@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Box,
   VStack,
@@ -11,10 +11,12 @@ import {
   CircularProgressLabel
 } from '@chakra-ui/react';
 // import { Box, VStack, Grid, Heading, Text, Spinner } from '@chakra-ui/react';
+import SocketContext from '../../context/socket';
 import PlayerFooter from './components/PlayerFooter';
 
 function WaitQuestion(props) {
-  const { setScreen, nickname, score, currentQuestion, setCurrentQuestion } = props;
+  const { setScreen, nickname, score, currentQuestion, setCurrentQuestion, setQTypeName } = props;
+  const socket = useContext(SocketContext);
   // TODO:
   const [secondLeft, setSecondLeft] = useState(5);
 
@@ -39,6 +41,12 @@ function WaitQuestion(props) {
   useEffect(() => {
     setCurrentQuestion(cur => cur + 1);
   }, []);
+
+  useEffect(() => {
+    socket.on('question-type', data => {
+      setQTypeName(data.qTypeName);
+    });
+  }, [socket]);
 
   return (
     <Box textAlign="center" fontSize="xl">

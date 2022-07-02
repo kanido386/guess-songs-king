@@ -1,5 +1,5 @@
 // import React, { useContext } from 'react';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 // import { Link as LinkToPage } from 'react-router-dom';
 // import {
 //   Flex,
@@ -43,6 +43,13 @@ function PlayerScreen() {
   const [place, setPlace] = useState(0);
   // TODO:
   const [currentQuestion, setCurrentQuestion] = useState(0);
+
+  const [qTypeName, _setQTypeName] = useState('');
+  const qTypeNameRef = useRef(qTypeName);
+  const setQTypeName = data => {
+    qTypeNameRef.current = data;
+    _setQTypeName(data);
+  };
 
   // const sendNicknameToServer = () => {
   //   socket.emit('add-nickname', {
@@ -115,6 +122,7 @@ function PlayerScreen() {
           score={score}
           currentQuestion={currentQuestion}
           setCurrentQuestion={setCurrentQuestion}
+          setQTypeName={setQTypeName}
         />
       );
     case 17:
@@ -126,6 +134,7 @@ function PlayerScreen() {
           currentQuestion={currentQuestion}
           numQuestions={numQuestions}
           pin={pin}
+          qTypeName={qTypeNameRef.current}
         />
       );
     case 18:
@@ -138,6 +147,7 @@ function PlayerScreen() {
           currentQuestion={currentQuestion}
           numQuestions={numQuestions}
           setGetScore={setGetScore}
+          qTypeName={qTypeNameRef.current}
         />
       );
     case 19:
@@ -149,6 +159,7 @@ function PlayerScreen() {
           currentQuestion={currentQuestion}
           numQuestions={numQuestions}
           getScore={getScore}
+          qTypeName={qTypeNameRef.current}
         />
       );
     case 20:
@@ -167,6 +178,7 @@ function PlayerScreen() {
           currentQuestion={currentQuestion}
           numQuestions={numQuestions}
           getScore={getScore}
+          qTypeName={qTypeNameRef.current}
         />
       );
     case 23:
@@ -177,6 +189,7 @@ function PlayerScreen() {
           score={score}
           currentQuestion={currentQuestion}
           numQuestions={numQuestions}
+          qTypeName={qTypeNameRef.current}
         />
       );
     default:

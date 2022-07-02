@@ -8,7 +8,7 @@ import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
 function ShowAnswer(props) {
-  const { setScreen, nickname, score, currentQuestion, numQuestions, getScore } = props;
+  const { setScreen, nickname, score, currentQuestion, numQuestions, getScore, qTypeName } = props;
   const socket = useContext(SocketContext);
   const [greeting, setGreeting] = useState('');
 
@@ -39,7 +39,7 @@ function ShowAnswer(props) {
       <PlayerHeader
         currentQuestion={currentQuestion}
         totalQuestion={numQuestions}
-        type="播一首歌"
+        type={qTypeName}
       />
       <Grid minH="80vh" p={50}>
         <VStack spacing={5} marginTop="11vh">

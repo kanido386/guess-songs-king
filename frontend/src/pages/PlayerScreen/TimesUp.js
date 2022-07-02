@@ -8,7 +8,7 @@ import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
 function TimesUp(props) {
-  const { setScreen, nickname, score, currentQuestion, numQuestions } = props;
+  const { setScreen, nickname, score, currentQuestion, numQuestions, qTypeName } = props;
   const socket = useContext(SocketContext);
   const [greeting, setGreeting] = useState('');
 
@@ -39,7 +39,7 @@ function TimesUp(props) {
       <PlayerHeader
         currentQuestion={currentQuestion}
         totalQuestion={numQuestions}
-        type="播一首歌"
+        type={qTypeName}
       />
       <Grid minH="80vh" p={50}>
         <VStack spacing={5} marginTop="11vh">

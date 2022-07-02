@@ -8,12 +8,13 @@ import PlayerHeader from './components/PlayerHeader';
 import PlayerFooter from './components/PlayerFooter';
 
 function TypeAnswer(props) {
-  const { setScreen, nickname, score, currentQuestion, numQuestions, pin } = props;
+  const { setScreen, nickname, score, currentQuestion, numQuestions, pin, qTypeName } = props;
   const socket = useContext(SocketContext);
   // const navigate = useNavigate();
   // const { state } = useLocation();
   const [artistName, setArtistName] = useState('');
   const [trackName, setTrackName] = useState('');
+  // const [qTypeNameHere, setQTypeNameHere] = useState('');
 
   const handleKeydown = e => {
     // it triggers by pressing the enter key
@@ -35,6 +36,14 @@ function TypeAnswer(props) {
     setScreen(18);
   };
 
+  // useEffect(() => {
+  //   setQTypeName(prev => {
+  //     console.log(prev);
+  //     setQTypeNameHere(prev);
+  //     return prev;
+  //   });
+  // }, []);
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown, false);
@@ -53,7 +62,8 @@ function TypeAnswer(props) {
       <PlayerHeader
         currentQuestion={currentQuestion}
         totalQuestion={numQuestions}
-        type="播一首歌"
+        // type="播一首歌"
+        type={qTypeName}
       />
       <Grid minH="80vh" p={50}>
         {/* TODO: 如果時間足夠的話，加入道具 */}

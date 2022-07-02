@@ -95,6 +95,12 @@ io.on('connection', (socket) => {
     socket.broadcast.to(data.pin).emit('ready');
   });
 
+  socket.on('question-type', (data) => {
+    socket.broadcast.to(data.pin).emit('question-type', {
+      qTypeName: data.qTypeName,
+    });
+  });
+
   socket.on('submit-answer', (data) => {
     console.log(hostList[data.pin]);
     console.log(data);

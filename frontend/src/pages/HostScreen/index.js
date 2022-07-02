@@ -128,7 +128,12 @@ function PlayerScreen() {
       return <Countdown setScreen={setScreen} pin={pin} />;
     case 9:
       return (
-        <ShowQuestionType setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} />
+        <ShowQuestionType
+          setScreen={setScreen}
+          currentQuestion={currentQuestion}
+          tracks={tracks}
+          pin={pin}
+        />
       );
     case 10:
       return (

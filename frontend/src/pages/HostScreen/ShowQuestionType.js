@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { useParams } from 'react-router';
 import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
 // import axios from 'axios';
+import SocketContext from '../../context/socket';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
 
 function ShowQuestionType(props) {
   // const { id } = useParams();
-  const { setScreen, currentQuestion, tracks } = props;
+  const { setScreen, currentQuestion, tracks, pin } = props;
   // const navigate = useNavigate();
+  const socket = useContext(SocketContext);
   const [secondLeft, setSecondLeft] = useState(2);
   // const [partyName, setPartyName] = useState('');
 
@@ -29,6 +31,13 @@ function ShowQuestionType(props) {
       clearInterval(myInterval);
     };
   });
+
+  useEffect(() => {
+    socket.emit('question-type', {
+      pin,
+      qTypeName: tracks[currentQuestion].qType === 1 ? '播一首歌' : '倒著播'
+    });
+  }, []);
 
   // useEffect(() => {
   //   axios
