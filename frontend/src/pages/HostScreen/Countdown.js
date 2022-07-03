@@ -5,7 +5,7 @@ import { Box, VStack, Grid, Heading } from '@chakra-ui/react';
 import SocketContext from '../../context/socket';
 
 function Countdown(props) {
-  const { setScreen, pin } = props;
+  const { setScreen, pin, audio } = props;
   const socket = useContext(SocketContext);
   // TODO:
   const [secondLeft, setSecondLeft] = useState(3);
@@ -14,6 +14,10 @@ function Countdown(props) {
     const myInterval = setInterval(() => {
       if (secondLeft > 0) {
         setSecondLeft(secondLeft - 1);
+      }
+      // FIXME:
+      if (secondLeft === 1) {
+        audio.play();
       }
       if (secondLeft === 0) {
         // TODO:

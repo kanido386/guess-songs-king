@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 
-import React, { useContext } from 'react';
-// import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 // import React, { useState, useEffect, useContext } from 'react';
 import {
   Box,
@@ -22,7 +21,7 @@ const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function Answer(props) {
-  const { setScreen, currentQuestion, tracks, pin } = props;
+  const { setScreen, currentQuestion, tracks, pin, audio } = props;
   const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   // const [secondLeft, setSecondLeft] = useState(30);
@@ -55,6 +54,10 @@ function Answer(props) {
   //     message: 'wow!!!'
   //   });
   // }, []);
+
+  useEffect(() => {
+    audio.play();
+  }, []);
 
   // useEffect(() => {
   //   socket.on('add-player', data => {

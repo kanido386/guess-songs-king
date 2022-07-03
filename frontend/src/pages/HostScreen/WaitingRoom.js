@@ -1,5 +1,8 @@
+/* eslint-disable jsx-a11y/media-has-caption */
+
 // import React, { useState, useEffect } from 'react';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
+// import ReactAudioPlayer from 'react-audio-player';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -20,6 +23,7 @@ import {
 import SocketContext from '../../context/socket';
 
 // const { REACT_APP_BACKEND_URL } = process.env;
+const { REACT_APP_WELCOME_MUSIC_2 } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 // TODO:
@@ -27,11 +31,15 @@ const newPin = String(Math.floor(Math.random() * 9000) + 1000);
 
 function WaitingRoom(props) {
   const { id } = useParams();
-  const { setScreen, pin, setPin, players, setPlayers } = props;
+  const { setScreen, pin, setPin, players, setPlayers, audio } = props;
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   const [hasPin, setHasPin] = useState(false);
+  const bgmRef = useRef();
+
+  // const bgm = Math.random() < 0.5 ? bgm1 : bgm2;
+  // const bgm = new Audio(REACT_APP_WELCOME_MUSIC_2);
 
   const generatePin = () => {
     setHasPin(true);
@@ -42,13 +50,26 @@ function WaitingRoom(props) {
     });
   };
 
+  const playBgm = () => {
+    bgmRef.current.play();
+  };
+
+  const pauseBgm = () => {
+    bgmRef.current.pause();
+  };
+
   const startGame = () => {
+    pauseBgm();
     setScreen(7);
     socket.emit('start-game', {
       pin,
       id: socket.id
     });
   };
+
+  useEffect(() => {
+    playBgm();
+  }, []);
 
   // useEffect(() => {
   //   socket.emit('send', {
@@ -59,6 +80,7 @@ function WaitingRoom(props) {
 
   useEffect(() => {
     socket.on('add-player', data => {
+      audio.play();
       setPlayers(prevPlayers => {
         // 查看有無重複暱稱
         if (prevPlayers.some(p => p.nickname === data.nickname)) {
@@ -120,6 +142,12 @@ function WaitingRoom(props) {
 
   return (
     <Box textAlign="center" fontSize="xl">
+      {/* https://stackoverflow.com/questions/63003690/unable-to-pause-audio-in-reactjs */}
+      <audio
+        // TODO:
+        ref={bgmRef}
+        src={REACT_APP_WELCOME_MUSIC_2}
+      />
       <Box
         bg={useColorModeValue('gray.50', 'gray.900')}
         color={useColorModeValue('gray.700', 'gray.200')}
@@ -128,6 +156,7 @@ function WaitingRoom(props) {
           <GridItem w="100%" h="22vh" lineHeight="22vh">
             <Button
               onClick={() => {
+                pauseBgm();
                 navigate('/party/manage');
               }}>
               下次再玩

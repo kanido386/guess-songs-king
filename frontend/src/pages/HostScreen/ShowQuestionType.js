@@ -9,7 +9,7 @@ import SocketContext from '../../context/socket';
 
 function ShowQuestionType(props) {
   // const { id } = useParams();
-  const { setScreen, currentQuestion, tracks, pin } = props;
+  const { setScreen, currentQuestion, tracks, pin, audio } = props;
   // const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const [secondLeft, setSecondLeft] = useState(2);
@@ -33,6 +33,7 @@ function ShowQuestionType(props) {
   });
 
   useEffect(() => {
+    audio.play();
     socket.emit('question-type', {
       pin,
       qTypeName: tracks[currentQuestion].qType === 1 ? '播一首歌' : '倒著播'

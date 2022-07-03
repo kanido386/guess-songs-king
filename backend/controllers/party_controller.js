@@ -6,11 +6,31 @@ require('dotenv').config();
 const { SONG_PROCESSOR_URL } = process.env;
 const validator = require('validator');
 const axios = require('axios');
+const youtubedl = require('youtube-dl-exec');
 const Party = require('../models/party_model');
 
 // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
 // Returns a Promise that resolves after "ms" Milliseconds
 const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+
+const getAudioUrls = async (req, res) => {
+  const { videoUrls } = req.body;
+  const audioUrls = [];
+  // https://stackoverflow.com/questions/41743510/extract-just-the-audio-link-from-a-youtube-video-without-converting
+  for (let i = 0; i < videoUrls.length; i += 1) {
+    await youtubedl(videoUrls[i], {
+      getUrl: true,
+      format: 140,
+    }).then((audioUrl) => {
+      console.log(audioUrl);
+      audioUrls.push(audioUrl);
+    });
+  }
+
+  res.status(200).send({
+    audioUrls,
+  });
+};
 
 const createParty = async (req, res) => {
   let { partyName } = req.body;
@@ -261,6 +281,7 @@ const getTracksByPartyId = async (req, res) => {
 };
 
 module.exports = {
+  getAudioUrls,
   createParty,
   removeParty,
   checkParty,

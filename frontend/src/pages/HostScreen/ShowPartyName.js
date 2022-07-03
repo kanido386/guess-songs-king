@@ -8,7 +8,7 @@ const { REACT_APP_BACKEND_URL } = process.env;
 
 function ShowPartyName(props) {
   const { id } = useParams();
-  const { setScreen } = props;
+  const { setScreen, audio } = props;
   // const navigate = useNavigate();
   const [partyName, setPartyName] = useState('');
   const [secondLeft, setSecondLeft] = useState(3);
@@ -29,6 +29,8 @@ function ShowPartyName(props) {
   });
 
   useEffect(() => {
+    // FIXME:
+    audio.play();
     // TODO:
     if (partyName === '的') {
       setScreen(1);

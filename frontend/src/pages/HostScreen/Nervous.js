@@ -4,7 +4,7 @@ import { Box, VStack, Grid, Heading, Text } from '@chakra-ui/react';
 import SocketContext from '../../context/socket';
 
 function Nervous(props) {
-  const { setScreen, pin, setPlayers } = props;
+  const { setScreen, pin, setPlayers, audio } = props;
   // const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const [secondLeft, setSecondLeft] = useState(5);
@@ -30,11 +30,17 @@ function Nervous(props) {
         // TODO:
         setScreen(15);
       }
-    }, 1000);
+      // TODO:
+      // }, 1000);
+    }, 700);
     return () => {
       clearInterval(myInterval);
     };
   });
+
+  useEffect(() => {
+    audio.play();
+  }, []);
 
   return (
     <Box textAlign="center" fontSize="xl">

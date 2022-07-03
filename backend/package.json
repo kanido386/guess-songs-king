@@ -22,7 +22,8 @@
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
     "socket.io": "^4.5.1",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "youtube-dl-exec": "^2.0.12"
   },
   "devDependencies": {
     "eslint": "^8.18.0",

@@ -28,7 +28,20 @@ import Scoreboard from './Scoreboard';
 import Nervous from './Nervous';
 import HostPodium from './HostPodium';
 
-const { REACT_APP_BACKEND_URL, REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
+const {
+  REACT_APP_BACKEND_URL,
+  REACT_APP_AUDIO_PROCESSOR_URL,
+
+  // REACT_APP_WELCOME_MUSIC_1,
+  // REACT_APP_WELCOME_MUSIC_2,
+  REACT_APP_POP_SOUND_EFFECT,
+  REACT_APP_YAY_SOUND_EFFECT,
+  REACT_APP_BOXING_BELL_SOUND_EFFECT,
+  REACT_APP_WHOOSH_SOUND_EFFECT,
+  REACT_APP_DING_SOUND_EFFECT,
+  REACT_APP_DRUM_ROLL_SOUND_EFFECT,
+  REACT_APP_CLAP_SOUND_EFFECT
+} = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function PlayerScreen() {
@@ -64,9 +77,15 @@ function PlayerScreen() {
   //   });
   // };
 
-  useEffect(() => {
-    setScreen(1);
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .post(`${REACT_APP_BACKEND_URL}/api/v1/audioUrls`, {
+  //       videoUrls: ['https://www.youtube.com/watch?v=mgSyhND6Pmw']
+  //     })
+  //     .then(response => {
+  //       console.log(response.data.audioUrls);
+  //     });
+  // }, []);
 
   useEffect(() => {
     let tempTracks = [];
@@ -118,14 +137,25 @@ function PlayerScreen() {
           setPin={setPin}
           players={players}
           setPlayers={setPlayers}
+          // bgm1={new Audio(REACT_APP_WELCOME_MUSIC_1)}
+          // bgm2={new Audio(REACT_APP_WELCOME_MUSIC_2)}
+          audio={new Audio(`${REACT_APP_POP_SOUND_EFFECT}`)}
           // tracks={tracks}
           // setTracks={setTracks}
         />
       );
     case 7:
-      return <ShowPartyName setScreen={setScreen} />;
+      return (
+        <ShowPartyName setScreen={setScreen} audio={new Audio(`${REACT_APP_YAY_SOUND_EFFECT}`)} />
+      );
     case 8:
-      return <Countdown setScreen={setScreen} pin={pin} />;
+      return (
+        <Countdown
+          setScreen={setScreen}
+          pin={pin}
+          audio={new Audio(`${REACT_APP_BOXING_BELL_SOUND_EFFECT}`)}
+        />
+      );
     case 9:
       return (
         <ShowQuestionType
@@ -133,6 +163,7 @@ function PlayerScreen() {
           currentQuestion={currentQuestion}
           tracks={tracks}
           pin={pin}
+          audio={new Audio(`${REACT_APP_WHOOSH_SOUND_EFFECT}`)}
         />
       );
     case 10:
@@ -157,7 +188,13 @@ function PlayerScreen() {
       );
     case 12:
       return (
-        <Answer setScreen={setScreen} currentQuestion={currentQuestion} tracks={tracks} pin={pin} />
+        <Answer
+          setScreen={setScreen}
+          currentQuestion={currentQuestion}
+          tracks={tracks}
+          pin={pin}
+          audio={new Audio(`${REACT_APP_DING_SOUND_EFFECT}`)}
+        />
       );
     case 13:
       return (
@@ -178,6 +215,7 @@ function PlayerScreen() {
           // tracks={tracks}
           pin={pin}
           setPlayers={setPlayers}
+          audio={new Audio(`${REACT_APP_DRUM_ROLL_SOUND_EFFECT}`)}
         />
       );
     case 15:
@@ -187,6 +225,7 @@ function PlayerScreen() {
           tracks={tracks}
           pin={pin}
           setPlayers={setPlayers}
+          audio={new Audio(`${REACT_APP_CLAP_SOUND_EFFECT}`)}
         />
       );
     default:

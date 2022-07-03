@@ -28,7 +28,7 @@ import HostFooter from './components/HostFooter';
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function HostPodium(props) {
-  const { currentQuestion, tracks, pin, setPlayers } = props;
+  const { currentQuestion, tracks, pin, setPlayers, audio } = props;
   const navigate = useNavigate();
   const socket = useContext(SocketContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -74,6 +74,7 @@ function HostPodium(props) {
   // }, [socket]);
 
   useEffect(() => {
+    audio.play();
     setPlayers(prev => {
       setTempPlayers(prev.sort((a, b) => b.score - a.score));
       return prev;
