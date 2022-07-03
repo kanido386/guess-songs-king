@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-promise-executor-return */
 /* eslint-disable no-await-in-loop */
 
@@ -65,7 +66,7 @@ const createParty = async (req, res) => {
 
   for (let i = 0; i < tracks.length; i += 1) {
     // FIXME:
-    const qType = i < numQ1 ? 1 : 2;
+    const qType = (i < numQ1) ? 1 : (i < numQ1 + numQ2) ? 2 : 3;
     const result2 = await Party.createTrack(id, tracks[i], qType);
     if (result2.error) {
       res.status(403).send({

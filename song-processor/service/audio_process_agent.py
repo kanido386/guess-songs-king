@@ -35,6 +35,17 @@ class AudioProcessAgent(object):
         else:   # mono
             write(f'{self.audio_folder}/{audio_filename}', sr, y)
 
+    def speed_up(self, audio_filename):
+        y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
+        # TODO:
+        y_fast = librosa.effects.time_stretch(y, rate=5.0)
+        # FIXME:
+        # audio_filename = audio_filename.replace('temp', '')
+        if y.shape[0] == 2:   # stereo
+            write(f'{self.audio_folder}/{audio_filename}', sr, y_fast.T)
+        else:   # mono
+            write(f'{self.audio_folder}/{audio_filename}', sr, y_fast)
+
     def reverse(self, audio_filename):
         y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
         # FIXME:
@@ -57,6 +68,8 @@ class AudioProcessAgent(object):
         y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
         seconds = len(y[0]) // sr
         segment_length = segment_length if segment_length else 42   # FIXME: 給點緩衝
+        if seconds-1-segment_length < 0:
+            segment_length = seconds - 1
         begin = sr * start_point if start_point != None else sr * random.randint(0, seconds-1-segment_length)
         end = begin + sr * segment_length
         new_y = y[:, begin:end]

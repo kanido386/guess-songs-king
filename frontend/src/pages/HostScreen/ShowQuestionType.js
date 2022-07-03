@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import React, { useState, useEffect, useContext } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { useParams } from 'react-router';
@@ -36,7 +38,12 @@ function ShowQuestionType(props) {
     audio.play();
     socket.emit('question-type', {
       pin,
-      qTypeName: tracks[currentQuestion].qType === 1 ? '播一首歌' : '倒著播'
+      qTypeName:
+        tracks[currentQuestion].qType === 1
+          ? '正常版'
+          : tracks[currentQuestion].qType === 2
+          ? '五倍速'
+          : '倒著播'
     });
   }, []);
 
@@ -58,11 +65,17 @@ function ShowQuestionType(props) {
             <Text color="yellow.700">下一題：</Text>
           </Box>
           <Heading size="lg" fontSize="75px" m={7}>
-            {tracks[currentQuestion].qType === 1 ? '播一首歌' : '倒著播'}
+            {tracks[currentQuestion].qType === 1
+              ? '正常版'
+              : tracks[currentQuestion].qType === 2
+              ? '五倍速'
+              : '倒著播'}
           </Heading>
           <Box pt={30}>
             {tracks[currentQuestion].qType === 1 ? (
-              <Text color="pink.700">只播一首歌出來</Text>
+              <Text color="pink.700">就我們平常聽歌的那個樣子</Text>
+            ) : tracks[currentQuestion].qType === 2 ? (
+              <Text color="pink.700">音檔會是五倍速！</Text>
             ) : (
               <Text color="pink.700">音檔會經過 reverse 處理</Text>
             )}

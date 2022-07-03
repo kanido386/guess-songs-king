@@ -73,11 +73,6 @@ def download_and_process():
         audio_filename = pytube.download_as_wav_new(video_url, track_id)
         print('成功取得音檔！')
 
-        ''' 音檔做音量上的 normalization '''
-        print('\n音量正規化中請稍等⋯⋯')
-        audio_process.normalize_new(audio_filename)
-        print('音量正規化完畢！')
-
         print('\n音檔處理中請稍等⋯⋯')
         # TODO:
         if q_type == 1:
@@ -85,8 +80,17 @@ def download_and_process():
             audio_process.do_nothing(audio_filename)
         elif q_type == 2:
             # 倒著播
+            audio_process.speed_up(audio_filename)
+        elif q_type == 3:
+            # 倒著播
             audio_process.reverse(audio_filename)
         print('音檔處理完畢！')
+
+        if q_type != 2:
+            ''' 音檔做音量上的 normalization '''
+            print('\n音量正規化中請稍等⋯⋯')
+            audio_process.normalize_new(audio_filename)
+            print('音量正規化完畢！')
 
         audio_process.segment_it_new(audio_filename)
         print('擷取完畢！')

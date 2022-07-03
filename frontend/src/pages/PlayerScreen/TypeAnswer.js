@@ -62,7 +62,7 @@ function TypeAnswer(props) {
       <PlayerHeader
         currentQuestion={currentQuestion}
         totalQuestion={numQuestions}
-        // type="播一首歌"
+        // type="正常版"
         type={qTypeName}
       />
       <Grid minH="80vh" p={50}>

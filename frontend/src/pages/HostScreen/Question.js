@@ -36,7 +36,7 @@ const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 //       <PlayerHeader
 //         currentQuestion={currentQuestion}
 //         totalQuestion={numQuestions}
-//         type="播一首歌"
+//         type="正常版"
 //       />
 //       <Grid minH="80vh" p={50}>
 //         <VStack spacing={5} marginTop="25vh">
