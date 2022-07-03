@@ -81,7 +81,7 @@ function Question(props) {
     clearAnswersOfPlayers();
     // TODO:
     for (let i = 0; i < playerSubmits.length; i += 1) {
-      if (playerSubmits[i].getScore >= 300) {
+      if (playerSubmits[i].getScore >= 400 * tracks[currentQuestion].qType) {
         console.log(`playerSubmits[i].nickname: ${playerSubmits[i].nickname}`);
         // TODO:
         socket.emit('nice-try', {
@@ -141,9 +141,23 @@ function Question(props) {
     }
     if (hasSame) {
       // TODO:
-      return 400 + 20 * second;
+      let basic;
+      switch (second) {
+        // eslint-disable-next-line prettier/prettier
+        case 30: case 29: case 28: case 27: case 26: basic = 1000 - 50 * (30 - second); break;
+        // eslint-disable-next-line prettier/prettier
+        case 25: case 24: case 23: case 22: case 21: basic = 750 - 30 * (25 - second); break;
+        // eslint-disable-next-line prettier/prettier
+        case 20: case 19: case 18: case 17: case 16: basic = 600 - 20 * (20 - second); break;
+        // eslint-disable-next-line prettier/prettier
+        case 15: case 14: case 13: case 12: case 11: basic = 500 - 10 * (15 - second); break;
+        // eslint-disable-next-line prettier/prettier
+        default: basic = 450 - 5 * (10 - second); break;
+      }
+      return basic * tracks[currentQuestion].qType;
     }
 
+    // 隨便意思一下給點分數
     let count = 0;
     const s1 = `${artistAnswer}${trackAnswer}`;
     const s2 = `${artist}${track}`;
@@ -157,7 +171,7 @@ function Question(props) {
         }
       }
     }
-    return Math.round(300 * (count / s1.length));
+    return Math.round(400 * (count / s1.length)) * tracks[currentQuestion].qType;
   };
 
   const markAnswerJob = async () => {
