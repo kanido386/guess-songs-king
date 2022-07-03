@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable consistent-return */
 
 import React, { useState, useEffect, useContext } from 'react';
@@ -15,6 +16,7 @@ import {
   GridItem,
   Text
 } from '@chakra-ui/react';
+import { TriangleUpIcon, MinusIcon, TriangleDownIcon } from '@chakra-ui/icons';
 // import io from 'socket.io-client';
 import SocketContext from '../../context/socket';
 import HostFooter from './components/HostFooter';
@@ -23,7 +25,7 @@ import HostFooter from './components/HostFooter';
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
 function PlayerItem(props) {
-  const { nickname, score } = props;
+  const { standing, diffStanding, nickname, score, currentQuestion } = props;
 
   return (
     <Stack
@@ -39,6 +41,24 @@ function PlayerItem(props) {
       }}>
       <Flex>
         <HStack spacing={7}>
+          <Text color="yellow.600" fontWeight={700}>
+            第 {standing + 1} 名
+          </Text>
+          {currentQuestion === 0 ? (
+            ''
+          ) : diffStanding > 0 ? (
+            <Text color="red.600" fontWeight="semibold" fontSize="18px">
+              <TriangleUpIcon w={3} h={3} /> {diffStanding}
+            </Text>
+          ) : diffStanding === 0 ? (
+            <Text color="gray.600" fontWeight="semibold" fontSize="18px" pr={1}>
+              <MinusIcon w={3} h={3} />
+            </Text>
+          ) : (
+            <Text color="green.600" fontWeight="semibold" fontSize="18px">
+              <TriangleDownIcon w={3} h={3} /> {Math.abs(diffStanding)}
+            </Text>
+          )}
           <Text color="purple.600" fontWeight="semibold" fontSize="22px">
             {nickname}
           </Text>
@@ -101,6 +121,22 @@ function Scoreboard(props) {
   useEffect(() => {
     setPlayers(prev => {
       console.log(prev);
+
+      // 算出名次
+      const temp = prev.sort((a, b) => b.score - a.score);
+      for (let i = 0; i < temp.length; i += 1) {
+        // const currentPlayer = prev.find(p => p.id === temp[i].id);
+        if (prev.find(p => p.id === temp[i].id).currentStanding !== null) {
+          prev.find(p => p.id === temp[i].id).diffStanding =
+            prev.find(p => p.id === temp[i].id).currentStanding - (i + 1);
+        }
+        prev.find(p => p.id === temp[i].id).currentStanding = i + 1;
+        socket.emit('send-standing', {
+          id: temp[i].id,
+          standing: i + 1
+        });
+      }
+
       setTopPlayers(prev.sort((a, b) => b.score - a.score));
       // setTopPlayers([
       //   {
@@ -155,9 +191,16 @@ function Scoreboard(props) {
             </Button>
           </GridItem>
         </Grid>
-        <Box>
-          {topPlayers.map(player => (
-            <PlayerItem key={player.nickname} nickname={player.nickname} score={player.score} />
+        <Box mb={10}>
+          {topPlayers.map((player, index) => (
+            <PlayerItem
+              key={player.nickname}
+              standing={index}
+              diffStanding={player.diffStanding}
+              nickname={player.nickname}
+              score={player.score}
+              currentQuestion={currentQuestion}
+            />
           ))}
         </Box>
       </Box>

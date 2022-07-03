@@ -123,6 +123,12 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('send-standing', (data) => {
+    socket.to(data.id).emit('send-standing', {
+      standing: data.standing,
+    });
+  });
+
   socket.on('question-done', (data) => {
     socket.broadcast.to(data.pin).emit('times-up');
   });

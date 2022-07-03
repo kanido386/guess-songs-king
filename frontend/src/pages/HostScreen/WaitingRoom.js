@@ -117,7 +117,9 @@ function WaitingRoom(props) {
             // TODO:
             score: 0,
             currentArtistName: null,
-            currentTrackName: null
+            currentTrackName: null,
+            currentStanding: null,
+            diffStanding: null
           }
         ];
       });

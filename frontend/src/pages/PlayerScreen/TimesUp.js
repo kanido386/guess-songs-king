@@ -11,6 +11,7 @@ function TimesUp(props) {
   const { setScreen, nickname, score, currentQuestion, numQuestions, qTypeName } = props;
   const socket = useContext(SocketContext);
   const [greeting, setGreeting] = useState('');
+  const [standing, setStanding] = useState('?');
 
   useEffect(() => {
     const greetings = [
@@ -25,6 +26,10 @@ function TimesUp(props) {
   useEffect(() => {
     // TODO:
     // = next
+    socket.on('send-standing', data => {
+      setStanding(data.standing);
+    });
+
     socket.on('ready', () => {
       setScreen(16);
     });
@@ -50,6 +55,9 @@ function TimesUp(props) {
           </Text> */}
           <Text fontSize="22px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
             {greeting}
+          </Text>
+          <Text fontSize="18px" color="yellow.600" pt={2} pr={5} pb={2} pl={5}>
+            （目前暫居第 {standing} 名）
           </Text>
         </VStack>
       </Grid>

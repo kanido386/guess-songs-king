@@ -62,7 +62,13 @@ function ShowQuestionType(props) {
       <Grid minH="100vh" p={100}>
         <VStack spacing={8}>
           <Box pt={50} pb={11}>
-            <Text color="yellow.700">下一題：</Text>
+            {currentQuestion === tracks.length - 1 ? (
+              <Text color="yellow.700" fontSize="50px">
+                最後一題：
+              </Text>
+            ) : (
+              <Text color="yellow.700">下一題：</Text>
+            )}
           </Box>
           <Heading size="lg" fontSize="75px" m={7}>
             {tracks[currentQuestion].qType === 1
