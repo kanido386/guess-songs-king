@@ -80,6 +80,21 @@ function ShowQuestionType(props) {
               <Text color="pink.700">音檔會經過 reverse 處理</Text>
             )}
           </Box>
+          <Box pt={0}>
+            {tracks[currentQuestion].qType === 1 ? (
+              <Text color="gray.700" fontSize="30px">
+                本題價值：1000分！
+              </Text>
+            ) : tracks[currentQuestion].qType === 2 ? (
+              <Text color="gray.700" fontSize="30px">
+                本題價值：2000分！！
+              </Text>
+            ) : (
+              <Text color="gray.700" fontSize="30px">
+                本題價值：3000分！！！
+              </Text>
+            )}
+          </Box>
         </VStack>
       </Grid>
     </Box>

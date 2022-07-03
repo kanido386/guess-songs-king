@@ -26,6 +26,19 @@ import SocketContext from '../../context/socket';
 const { REACT_APP_WELCOME_MUSIC_2 } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
+const colors = [
+  'gray',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'cyan',
+  'purple',
+  'pink'
+];
+
 // TODO:
 const newPin = String(Math.floor(Math.random() * 9000) + 1000);
 
@@ -221,7 +234,7 @@ function WaitingRoom(props) {
                     key={player.id}
                     size="lg"
                     borderRadius="2xl"
-                    // colorScheme={colors[Math.floor(Math.random() * colors.length)]}
+                    colorScheme={colors[Math.floor(Math.random() * colors.length)]}
                     variant="outline">
                     <TagLabel>{player.nickname}</TagLabel>
                   </Tag>

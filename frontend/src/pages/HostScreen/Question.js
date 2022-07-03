@@ -30,6 +30,19 @@ import HostFooter from './components/HostFooter';
 const { REACT_APP_AUDIO_PROCESSOR_URL } = process.env;
 // const socket = io.connect(REACT_APP_BACKEND_URL);
 
+const colors = [
+  'gray',
+  'red',
+  'orange',
+  'yellow',
+  'green',
+  'teal',
+  'blue',
+  'cyan',
+  'purple',
+  'pink'
+];
+
 // function Marking() {
 //   return (
 //     <Box textAlign="center" fontSize="xl">
@@ -495,7 +508,7 @@ function Question(props) {
                             key={playerSubmit.id}
                             size="lg"
                             borderRadius="2xl"
-                            // colorScheme={colors[Math.floor(Math.random() * colors.length)]}
+                            colorScheme={colors[Math.floor(Math.random() * colors.length)]}
                             variant="outline">
                             <TagLabel>
                               【{playerSubmit.nickname}】{playerSubmit.currentArtistName} -{' '}
