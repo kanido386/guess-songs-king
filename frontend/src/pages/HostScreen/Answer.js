@@ -12,6 +12,7 @@ import {
   GridItem,
   Text
 } from '@chakra-ui/react';
+// import { ArrowRightIcon } from '@chakra-ui/icons';
 // import io from 'socket.io-client';
 import ReactAudioPlayer from 'react-audio-player';
 import SocketContext from '../../context/socket';
@@ -117,7 +118,7 @@ function Answer(props) {
                 // style={{ textDecoration: 'none' }}
                 onClick={seeScoreboard}
                 colorScheme="blue">
-                看排行
+                {`看排行 >>`}
               </Button>
             )}
           </GridItem>
