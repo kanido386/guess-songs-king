@@ -26,6 +26,19 @@ class AudioProcessAgent(object):
             y = librosa.util.normalize(y) * 0.5
             write(f'{self.audio_folder}/{audio_filename}', sr, y)
 
+    def louder(self, audio_filename):
+        y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
+        if y.shape[0] == 2:   # stereo
+            left, right = y
+            left = librosa.util.normalize(left) * 1.5
+            right = librosa.util.normalize(right) * 1.5
+            # https://stackoverflow.com/questions/3637350/how-to-write-stereo-wav-files-in-python
+            y = np.vstack((left, right))
+            write(f'{self.audio_folder}/{audio_filename}', sr, y.T)
+        else:   # mono
+            y = librosa.util.normalize(y) * 0.5
+            write(f'{self.audio_folder}/{audio_filename}', sr, y)
+
     def do_nothing(self, audio_filename):
         y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
         # FIXME:
