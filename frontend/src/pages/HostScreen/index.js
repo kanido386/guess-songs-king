@@ -184,6 +184,7 @@ function PlayerScreen() {
           pin={pin}
           players={players}
           setPlayers={setPlayers}
+          audioPop={new Audio(`${REACT_APP_POP_SOUND_EFFECT}`)}
         />
       );
     case 12:

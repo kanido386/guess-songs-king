@@ -64,7 +64,7 @@ const colors = [
 // }
 
 function Question(props) {
-  const { setScreen, audio, currentQuestion, tracks, pin, players, setPlayers } = props;
+  const { setScreen, audio, currentQuestion, tracks, pin, players, setPlayers, audioPop } = props;
   const socket = useContext(SocketContext);
   // const [players, setPlayers] = useState([]);
   // FIXME:
@@ -348,6 +348,7 @@ function Question(props) {
 
   useEffect(() => {
     socket.on('new-answer-in', data => {
+      audioPop.play();
       // console.log('==============================');
       // console.log(data);
       get3Urls(data.id, data.artistName, data.trackName);
