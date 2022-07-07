@@ -14,6 +14,31 @@ function WaitPodium(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="xl">
+        <Grid minH="80vh" p={100}>
+          <VStack spacing={8}>
+            <Heading fontSize="30px" mt={9}>
+              即將揭曉...
+            </Heading>
+            <Spinner
+              thickness="11px"
+              speed="0.5s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="lg"
+            />
+            <Text fontSize="18px">究竟能不能像金州勇士一樣封王呢？</Text>
+          </VStack>
+        </Grid>
+        {/* TODO: */}
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="89vh" p={100}>

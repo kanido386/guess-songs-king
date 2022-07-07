@@ -56,6 +56,52 @@ function TypeAnswer(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="md">
+        {/* TODO: */}
+        <PlayerHeader
+          currentQuestion={currentQuestion}
+          totalQuestion={numQuestions}
+          // type="正常版"
+          type={qTypeName}
+        />
+        <Grid minH="71vh" p={30}>
+          {/* TODO: 如果時間足夠的話，加入道具 */}
+          <VStack spacing={5} marginTop="7vh">
+            <Input
+              htmlSize={20}
+              width="auto"
+              textAlign="center"
+              placeholder="誰的"
+              value={artistName}
+              onChange={event => setArtistName(event.currentTarget.value)}
+            />
+            <Input
+              htmlSize={20}
+              width="auto"
+              textAlign="center"
+              placeholder="歌名"
+              value={trackName}
+              onChange={event => setTrackName(event.currentTarget.value)}
+            />
+            <Button
+              onClick={submitAnswer}
+              onKeyDown={handleKeydown}
+              colorScheme="blue"
+              variant="solid"
+              size="md">
+              送出
+            </Button>
+          </VStack>
+        </Grid>
+        {/* TODO: */}
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       {/* TODO: */}

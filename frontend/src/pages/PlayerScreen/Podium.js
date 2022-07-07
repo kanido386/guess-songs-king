@@ -40,6 +40,39 @@ function Podium(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="xl">
+        <Grid minH="80vh" p={100}>
+          {place <= 3 ? (
+            <VStack spacing={5}>
+              <Heading fontSize="75px" mt={9}>
+                🏆
+              </Heading>
+              <Text fontSize="30px" letterSpacing={1}>
+                第 {place} 名
+              </Text>
+              <Text>{greetingNice}</Text>
+            </VStack>
+          ) : (
+            <VStack spacing={5}>
+              <Heading fontSize="75px" mt={9}>
+                👨‍💻
+              </Heading>
+              <Text fontSize="30px" letterSpacing={1}>
+                第 {place} 名
+              </Text>
+              <Text>{greeting}</Text>
+            </VStack>
+          )}
+        </Grid>
+        {/* TODO: */}
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="89vh" p={100}>

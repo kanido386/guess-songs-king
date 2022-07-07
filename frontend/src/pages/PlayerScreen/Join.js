@@ -71,6 +71,65 @@ function Join(props) {
   //   console.log('why...');
   // }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Flex
+        minH="80vh"
+        align="center"
+        justify="center"
+        bg={useColorModeValue('gray.50', 'gray.800')}>
+        <Stack spacing={8} mx="auto" maxW="lg" py={0} px={0}>
+          <Stack align="center">
+            {/* <Heading fontSize="5xl">{room}</Heading> */}
+            <Heading fontSize="4xl">猜歌我最強！</Heading>
+          </Stack>
+          <Box
+            rounded="lg"
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow="lg"
+            p={5}
+            mx="auto"
+            w={300}>
+            <Stack spacing={4}>
+              <FormControl id="pin">
+                <Input
+                  type="text"
+                  placeholder="暱稱"
+                  textAlign="center"
+                  fontWeight={700}
+                  value={nickname}
+                  onChange={event => setNickname(event.currentTarget.value)}
+                />
+              </FormControl>
+              <Stack spacing={10}>
+                <Button
+                  // as={LinkToPage}
+                  // to={{ pathname: '/instructions', state: { test: '123' } }}
+                  onClick={sendNicknameToServer}
+                  // as={Link}
+                  // href="/instructions"
+                  // style={{ textDecoration: 'none' }}
+                  bg="gray.700"
+                  color="white"
+                  _hover={{
+                    bg: 'gray.600'
+                  }}>
+                  好，開始！
+                </Button>
+              </Stack>
+            </Stack>
+          </Box>
+          {/* <Box textAlign="center" pt={11}>
+          <Link color="yellow.700" href="/" fontSize="18px">
+            我想當遊戲主持人
+          </Link>
+        </Box> */}
+        </Stack>
+      </Flex>
+    );
+  }
   return (
     <Flex
       minH="100vh"

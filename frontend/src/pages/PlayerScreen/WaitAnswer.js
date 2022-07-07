@@ -79,6 +79,27 @@ function WaitAnswer(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="xl">
+        <PlayerHeader
+          currentQuestion={currentQuestion}
+          totalQuestion={numQuestions}
+          type={qTypeName}
+        />
+        <Grid minH="71vh" pt={50}>
+          <VStack spacing={5} marginTop="18vh">
+            <Spinner thickness="11px" speed="1s" emptyColor="gray.200" color="blue.500" size="xl" />
+            <Text fontSize="15px">{greeting}</Text>
+          </VStack>
+        </Grid>
+        {/* TODO: */}
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       <PlayerHeader

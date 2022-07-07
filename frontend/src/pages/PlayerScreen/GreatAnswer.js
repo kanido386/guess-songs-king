@@ -40,6 +40,32 @@ function GreatAnswer(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="xl">
+        <PlayerHeader
+          currentQuestion={currentQuestion}
+          totalQuestion={numQuestions}
+          type={qTypeName}
+        />
+        <Grid minH="71vh" pt={50}>
+          <VStack spacing={5} marginTop="5vh">
+            <Text fontSize="50px">✅</Text>
+            <Heading fontSize="36px">+ {getScore}</Heading>
+            <Text fontSize="15px" bg="gray.100" pt={2} pr={5} pb={2} pl={5}>
+              {greeting}
+            </Text>
+            <Text fontSize="18px" color="yellow.600" pt={2} pr={5} pb={2} pl={5}>
+              （目前暫居第 {standing} 名）
+            </Text>
+          </VStack>
+        </Grid>
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       <PlayerHeader

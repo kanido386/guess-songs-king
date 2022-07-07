@@ -48,6 +48,35 @@ function WaitQuestion(props) {
     });
   }, [socket]);
 
+  // eslint-disable-next-line no-restricted-globals
+  const isMobile = screen.availHeight > screen.availWidth;
+  if (isMobile) {
+    return (
+      <Box textAlign="center" fontSize="xl">
+        <Grid minH="80vh" p={100}>
+          <VStack spacing={8}>
+            <Heading fontSize="36px" mt={9}>
+              {/* TODO: */}第 {currentQuestion} 題
+            </Heading>
+            {/* <Spinner thickness="11px" speed="1s" emptyColor="gray.200" color="blue.500" size="xl" /> */}
+            <CircularProgress
+              isIndeterminate
+              value={30}
+              size="100px"
+              thickness="11px"
+              color="green.400">
+              <CircularProgressLabel>{secondLeft}</CircularProgressLabel>
+            </CircularProgress>
+            <Text fontSize="22px">
+              {secondLeft === 0 ? '開始！' : secondLeft === 1 ? '預備...' : '準備...'}
+            </Text>
+          </VStack>
+        </Grid>
+        {/* TODO: */}
+        <PlayerFooter nickname={nickname} hasScore score={score} />
+      </Box>
+    );
+  }
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="89vh" p={100}>
