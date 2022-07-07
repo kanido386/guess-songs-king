@@ -117,7 +117,7 @@ function Answer(props) {
                 // style={{ textDecoration: 'none' }}
                 onClick={seeScoreboard}
                 colorScheme="blue">
-                看排行
+                看排行 GO!!!
               </Button>
             )}
           </GridItem>
