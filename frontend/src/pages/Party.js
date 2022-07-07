@@ -182,7 +182,7 @@ function Party() {
             <Text as="span" m={2} fontSize="25px" fontWeight="bold">
               {numQuestions1}
             </Text>{' '}
-            題 ／ 五倍速{' '}
+            題 ／ 三倍速{' '}
             <Text as="span" m={2} fontSize="25px" fontWeight="bold">
               {numQuestions2}
             </Text>{' '}

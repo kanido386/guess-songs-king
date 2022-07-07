@@ -42,7 +42,7 @@ function ShowQuestionType(props) {
         tracks[currentQuestion].qType === 1
           ? '正常版'
           : tracks[currentQuestion].qType === 2
-          ? '五倍速'
+          ? '三倍速'
           : '倒著播'
     });
   }, []);
@@ -74,14 +74,14 @@ function ShowQuestionType(props) {
             {tracks[currentQuestion].qType === 1
               ? '正常版'
               : tracks[currentQuestion].qType === 2
-              ? '五倍速'
+              ? '三倍速'
               : '倒著播'}
           </Heading>
           <Box pt={30}>
             {tracks[currentQuestion].qType === 1 ? (
               <Text color="pink.700">就我們平常聽歌的那個樣子</Text>
             ) : tracks[currentQuestion].qType === 2 ? (
-              <Text color="pink.700">音檔會是五倍速！</Text>
+              <Text color="pink.700">音檔會是三倍速！</Text>
             ) : (
               <Text color="pink.700">音檔會經過 reverse 處理</Text>
             )}
@@ -93,11 +93,11 @@ function ShowQuestionType(props) {
               </Text>
             ) : tracks[currentQuestion].qType === 2 ? (
               <Text color="gray.700" fontSize="30px">
-                本題價值：2000分！！
+                本題價值：1500分！！
               </Text>
             ) : (
               <Text color="gray.700" fontSize="30px">
-                本題價值：3000分！！！
+                本題價值：2000分！！！
               </Text>
             )}
           </Box>

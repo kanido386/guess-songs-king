@@ -89,7 +89,8 @@ def download_and_process():
         ''' 音檔做音量上的 normalization '''
         print('\n音量正規化中請稍等⋯⋯')
         if q_type == 2:
-            audio_process.louder(audio_filename)
+            # audio_process.louder(audio_filename)
+            pass
         else:
             audio_process.normalize_new(audio_filename)
         print('音量正規化完畢！')

@@ -246,10 +246,10 @@ function PartyCreate3() {
           </Flex>
           <Flex>
             <HStack p={5} borderWidth="1px" boxShadow="sm" w={600} spacing={5}>
-              <Tooltip label="音檔會是五倍速！" fontSize="sm" placement="top-start">
+              <Tooltip label="音檔會是三倍速！" fontSize="sm" placement="top-start">
                 <InfoOutlineIcon cursor="pointer" />
               </Tooltip>
-              <Text>五倍速</Text>
+              <Text>三倍速</Text>
               <Text fontSize="18px" color="blue">
                 (每題需要 1 首歌)
               </Text>

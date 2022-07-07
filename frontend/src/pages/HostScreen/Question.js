@@ -82,6 +82,12 @@ function Question(props) {
   const [playerSubmits, setPlayerSubmits] = useState([]);
   const [urls, setUrls] = useState([]);
 
+  const scoreRatio = {
+    1: 1,
+    2: 1.5,
+    3: 2
+  };
+
   const clearAnswersOfPlayers = () => {
     players.map(player => {
       player.currentArtistName = null;
@@ -94,7 +100,7 @@ function Question(props) {
     clearAnswersOfPlayers();
     // TODO:
     for (let i = 0; i < playerSubmits.length; i += 1) {
-      if (playerSubmits[i].getScore >= 400 * tracks[currentQuestion].qType) {
+      if (playerSubmits[i].getScore >= 400 * scoreRatio[tracks[currentQuestion].qType]) {
         console.log(`playerSubmits[i].nickname: ${playerSubmits[i].nickname}`);
         // TODO:
         socket.emit('nice-try', {
@@ -167,7 +173,7 @@ function Question(props) {
         // eslint-disable-next-line prettier/prettier
         default: basic = 450 - 5 * (10 - second); break;
       }
-      return basic * tracks[currentQuestion].qType;
+      return Math.round(basic * scoreRatio[tracks[currentQuestion].qType]);
     }
 
     // 隨便意思一下給點分數
@@ -184,7 +190,7 @@ function Question(props) {
         }
       }
     }
-    return Math.round(400 * (count / s1.length)) * tracks[currentQuestion].qType;
+    return Math.round(400 * (count / s1.length)) * scoreRatio[tracks[currentQuestion].qType];
   };
 
   const markAnswerJob = async () => {

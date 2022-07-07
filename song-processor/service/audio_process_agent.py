@@ -51,7 +51,7 @@ class AudioProcessAgent(object):
     def speed_up(self, audio_filename):
         y, sr = librosa.load(f'{self.audio_folder}/{audio_filename}', mono=False, sr=None)
         # TODO:
-        y_fast = librosa.effects.time_stretch(y, rate=5.0)
+        y_fast = librosa.effects.time_stretch(y, rate=3.0)
         # FIXME:
         # audio_filename = audio_filename.replace('temp', '')
         if y.shape[0] == 2:   # stereo
