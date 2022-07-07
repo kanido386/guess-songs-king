@@ -51,7 +51,7 @@ function ShowPartyName(props) {
           <Box pt={50} pb={11}>
             <Text color="yellow.700">歡迎來到：</Text>
           </Box>
-          <Heading size="lg" fontSize="75px" m={7}>
+          <Heading size="lg" fontSize="50px" m={7}>
             {partyName}
           </Heading>
           <Box pt={30}>
