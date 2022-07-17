@@ -1,6 +1,6 @@
 # Guess Songs King
 
-Ready Songs            |  Play The Game! 
+Step 1. Ready Songs            |  Step 2. Play The Game! 
 :-------------------------:|:-------------------------:
 ![](demo/1.png)  |  ![](demo/2.png)
 
