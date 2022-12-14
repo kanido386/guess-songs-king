@@ -75,6 +75,19 @@ The reason is: I don't need to do too much context switching between planning an
 
 ## How to Run
 
+### Beforehand
+```bash
+brew install ffmpeg
+brew install libsndfile   # for librosa
+
+# And add the following to .zshrc or the equivalent
+# https://stackoverflow.com/questions/70737503/macos-brew-install-libsndfile-but-still-not-found
+export CPATH=/opt/homebrew/include
+export LIBRARY_PATH=/opt/homebrew/lib
+
+# still failed, new workaround: https://stackoverflow.com/a/68976159 --> ✅
+```
+
 ### DB Initialization
 ```bash
 sh ./init.sh
@@ -83,6 +96,7 @@ sh ./init.sh
 ### Front-End
 ```bash
 cd frontend/
+npm install
 npm start
 ```
 
@@ -90,11 +104,13 @@ npm start
 ```bash
 cd song-processor/
 pipenv shell
+pipenv install
 flask run --host=0.0.0.0
 ```
 
 ### Back-End
 ```bash
 cd backend/
+npm install
 nodemon bin/www
 ```
