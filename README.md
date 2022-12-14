@@ -75,6 +75,11 @@ The reason is: I don't need to do too much context switching between planning an
 
 ## How to Run
 
+### DB Initialization
+```bash
+sh ./init.sh
+```
+
 ### Front-End
 ```bash
 cd frontend/
