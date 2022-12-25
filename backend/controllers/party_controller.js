@@ -8,6 +8,7 @@ const { SONG_PROCESSOR_URL } = process.env;
 const validator = require('validator');
 const axios = require('axios');
 const youtubedl = require('youtube-dl-exec');
+const _ = require('lodash')
 const Party = require('../models/party_model');
 
 // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
@@ -88,23 +89,39 @@ const createParty = async (req, res) => {
   console.log(createdTracks);
   console.log('==============================');
 
-  res.on('finish', async () => {
-    for (let i = 0; i < createdTracks.length; i += 1) {
-      // TODO:
-      axios
-        .post(`${SONG_PROCESSOR_URL}/api/v1/download_and_process`, {
-          track_id: createdTracks[i].id,
-          artist_name: createdTracks[i].artist,
-          track_name: createdTracks[i].name,
-          q_type: createdTracks[i].q_type,
-        });
+  // res.on('finish', async () => {
+  //   for (let i = 0; i < createdTracks.length; i += 1) {
+  //     // TODO:
+  //     axios
+  //       .post(`${SONG_PROCESSOR_URL}/api/v1/download_and_process`, {
+  //         track_id: createdTracks[i].id,
+  //         artist_name: createdTracks[i].artist,
+  //         track_name: createdTracks[i].name,
+  //         q_type: createdTracks[i].q_type,
+  //       });
 
-      // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
-      // TODO:
-      await timer(10000); // then the created Promise can be awaited
+  //     // https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
+  //     // TODO:
+  //     await timer(10000); // then the created Promise can be awaited
+  //   }
+  //   // await timer(11000);
+  //   // window.open('mailto:kanido386@gmail.com?subject=【通知】猜歌我最強&body=歌曲集處理完畢囉！');
+  // });
+  res.on('finish', async () => {
+    const chunks = _.chunk(createdTracks, 3);
+    for (let i = 0; i < chunks.length; ++i) {
+      const chunk = chunks[i];
+      const pms = chunk.map(track => {
+        return axios.post(`${SONG_PROCESSOR_URL}/api/v1/download_and_process`, {
+          track_id: track.id,
+          artist_name: track.artist,
+          track_name: track.name,
+          q_type: track.q_type,
+        });
+      });
+      await Promise.all(pms)
+      await timer(10000);
     }
-    // await timer(11000);
-    // window.open('mailto:kanido386@gmail.com?subject=【通知】猜歌我最強&body=歌曲集處理完畢囉！');
   });
 
   res.status(200).send({
